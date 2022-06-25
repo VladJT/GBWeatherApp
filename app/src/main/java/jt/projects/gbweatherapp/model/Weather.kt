@@ -9,12 +9,12 @@ data class Weather(
 
 
 fun getTestWeather() = Weather(
-    WeatherData("2022-06-25", 1470220206, 20, 21, "ovc", "overcast", 2.0, 745, 1, 0.25),
+    WeatherData("2022-06-25", 1470220206, 20, 21, "ovc", "overcast", 2.0, 745,54, 1, 0.25),
     City("Москва", 55.833333, 37.616667),
     null)
 
 
 fun getTestWeather2() = Weather(
-    WeatherData("2022-06-25", 1470220206, 15, 13, "ovc", "overcast", 2.5, 795, 2, 0.5),
+    WeatherData("2022-06-25", 1470220206, 15, 13, "ovc", "overcast", 2.5, 795,56, 2, 0.5),
     City("Мурманск", 40.833333, 88.616667),
     null)

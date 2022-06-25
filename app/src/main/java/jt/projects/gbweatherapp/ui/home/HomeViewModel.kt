@@ -21,13 +21,13 @@ class HomeViewModel : ViewModel() {
         val result = repositoryImpl.getWeatherFromInternet()
 
         when ((0..2).random()) {
-            0 -> {
+            0,1,2 -> {
                 Thread {
-                    Thread.sleep(1000)
+                    //Thread.sleep(1000)
                     liveDataToObserve.postValue(AppState.Success(result))
                 }.start()
             }
-            1, 2 -> {
+            3 -> {
                 Thread {
                     Thread.sleep(500)
                     liveDataToObserve.postValue(AppState.Error(Throwable("Не удалось получить данные")))

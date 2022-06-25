@@ -69,14 +69,19 @@ class HomeFragment : Fragment() {
 
     private fun updateUi(weather: Weather) {
         with(binding.includeCardWeather) {
-            cityName.text = weather.city.name
-            cityCoordinates.text = String.format(
-                "lt/ln: %s, %s",
-                weather.city.lat.toString(),
-                weather.city.lon.toString()
-            )
-            temperatureValue.text = weather.weatherData.temperature.toString()
-            feelsLikeValue.text = weather.weatherData.feelsLike.toString()
+            with(weather) {
+                cityName.text = city.name
+                cityCoordinates.text = String.format(
+                    "lt/ln: %s, %s",
+                    weather.city.lat.toString(),
+                    weather.city.lon.toString()
+                )
+                temperatureValue.text = weatherData.temperature.toString() + "\u2103"
+                feelsLikeValue.text = weatherData.feelsLike.toString() + "\u2103"
+                humidityValue.text = weatherData.feelsLike.toString() + "%"
+                pressureValue.text = weatherData.pressure_mm.toString()
+                windSpeedValue.text= weatherData.wind_speed.toString()
+            }
         }
     }
 }
