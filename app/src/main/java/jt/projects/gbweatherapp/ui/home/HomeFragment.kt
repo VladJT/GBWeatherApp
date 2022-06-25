@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.utils.WeatherCondition
 import jt.projects.gbweatherapp.viewmodel.AppState
 
 class HomeFragment : Fragment() {
@@ -80,7 +81,8 @@ class HomeFragment : Fragment() {
                 feelsLikeValue.text = weatherData.feelsLike.toString() + "\u2103"
                 humidityValue.text = weatherData.feelsLike.toString() + "%"
                 pressureValue.text = weatherData.pressure_mm.toString()
-                windSpeedValue.text= weatherData.wind_speed.toString()
+                windSpeedValue.text = weatherData.wind_speed.toString()
+                conditionValue.text = WeatherCondition.getRusName(weatherData.condition)
             }
         }
     }

@@ -16,21 +16,30 @@
             android:id="@+id/cityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline6"
             tools:text="Москва" />
 
         <ImageView
+            android:contentDescription="@string/app_name"
             android:id="@+id/weatherIcon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/cityName"
+            app:layout_constraintTop_toTopOf="@+id/guideline6"
             app:srcCompat="@drawable/weather" />
+
+        <TextView
+            android:id="@+id/conditionValue"
+            android:text="Облачно"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/weatherIcon"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
 
         <TextView
             android:id="@+id/cityCoordinates"
@@ -44,7 +53,7 @@
         <TextView
             android:id="@+id/temperatureLabel"
             style="@style/text_style_labels"
-            android:text="Температура"
+            android:text="@string/temperature"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
@@ -58,7 +67,7 @@
         <TextView
             android:id="@+id/feelsLikeLabel"
             style="@style/text_style_labels"
-            android:text="Ощущается как"
+            android:text="@string/feelsLike"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
@@ -72,7 +81,7 @@
         <TextView
             android:id="@+id/humidityLabel"
             style="@style/text_style_labels"
-            android:text="Влажность"
+            android:text="@string/humidity"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
@@ -86,7 +95,7 @@
         <TextView
             android:id="@+id/pressureLabel"
             style="@style/text_style_labels"
-            android:text="Давление (в мм рт. ст.)"
+            android:text="@string/pressure"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
@@ -100,7 +109,7 @@
         <TextView
             android:id="@+id/windSpeedLabel"
             style="@style/text_style_labels"
-            android:text="Скорость ветра (в м/с)"
+            android:text="@string/wind_speed"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
             app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
@@ -147,6 +156,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="278dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="20dp" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
