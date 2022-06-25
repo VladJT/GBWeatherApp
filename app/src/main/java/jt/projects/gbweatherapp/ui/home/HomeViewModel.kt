@@ -27,13 +27,12 @@ class HomeViewModel : ViewModel() {
                     liveDataToObserve.postValue(AppState.Success(result))
                 }.start()
             }
-            1,2 -> {
+            1, 2 -> {
                 Thread {
-                    Thread.sleep(1000)
+                    Thread.sleep(500)
                     liveDataToObserve.postValue(AppState.Error(Throwable("Не удалось получить данные")))
                 }.start()
             }
         }
     }
-
 }

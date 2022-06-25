@@ -12,9 +12,6 @@ import jt.projects.gbweatherapp.databinding.FragmentSearchBinding
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,17 +19,18 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(SearchViewModel::class.java)
-
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textSearch
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        binding.textSearch.text= """Здесь будет осуществляться поиск погоды по вводимым параметрам
+            Найденный город можно будет добавлять в список Избранного или устанавливать как стартовый город
+            Сведения о стартовом городе и городах в Избранном будут хранится в shared_pref (или DataStore)
+            
+            Функционал: 
+            1. ввод параметров + поиск
+            2. добавление в Избранное
+            3. задать найденный город как стартовый"""
+
+        return binding.root
     }
 
     override fun onDestroyView() {

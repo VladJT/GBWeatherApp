@@ -12,9 +12,6 @@ import jt.projects.gbweatherapp.databinding.FragmentFavoritesBinding
 class FavoritesFragment : Fragment() {
 
     private var _binding: FragmentFavoritesBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,17 +19,16 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(FavoritesViewModel::class.java)
-
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textFavorites
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        binding.textFavorites.text =
+            """Здесь будет список городов с погодой, добавленных в избранное на экране поиска
+            Режим просмотра - RecyclerView Vertical
+           
+            Функционал - удаление из избранного
+        """
+
+        return binding.root
     }
 
     override fun onDestroyView() {
