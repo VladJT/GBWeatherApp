@@ -51,7 +51,8 @@ class HomeFragment : Fragment() {
                 val weatherData = appState.weatherData
                 binding.loadingLayout.visibility = View.GONE
                 updateUi(weatherData)
-                Snackbar.make(binding.root, "Данные успешно загружены", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Данные успешно загружены", Snackbar.LENGTH_SHORT)
+                    .show()
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
@@ -67,13 +68,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateUi(weather: Weather) {
-        binding.cityName.text = weather.city.name
-        binding.cityCoordinates.text = String.format(
-            "lt/ln: %s, %s",
-            weather.city.lat.toString(),
-            weather.city.lon.toString()
-        )
-        binding.temperatureValue.text = weather.weatherData.temperature.toString()
-        binding.feelsLikeValue.text = weather.weatherData.feelsLike.toString()
+        with(binding.includeCardWeather) {
+            cityName.text = weather.city.name
+            cityCoordinates.text = String.format(
+                "lt/ln: %s, %s",
+                weather.city.lat.toString(),
+                weather.city.lon.toString()
+            )
+            temperatureValue.text = weather.weatherData.temperature.toString()
+            feelsLikeValue.text = weather.weatherData.feelsLike.toString()
+        }
     }
 }
