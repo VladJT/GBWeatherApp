@@ -10,9 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import jt.projects.gbweatherapp.databinding.FragmentFavoritesBinding
 
 class FavoritesFragment : Fragment() {
-
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
+
+    companion object{
+        fun newInstance() = FavoritesFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

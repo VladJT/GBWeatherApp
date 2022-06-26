@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.utils.WeatherCondition
 import jt.projects.gbweatherapp.viewmodel.AppState
 
@@ -18,6 +19,10 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: HomeViewModel
+
+    companion object{
+        fun newInstance() = HomeFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
