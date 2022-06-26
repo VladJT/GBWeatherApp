@@ -24,6 +24,7 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -15,6 +15,7 @@ import jt.projects.gbweatherapp.viewmodel.AppState
 
 class SearchFragment : Fragment() {
 
+
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SearchViewModel

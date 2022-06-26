@@ -1,5 +1,6 @@
 package jt.projects.gbweatherapp.utils
 
+
 enum class WeatherCondition(var enName: String, var rusName: String) {
     CLEAR("clear", "ясно"),
     PARTLY_CLOUDY("partly-cloudy", "малооблачно"),

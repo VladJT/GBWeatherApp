@@ -1,5 +1,6 @@
 package jt.projects.gbweatherapp.model
 
+
 data class WeatherData(
     val dateOfUpdate: String,//Дата  в UTC
     val date_ts: Int, //Дата в Unixtime

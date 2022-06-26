@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import jt.projects.gbweatherapp.viewmodel.AppState
 
+
 class SearchViewModel : ViewModel() {
     val counter: MutableLiveData<Int> = MutableLiveData()
 

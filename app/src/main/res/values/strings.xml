@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">GBWeatherApp</string>
     <string name="title_home">Мой город</string>
     <string name="title_search">Поиск</string>

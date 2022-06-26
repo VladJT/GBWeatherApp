@@ -26,6 +26,7 @@ url	Страница населенного пункта на сайте Янд�
     "url": "https://yandex.ru/pogoda/moscow"
   }
  */
+
 data class City(
     val name: String,
     val lat: Double,

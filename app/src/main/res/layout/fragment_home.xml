@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+
     <include
         android:id="@+id/includeCardWeather"
         layout="@layout/weather_card_full_info"

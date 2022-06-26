@@ -23,6 +23,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline6"
             tools:text="Москва" />
 
+
         <TextView
             android:id="@+id/temperatureValueBig"
             android:layout_width="wrap_content"
