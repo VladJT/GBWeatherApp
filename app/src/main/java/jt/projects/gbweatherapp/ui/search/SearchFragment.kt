@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import jt.projects.gbweatherapp.databinding.FragmentSearchBinding
+import jt.projects.gbweatherapp.ui.home.HomeViewModel
+import jt.projects.gbweatherapp.viewmodel.AppState
 
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel: SearchViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +35,14 @@ class SearchFragment : Fragment() {
             3. задать найденный город как стартовый"""
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
+        val observer = Observer<Int> { binding.textCounter.text = it.toString() }
+        viewModel.counter.observe(viewLifecycleOwner, observer)
+        viewModel.startCounter()
     }
 
     override fun onDestroyView() {
