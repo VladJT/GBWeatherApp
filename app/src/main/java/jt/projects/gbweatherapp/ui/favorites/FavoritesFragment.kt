@@ -13,7 +13,7 @@ class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
 
-    companion object{
+    companion object {
         fun newInstance() = FavoritesFragment()
     }
 

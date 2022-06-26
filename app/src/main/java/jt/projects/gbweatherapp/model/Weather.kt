@@ -18,3 +18,4 @@ fun getTestWeather2() = Weather(
     WeatherData("2022-06-25", 1470220206, 15, 13, "ovc", "overcast", 2.5, 795,56, 2, 0.5),
     City("Мурманск", 40.833333, 88.616667),
     null)
+
