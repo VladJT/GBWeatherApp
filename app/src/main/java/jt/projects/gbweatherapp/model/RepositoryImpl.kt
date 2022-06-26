@@ -2,15 +2,14 @@ package jt.projects.gbweatherapp.model
 
 class RepositoryImpl : Repository {
     override fun getWeatherFromInternet(): Weather {
-//        val t = Thread {
-//            Thread.sleep(1000)
-//        }
-//        t.start()
-//        t.join()
         return getTestWeather()
     }
 
-    override fun getWeatherFromLocalStorage(): Weather {
-        return getTestWeather2()
+    override fun getWeatherFromLocalStorageRus(): List<Weather> {
+        return getRussianCities()
+    }
+
+    override fun getWeatherFromLocalStorageWorld(): List<Weather> {
+        return getWorldCities()
     }
 }

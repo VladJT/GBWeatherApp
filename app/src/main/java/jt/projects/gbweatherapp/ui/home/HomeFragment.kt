@@ -8,10 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
-import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
-import jt.projects.gbweatherapp.utils.WeatherCondition
 import jt.projects.gbweatherapp.viewmodel.AppState
 
 class HomeFragment : Fragment() {
@@ -20,7 +18,10 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: HomeViewModel
 
-    companion object{
+    private val adapter = HomeFragmentAdapter()
+    private var isDataSetRus: Boolean = true
+
+    companion object {
         fun newInstance() = HomeFragment()
     }
 
@@ -31,18 +32,19 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        binding.textInfo.text = """Здесь будет отображаться детальная погода по стартовому городу
-            Город будет задаваться как стартовый из фрагмента поиска (будет хранится в shared_pref)
-            В нижней половине экрана в RecyclerView будет погода по часам (или какая-то иная списочная информация)"""
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.mainFragmentRecyclerView.adapter = adapter
+        binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
+
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         val observer = Observer<AppState> { renderData(it) }// it = конкрeтный экзмепляр AppState
         viewModel.getData().observe(viewLifecycleOwner, observer)
-        viewModel.loadWeather()
+        viewModel.getDataFromLocalSource(isDataSetRus)
     }
 
     override fun onDestroyView() {
@@ -50,12 +52,33 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
+    private fun changeWeatherDataSet() {
+        if (isDataSetRus) {
+            binding.mainFragmentFAB.setImageResource(R.drawable.world)
+        } else {
+            binding.mainFragmentFAB.setImageResource(R.drawable.russia)
+        }
+        isDataSetRus = !isDataSetRus
+        viewModel.getDataFromLocalSource(isDataSetRus)
+    }
+
+
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                val weatherData = appState.weatherData
                 binding.loadingLayout.visibility = View.GONE
-                updateUi(weatherData)
+                adapter.setWeather(listOf(appState.weatherData))
+                Snackbar.make(
+                    binding.root,
+                    "Данные по 1 городу успешно загружены",
+                    Snackbar.LENGTH_SHORT
+                )
+                    .show()
+            }
+            is AppState.SuccessMulti -> {
+                binding.loadingLayout.visibility = View.GONE
+                //updateUi(weatherData)
+                adapter.setWeather(appState.weatherData)
                 Snackbar.make(binding.root, "Данные успешно загружены", Snackbar.LENGTH_SHORT)
                     .show()
             }
@@ -72,23 +95,23 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun updateUi(weather: Weather) {
-        with(binding.includeCardWeather) {
-            with(weather) {
-                cityName.text = city.name
-                cityCoordinates.text = String.format(
-                    "lt/ln: %s, %s",
-                    weather.city.lat.toString(),
-                    weather.city.lon.toString()
-                )
-                temperatureValue.text = weatherData.temperature.toString() + "\u2103"
-                temperatureValueBig.text = weatherData.temperature.toString() + "\u2103"
-                feelsLikeValue.text = weatherData.feelsLike.toString() + "\u2103"
-                humidityValue.text = weatherData.feelsLike.toString() + "%"
-                pressureValue.text = weatherData.pressure_mm.toString()
-                windSpeedValue.text = weatherData.wind_speed.toString()
-                conditionValue.text = WeatherCondition.getRusName(weatherData.condition)
-            }
-        }
-    }
+//    private fun updateUi(weather: Weather) {
+//        with(binding.includeCardWeather) {
+//            with(weather) {
+//                cityName.text = city.name
+//                cityCoordinates.text = String.format(
+//                    "lt/ln: %s, %s",
+//                    weather.city.lat.toString(),
+//                    weather.city.lon.toString()
+//                )
+//                temperatureValue.text = weatherData.temperature.toString() + "\u2103"
+//                temperatureValueBig.text = weatherData.temperature.toString() + "\u2103"
+//                feelsLikeValue.text = weatherData.feelsLike.toString() + "\u2103"
+//                humidityValue.text = weatherData.feelsLike.toString() + "%"
+//                pressureValue.text = weatherData.pressure_mm.toString()
+//                windSpeedValue.text = weatherData.wind_speed.toString()
+//                conditionValue.text = WeatherCondition.getRusName(weatherData.condition)
+//            }
+//        }
+//    }
 }

@@ -14,7 +14,7 @@ enum class WeatherCondition(var enName: String, var rusName: String) {
                     return condition.rusName
                 }
             }
-            return "no found condition"
+            return name
         }
     }
 }

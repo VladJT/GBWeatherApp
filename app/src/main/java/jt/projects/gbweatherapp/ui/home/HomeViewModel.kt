@@ -35,4 +35,15 @@ class HomeViewModel : ViewModel() {
             }
         }
     }
+
+    fun getDataFromLocalSource(isRussian: Boolean) {
+        liveDataToObserve.value = AppState.Loading
+        Thread {
+            Thread.sleep(1000)
+            liveDataToObserve.postValue(AppState.SuccessMulti(if (isRussian)
+                repositoryImpl.getWeatherFromLocalStorageRus() else
+                repositoryImpl.getWeatherFromLocalStorageWorld()))
+        }.start()
+    }
+
 }
