@@ -23,23 +23,34 @@
             app:layout_constraintTop_toTopOf="@+id/guideline6"
             tools:text="Москва" />
 
+        <TextView
+            android:id="@+id/temperatureValueBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+15"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cityName"
+            app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
         <ImageView
-            android:contentDescription="@string/app_name"
             android:id="@+id/weatherIcon"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:contentDescription="@string/app_name"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="@+id/guideline6"
             app:srcCompat="@drawable/weather" />
 
         <TextView
             android:id="@+id/conditionValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Облачно"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/weatherIcon"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
+            app:layout_constraintTop_toBottomOf="@+id/weatherIcon" />
 
         <TextView
             android:id="@+id/cityCoordinates"
@@ -67,7 +78,7 @@
         <TextView
             android:id="@+id/feelsLikeLabel"
             style="@style/text_style_labels"
-            android:text="@string/feelsLike"
+            android:text="@string/feels_like"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
@@ -163,7 +174,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="20dp" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

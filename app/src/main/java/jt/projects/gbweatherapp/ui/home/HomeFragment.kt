@@ -78,6 +78,7 @@ class HomeFragment : Fragment() {
                     weather.city.lon.toString()
                 )
                 temperatureValue.text = weatherData.temperature.toString() + "\u2103"
+                temperatureValueBig.text = weatherData.temperature.toString() + "\u2103"
                 feelsLikeValue.text = weatherData.feelsLike.toString() + "\u2103"
                 humidityValue.text = weatherData.feelsLike.toString() + "%"
                 pressureValue.text = weatherData.pressure_mm.toString()

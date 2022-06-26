@@ -3,4 +3,9 @@
     <string name="title_home">Мой город</string>
     <string name="title_search">Поиск</string>
     <string name="title_favorites">Избранное</string>
+    <string name="temperature">Температура</string>
+    <string name="feels_like">Ощущается как</string>
+    <string name="humidity">Влажность</string>
+    <string name="pressure">Давление (в мм рт. ст.)</string>
+    <string name="wind_speed">Скорость ветра (в м/с)</string>
 </resources>
