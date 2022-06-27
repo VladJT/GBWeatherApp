@@ -96,6 +96,7 @@ class HomeFragment : Fragment() {
     }
 
 
+
     private fun changeWeatherDataSet() {
         if (isDataSetRus) {
             binding.mainFragmentFAB.setImageResource(R.drawable.world)

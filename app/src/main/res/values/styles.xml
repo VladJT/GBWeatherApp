@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
     <!-- Тема Dark  -->
     <style name="Theme.DarkTheme" parent="Theme.Material3.Dark.NoActionBar"></style>
 

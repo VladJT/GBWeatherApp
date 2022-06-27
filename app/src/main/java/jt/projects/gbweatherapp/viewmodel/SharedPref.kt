@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import jt.projects.gbweatherapp.R
 
+
 class SharedPref {
     companion object {
         private const val SHARED_PREF_NAME = "database"

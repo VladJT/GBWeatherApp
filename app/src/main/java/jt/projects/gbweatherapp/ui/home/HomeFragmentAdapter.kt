@@ -10,7 +10,6 @@ import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.utils.OnItemViewClickListener
 import jt.projects.gbweatherapp.utils.WeatherCondition
 
-
 internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
     RecyclerView.Adapter<HomeFragmentAdapter.HomeViewHolder>() {
 

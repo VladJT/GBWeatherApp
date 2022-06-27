@@ -35,6 +35,7 @@ fun getWorldCities(): List<Weather> {
     )
 }
 
+
 fun getRussianCities(): List<Weather> {
     return listOf(
         Weather(
