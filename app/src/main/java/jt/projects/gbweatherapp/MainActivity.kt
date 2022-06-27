@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun showExitDialog() {
         AlertDialog.Builder(this)
             .setTitle("Выход")
