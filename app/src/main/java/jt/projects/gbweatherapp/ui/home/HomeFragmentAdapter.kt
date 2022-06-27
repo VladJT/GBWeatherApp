@@ -4,14 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.utils.OnItemViewClickListener
 import jt.projects.gbweatherapp.utils.WeatherCondition
 
 
-internal class HomeFragmentAdapter :  RecyclerView.Adapter<HomeFragmentAdapter.HomeViewHolder>() {
+internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
+    RecyclerView.Adapter<HomeFragmentAdapter.HomeViewHolder>() {
 
     var weatherData: List<Weather> = listOf()
 
@@ -20,8 +21,15 @@ internal class HomeFragmentAdapter :  RecyclerView.Adapter<HomeFragmentAdapter.H
         notifyDataSetChanged()
     }
 
+    fun removeListener() {
+        onItemViewClickListener = null
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        return HomeViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.weather_card_small_info, parent, false) as View)
+        return HomeViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.weather_card_small_info, parent, false) as View
+        )
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
@@ -35,16 +43,19 @@ internal class HomeFragmentAdapter :  RecyclerView.Adapter<HomeFragmentAdapter.H
 
     inner class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(weather: Weather) {
-            itemView.findViewById<TextView>(R.id.temperatureValueBig).text = weather.weatherData.temperature.toString()+ "\u2103"
+            itemView.findViewById<TextView>(R.id.temperatureValueBig).text =
+                weather.weatherData.temperature.toString().plus("\u2103")
             itemView.findViewById<TextView>(R.id.cityName).text = weather.city.name
-            itemView.findViewById<TextView>(R.id.conditionValue).text = WeatherCondition.getRusName(weather.weatherData.condition)
+            itemView.findViewById<TextView>(R.id.conditionValue).text =
+                WeatherCondition.getRusName(weather.weatherData.condition)
 
             itemView.setOnClickListener {
-                Toast.makeText(
-                    itemView.context,
-                    weather.city.name,
-                    Toast.LENGTH_LONG
-                ).show()
+                onItemViewClickListener?.onItemViewClick(weather)
+//                Toast.makeText(
+//                    itemView.context,
+//                    weather.city.name,
+//                    Toast.LENGTH_LONG
+//                ).show()
             }
         }
     }

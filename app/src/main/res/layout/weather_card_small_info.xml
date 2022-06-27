@@ -19,8 +19,7 @@
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="@+id/guideline6"
             tools:text="Москва" />
 
@@ -32,8 +31,7 @@
             android:textSize="@dimen/text_size_medium"
 
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cityName"
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
             app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
         <ImageView
@@ -76,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="278dp" />
+            app:layout_constraintGuide_begin="324dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline6"

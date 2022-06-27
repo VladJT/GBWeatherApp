@@ -8,4 +8,5 @@
     <string name="humidity">Влажность</string>
     <string name="pressure">Давление (в мм рт. ст.)</string>
     <string name="wind_speed">Скорость ветра (в м/с)</string>
+    <string name="back">Назад</string>
 </resources>

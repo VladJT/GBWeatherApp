@@ -13,16 +13,31 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
+import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
+import jt.projects.gbweatherapp.utils.OnItemViewClickListener
 import jt.projects.gbweatherapp.viewmodel.AppState
 
 class HomeFragment : Fragment() {
-    private val MY_DEFAULT_DURATION:Long = 300
+    private val MY_DEFAULT_DURATION: Long = 300
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: HomeViewModel
 
-    private val adapter = HomeFragmentAdapter()
+    private val adapter = HomeFragmentAdapter(object : OnItemViewClickListener {
+        override fun onItemViewClick(weather: Weather) {
+            val manager = activity?.supportFragmentManager
+            if (manager != null) {
+                val bundle = Bundle()
+                bundle.putParcelable(WeatherDetailsFragment.BUNDLE_EXTRA, weather)
+                manager.beginTransaction()
+                    .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
+                    .addToBackStack("").commit()
+
+            }
+        }
+    })
     private var isDataSetRus: Boolean = true
 
     companion object {
@@ -35,7 +50,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -57,6 +71,11 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
+    override fun onDestroy() {
+        adapter.removeListener()//чтобы не возникало утечек памяти
+        super.onDestroy()
+    }
+
     private fun initRecyclerView() {
         binding.mainFragmentRecyclerView.adapter = adapter
         // Добавим разделитель карточек
@@ -66,11 +85,11 @@ class HomeFragment : Fragment() {
 
         // Установим анимацию. А чтобы было хорошо заметно, сделаем анимацию долгой
         val animator = DefaultItemAnimator()
-        animator.addDuration =MY_DEFAULT_DURATION
-        animator.changeDuration =MY_DEFAULT_DURATION
-        animator.removeDuration =MY_DEFAULT_DURATION
-        animator.moveDuration =MY_DEFAULT_DURATION
-        binding.mainFragmentRecyclerView.setItemAnimator(animator)
+        animator.addDuration = MY_DEFAULT_DURATION
+        animator.changeDuration = MY_DEFAULT_DURATION
+        animator.removeDuration = MY_DEFAULT_DURATION
+        animator.moveDuration = MY_DEFAULT_DURATION
+        binding.mainFragmentRecyclerView.itemAnimator = animator
     }
 
 
