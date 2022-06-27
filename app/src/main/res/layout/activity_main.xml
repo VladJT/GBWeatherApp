@@ -18,7 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="@string/app_name"
-            app:titleTextColor="@color/white">
+            app:titleTextColor="@color/white"
+            app:subtitleTextColor="@color/white"
+            android:background="@color/material_dynamic_secondary30">
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchTheme"
@@ -32,7 +34,7 @@
                 android:layout_gravity="end"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_baseline_light_mode_24"
-                app:tint="?attr/colorAccent" />
+                app:tint="@color/white" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>

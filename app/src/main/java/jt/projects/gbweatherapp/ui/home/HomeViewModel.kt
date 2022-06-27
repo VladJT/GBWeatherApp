@@ -21,14 +21,14 @@ class HomeViewModel : ViewModel() {
             repositoryImpl.getWeatherFromLocalStorageRus() else
             repositoryImpl.getWeatherFromLocalStorageWorld()
 
-        when ((0..1).random()) {
-            0 -> {
+        when ((0..5).random()) {
+            0,1,2,3,4 -> {
                 Thread {
                     Thread.sleep(200)
                     liveDataToObserve.postValue(AppState.SuccessMulti(result))
                 }.start()
             }
-            1 -> {
+            5 -> {
                 Thread {
                     Thread.sleep(500)
                     liveDataToObserve.postValue(AppState.Error(Throwable("Не удалось получить данные")))
