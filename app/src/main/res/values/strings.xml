@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GBWeatherApp</string>
-    <string name="title_home">Мой город</string>
+    <string name="title_home">Список городов</string>
     <string name="title_search">Поиск</string>
     <string name="title_favorites">Избранное</string>
     <string name="temperature">Температура</string>

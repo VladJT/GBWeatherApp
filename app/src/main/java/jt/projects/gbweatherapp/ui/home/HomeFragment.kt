@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.viewmodel.AppState
 
 class HomeFragment : Fragment() {
+    private val MY_DEFAULT_DURATION:Long = 300
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -38,7 +42,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.mainFragmentRecyclerView.adapter = adapter
+        initRecyclerView()
+
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
@@ -51,6 +56,23 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun initRecyclerView() {
+        binding.mainFragmentRecyclerView.adapter = adapter
+        // Добавим разделитель карточек
+        val itemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+        itemDecoration.setDrawable(resources.getDrawable(R.drawable.separator, null))
+        binding.mainFragmentRecyclerView.addItemDecoration(itemDecoration)
+
+        // Установим анимацию. А чтобы было хорошо заметно, сделаем анимацию долгой
+        val animator = DefaultItemAnimator()
+        animator.addDuration =MY_DEFAULT_DURATION
+        animator.changeDuration =MY_DEFAULT_DURATION
+        animator.removeDuration =MY_DEFAULT_DURATION
+        animator.moveDuration =MY_DEFAULT_DURATION
+        binding.mainFragmentRecyclerView.setItemAnimator(animator)
+    }
+
 
     private fun changeWeatherDataSet() {
         if (isDataSetRus) {

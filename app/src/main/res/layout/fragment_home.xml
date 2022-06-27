@@ -23,6 +23,7 @@
         android:src="@drawable/russia"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="59dp"
         app:tint="@null" />
 
     <FrameLayout

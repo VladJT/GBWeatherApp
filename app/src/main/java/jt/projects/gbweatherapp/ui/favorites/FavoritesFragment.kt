@@ -24,13 +24,7 @@ class FavoritesFragment : Fragment() {
     ): View {
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
 
-        binding.textFavorites.text =
-            """Здесь будет список городов с погодой, добавленных в избранное на экране поиска
-            Режим просмотра - RecyclerView Vertical
-           
-            Функционал - удаление из избранного
-        """
-
+        binding.textFavorites.text ="Список городов, сохраненных в Избранное"
         return binding.root
     }
 
