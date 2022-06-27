@@ -14,7 +14,7 @@ import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var appTheme = R.style.Theme_LightTheme
+    private var appTheme = R.style.Theme_DarkTheme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
