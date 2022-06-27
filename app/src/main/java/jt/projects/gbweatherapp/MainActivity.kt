@@ -9,17 +9,18 @@ import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
+import jt.projects.gbweatherapp.viewmodel.SharedPref
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var appTheme = R.style.Theme_DarkTheme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setTheme(appTheme)
+        SharedPref.initSharedPreferencesContext(applicationContext)
+        setTheme(SharedPref.getAppTheme())
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -36,15 +37,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun initAppBarThemeSwitch() {
         val switch = binding.switchTheme
-        if (appTheme == R.style.Theme_DarkTheme) {
+        if (SharedPref.getAppTheme() == R.style.Theme_DarkTheme) {
             switch.isChecked = true
         }
         switch.setOnClickListener {
-            appTheme = if (switch.isChecked) {
+            val appTheme = if (switch.isChecked) {
                 R.style.Theme_DarkTheme
             } else {
                 R.style.Theme_LightTheme
             }
+            SharedPref.saveAppTheme(appTheme)
             recreate()
         }
     }
