@@ -40,7 +40,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         val observer = Observer<Int> { binding.textCounter.text = it.toString() }
-        viewModel.counter.observe(viewLifecycleOwner, observer)
+    //    viewModel.counter.observe(viewLifecycleOwner, observer)
     }
 
     override fun onDestroyView() {

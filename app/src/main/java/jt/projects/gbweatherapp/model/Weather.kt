@@ -52,6 +52,19 @@ fun getRussianCities(): List<Weather> {
         Weather(
             WeatherData("2022-06-25", 1470220206, 5, 6, "ovc", "overcast", 2.0, 745, 54, 1, 0.25),
             City("Самара", 48.8534100, 2.3488000), null
+        ),
+        Weather(
+            WeatherData("2022-06-25", 1470220206, 25, 24, "ovc", "cloudy", 2.0, 745, 54, 1, 0.25),
+            City("Белгород", 15.833333, 7.616667), null
+        ),
+        Weather(
+            WeatherData("2022-06-25", 1470220206, 16, 12, "ovc", "clear", 2.0, 745, 54, 1, 0.25),
+            City("Орел", 31.5085300, 10.1257400), null
+        ),
+        Weather(
+            WeatherData("2022-06-25", 1470220206, 23, 24, "ovc", "cloudy", 2.0, 745, 54, 1, 0.25),
+            City("Сочи", 35.6895000, 139.6917100), null
         )
+
     )
 }
