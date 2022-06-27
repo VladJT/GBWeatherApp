@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.databinding.WeatherDetailsFragmentBinding
@@ -20,6 +21,9 @@ class WeatherDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)// дает фрагменту доступ к меню Активити
+        val actionBar = activity as? AppCompatActivity
+        actionBar?.supportActionBar?.subtitle = "Сведения о городе"
         _binding = WeatherDetailsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -49,6 +50,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val actionBar = activity as? AppCompatActivity
+        actionBar?.supportActionBar?.subtitle = "Список городов"
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -118,7 +121,6 @@ class HomeFragment : Fragment() {
             }
             is AppState.SuccessMulti -> {
                 binding.loadingLayout.visibility = View.GONE
-                //updateUi(weatherData)
                 adapter.setWeather(appState.weatherData)
                 Snackbar.make(binding.root, "Данные успешно загружены", Snackbar.LENGTH_SHORT)
                     .show()
@@ -128,31 +130,13 @@ class HomeFragment : Fragment() {
             }
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
+                adapter.setWeather(listOf())
                 Snackbar
                     .make(binding.root, appState.error.message!!, Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reload?") { viewModel.loadWeather() }
+                    .setAction("Reload?") { viewModel.getDataFromLocalSource(isDataSetRus) }
                     .show()
             }
         }
     }
 
-//    private fun updateUi(weather: Weather) {
-//        with(binding.includeCardWeather) {
-//            with(weather) {
-//                cityName.text = city.name
-//                cityCoordinates.text = String.format(
-//                    "lt/ln: %s, %s",
-//                    weather.city.lat.toString(),
-//                    weather.city.lon.toString()
-//                )
-//                temperatureValue.text = weatherData.temperature.toString() + "\u2103"
-//                temperatureValueBig.text = weatherData.temperature.toString() + "\u2103"
-//                feelsLikeValue.text = weatherData.feelsLike.toString() + "\u2103"
-//                humidityValue.text = weatherData.feelsLike.toString() + "%"
-//                pressureValue.text = weatherData.pressure_mm.toString()
-//                windSpeedValue.text = weatherData.wind_speed.toString()
-//                conditionValue.text = WeatherCondition.getRusName(weatherData.condition)
-//            }
-//        }
-//    }
 }

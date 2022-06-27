@@ -14,17 +14,18 @@ class HomeViewModel : ViewModel() {
 
     fun getData(): LiveData<AppState> = liveDataToObserve
 
-
-    fun loadWeather() {
+    fun getDataFromLocalSource(isRussian: Boolean) {
         liveDataToObserve.value = AppState.Loading
 
-        val result = repositoryImpl.getWeatherFromInternet()
+        val result = if (isRussian)
+            repositoryImpl.getWeatherFromLocalStorageRus() else
+            repositoryImpl.getWeatherFromLocalStorageWorld()
 
         when ((0..1).random()) {
             0 -> {
                 Thread {
                     Thread.sleep(200)
-                    liveDataToObserve.postValue(AppState.Success(result))
+                    liveDataToObserve.postValue(AppState.SuccessMulti(result))
                 }.start()
             }
             1 -> {
@@ -34,16 +35,6 @@ class HomeViewModel : ViewModel() {
                 }.start()
             }
         }
-    }
-
-    fun getDataFromLocalSource(isRussian: Boolean) {
-        liveDataToObserve.value = AppState.Loading
-        Thread {
-            Thread.sleep(1000)
-            liveDataToObserve.postValue(AppState.SuccessMulti(if (isRussian)
-                repositoryImpl.getWeatherFromLocalStorageRus() else
-                repositoryImpl.getWeatherFromLocalStorageWorld()))
-        }.start()
     }
 
 }

@@ -16,8 +16,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setTheme(R.style.Theme_DarkTheme)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         // Нам нужно создать фрагмент со списком всего лишь один раз — при первом запуске. Задачу по
         // пересозданию фрагментов после поворота экрана берет на себя FragmentManager.

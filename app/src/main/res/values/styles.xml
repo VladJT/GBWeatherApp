@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Тема Dark  -->
+    <style name="Theme.DarkTheme" parent="Theme.Material3.Dark.NoActionBar"></style>
+
+    <!-- Тема Light  -->
+    <style name="Theme.LightTheme" parent="Theme.Material3.Light.NoActionBar"></style>
+
     <style name="text_style_values">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
