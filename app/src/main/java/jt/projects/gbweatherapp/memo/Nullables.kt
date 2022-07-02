@@ -1,4 +1,5 @@
 @file:Suppress("unused", "RedundantNullableReturnType", "UNUSED_VARIABLE")
+
 package jt.projects.gbweatherapp.memo
 
 class Nullables {

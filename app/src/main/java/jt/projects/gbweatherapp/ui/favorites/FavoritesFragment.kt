@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import jt.projects.gbweatherapp.databinding.FragmentFavoritesBinding
 
 class FavoritesFragment : Fragment() {
@@ -24,7 +22,7 @@ class FavoritesFragment : Fragment() {
     ): View {
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
 
-        binding.textFavorites.text ="Список городов, сохраненных в Избранное"
+        binding.textFavorites.text = "Список городов, сохраненных в Избранное"
         return binding.root
     }
 

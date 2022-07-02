@@ -9,7 +9,7 @@ data class Weather(
     val weatherData: WeatherData,// информация о текущей погоде
     val city: City,//информация о населенном пункте
     val forecasts: List<WeatherData>?// Прогноз погоды на ближайшие x дней
-): Parcelable
+) : Parcelable
 
 
 fun getTestWeather() = Weather(

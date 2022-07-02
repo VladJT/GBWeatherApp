@@ -4,14 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import jt.projects.gbweatherapp.databinding.FragmentSearchBinding
-import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
-import jt.projects.gbweatherapp.ui.home.HomeViewModel
-import jt.projects.gbweatherapp.viewmodel.AppState
 
 class SearchFragment : Fragment() {
 
@@ -19,7 +15,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: SearchViewModel
 
-    companion object{
+    companion object {
         fun newInstance() = SearchFragment()
     }
 
@@ -30,7 +26,7 @@ class SearchFragment : Fragment() {
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        binding.textSearch.text= """Здесь будет осуществляться поиск погоды по вводимым параметрам
+        binding.textSearch.text = """Здесь будет осуществляться поиск погоды по вводимым параметрам
             Найденный город можно будет добавлять в список Избранного"""
 
         return binding.root
@@ -40,7 +36,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         val observer = Observer<Int> { binding.textCounter.text = it.toString() }
-    //    viewModel.counter.observe(viewLifecycleOwner, observer)
+        //    viewModel.counter.observe(viewLifecycleOwner, observer)
     }
 
     override fun onDestroyView() {

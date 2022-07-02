@@ -20,7 +20,7 @@
             app:title="@string/app_name"
             app:titleTextColor="@color/white"
             app:subtitleTextColor="@color/white"
-            android:background="@color/material_dynamic_secondary30">
+            android:background="#3B4E5A">
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchTheme"
