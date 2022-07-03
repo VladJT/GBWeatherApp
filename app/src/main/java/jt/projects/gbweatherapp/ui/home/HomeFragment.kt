@@ -21,12 +21,16 @@ import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
 
 class HomeFragment : Fragment() {
-    private val MY_DEFAULT_DURATION: Long = 300
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: HomeViewModel
     private var isDataSetRus: Boolean = true
+
+    companion object {
+        const val MY_DEFAULT_DURATION: Long = 300
+        fun newInstance() = HomeFragment()
+    }
+
 
     private val adapter = HomeFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
@@ -40,10 +44,6 @@ class HomeFragment : Fragment() {
         }
     })
 
-
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
