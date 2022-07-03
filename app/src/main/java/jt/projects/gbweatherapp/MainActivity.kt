@@ -1,6 +1,9 @@
 package jt.projects.gbweatherapp
 
+import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -9,6 +12,7 @@ import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
+import jt.projects.gbweatherapp.utils.showKeyboard
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 
 
@@ -100,5 +104,4 @@ class MainActivity : AppCompatActivity() {
             .replace(binding.fragmentContainer.id, fragment)
             .commit()
     }
-
 }
