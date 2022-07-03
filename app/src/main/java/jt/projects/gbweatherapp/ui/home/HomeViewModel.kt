@@ -7,6 +7,7 @@ import jt.projects.gbweatherapp.model.Repository
 import jt.projects.gbweatherapp.model.RepositoryImpl
 import jt.projects.gbweatherapp.viewmodel.AppState
 
+
 class HomeViewModel : ViewModel() {
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
     private val repositoryImpl: Repository = RepositoryImpl()

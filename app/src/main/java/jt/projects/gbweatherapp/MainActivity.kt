@@ -11,7 +11,6 @@ import jt.projects.gbweatherapp.ui.search.SearchFragment
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

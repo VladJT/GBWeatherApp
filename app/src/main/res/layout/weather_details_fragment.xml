@@ -7,6 +7,7 @@
     android:clickable="true"
     android:focusable="true">
 
+
     <include
         android:id="@+id/includeWeatherCard"
         layout="@layout/weather_card_full_info"

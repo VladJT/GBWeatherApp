@@ -10,6 +10,7 @@ import jt.projects.gbweatherapp.databinding.WeatherDetailsFragmentBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.utils.WeatherCondition
 
+
 class WeatherDetailsFragment : Fragment() {
 
     private var _binding: WeatherDetailsFragmentBinding? = null
