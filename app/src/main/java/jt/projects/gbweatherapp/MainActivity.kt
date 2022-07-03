@@ -36,30 +36,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initAppBarThemeSwitch() {
-        val switch = binding.switchTheme
-        if (SharedPref.getAppTheme() == R.style.Theme_DarkTheme) {
-            switch.isChecked = true
-        }
-        switch.setOnClickListener {
-            val appTheme = if (switch.isChecked) {
-                R.style.Theme_DarkTheme
-            } else {
-                R.style.Theme_LightTheme
+        binding.switchTheme.apply {
+            if (SharedPref.getAppTheme() == R.style.Theme_DarkTheme) {
+                isChecked = true
             }
-            SharedPref.saveAppTheme(appTheme)
-            recreate()
+
+            setOnClickListener {
+                val appTheme = if (isChecked) {
+                    R.style.Theme_DarkTheme
+                } else {
+                    R.style.Theme_LightTheme
+                }
+                SharedPref.saveAppTheme(appTheme)
+                recreate()
+            }
         }
     }
 
     override fun onBackPressed() {
-        var visibleFragment = supportFragmentManager.fragments[0]
-        for (f in supportFragmentManager.fragments) {
-            if (f.isVisible) visibleFragment = f
-        }
-        if (visibleFragment is WeatherDetailsFragment) {
-            supportFragmentManager.popBackStack()
-        } else {
-            showExitDialog()
+        supportFragmentManager.fragments[0]?.let {
+            var visibleFragment = it
+            for (f in supportFragmentManager.fragments) {
+                if (f.isVisible) visibleFragment = f
+            }
+            if (visibleFragment is WeatherDetailsFragment) {
+                supportFragmentManager.popBackStack()
+            } else {
+                showExitDialog()
+            }
         }
     }
 

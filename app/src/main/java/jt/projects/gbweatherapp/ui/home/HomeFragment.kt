@@ -11,12 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.OnItemViewClickListener
+import jt.projects.gbweatherapp.utils.showSnackBarShort
+import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
 
 class HomeFragment : Fragment() {
@@ -25,21 +26,20 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: HomeViewModel
+    private var isDataSetRus: Boolean = true
 
     private val adapter = HomeFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
-            val manager = activity?.supportFragmentManager
-            if (manager != null) {
+            activity?.supportFragmentManager?.also { manager ->
                 val bundle = Bundle()
                 bundle.putParcelable(WeatherDetailsFragment.BUNDLE_EXTRA, weather)
                 manager.beginTransaction()
                     .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
                     .addToBackStack("").commit()
-
             }
         }
     })
-    private var isDataSetRus: Boolean = true
+
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -50,8 +50,9 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val actionBar = activity as? AppCompatActivity
-        actionBar?.supportActionBar?.subtitle = "Список городов"
+        (activity as? AppCompatActivity)?.let {
+            it.supportActionBar?.subtitle = "Список городов"
+        }
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -63,7 +64,7 @@ class HomeFragment : Fragment() {
 
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
 
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         val observer = Observer<AppState> { renderData(it) }// it = конкрeтный экзмепляр AppState
         viewModel.getData().observe(viewLifecycleOwner, observer)
         viewModel.getDataFromLocalSource(isDataSetRus)
@@ -87,11 +88,12 @@ class HomeFragment : Fragment() {
         binding.mainFragmentRecyclerView.addItemDecoration(itemDecoration)
 
         // Установим анимацию. А чтобы было хорошо заметно, сделаем анимацию долгой
-        val animator = DefaultItemAnimator()
-        animator.addDuration = MY_DEFAULT_DURATION
-        animator.changeDuration = MY_DEFAULT_DURATION
-        animator.removeDuration = MY_DEFAULT_DURATION
-        animator.moveDuration = MY_DEFAULT_DURATION
+        val animator = DefaultItemAnimator().apply {
+            addDuration = MY_DEFAULT_DURATION
+            changeDuration = MY_DEFAULT_DURATION
+            removeDuration = MY_DEFAULT_DURATION
+            moveDuration = MY_DEFAULT_DURATION
+        }
         binding.mainFragmentRecyclerView.itemAnimator = animator
     }
 
@@ -112,18 +114,12 @@ class HomeFragment : Fragment() {
             is AppState.Success -> {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(listOf(appState.weatherData))
-                Snackbar.make(
-                    binding.root,
-                    "Данные по 1 городу успешно загружены",
-                    Snackbar.LENGTH_SHORT
-                )
-                    .show()
+                binding.root.showSnackBarShort("Данные по 1 городу успешно загружены")
             }
             is AppState.SuccessMulti -> {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(appState.weatherData)
-                Snackbar.make(binding.root, "Данные успешно загружены", Snackbar.LENGTH_SHORT)
-                    .show()
+                binding.root.showSnackBarShort("Данные успешно загружены")
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
@@ -131,10 +127,8 @@ class HomeFragment : Fragment() {
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(listOf())
-                Snackbar
-                    .make(binding.root, appState.error.message!!, Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reload?") { viewModel.getDataFromLocalSource(isDataSetRus) }
-                    .show()
+                val action = fun() { viewModel.getDataFromLocalSource(isDataSetRus) }
+                binding.root.showSnackBarWithAction(appState.error.message ?: "", "Reload?", action)
             }
         }
     }
