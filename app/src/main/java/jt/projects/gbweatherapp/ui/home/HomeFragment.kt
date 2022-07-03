@@ -119,7 +119,7 @@ class HomeFragment : Fragment() {
             is AppState.SuccessMulti -> {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(appState.weatherData)
-                binding.root.showSnackBarShort("Данные успешно загружены")
+                binding.root.showSnackBarShort(R.string.load_completed)
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(listOf())
                 val action = fun() { viewModel.getDataFromLocalSource(isDataSetRus) }
-                binding.root.showSnackBarWithAction(appState.error.message ?: "", "Reload?", action)
+                binding.root.showSnackBarWithAction(appState.error.message ?: "", R.string.reload, action)
             }
         }
     }
