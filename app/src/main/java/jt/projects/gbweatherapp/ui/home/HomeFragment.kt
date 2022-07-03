@@ -100,9 +100,9 @@ class HomeFragment : Fragment() {
 
     private fun changeWeatherDataSet() {
         if (isDataSetRus) {
-            binding.mainFragmentFAB.setImageResource(R.drawable.world)
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
         } else {
-            binding.mainFragmentFAB.setImageResource(R.drawable.russia)
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
         }
         isDataSetRus = !isDataSetRus
         viewModel.getDataFromLocalSource(isDataSetRus)
