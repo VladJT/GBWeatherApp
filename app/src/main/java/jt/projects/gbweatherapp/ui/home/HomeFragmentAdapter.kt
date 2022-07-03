@@ -43,19 +43,21 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
 
     inner class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(weather: Weather) {
-            itemView.findViewById<TextView>(R.id.temperatureValueBig).text =
-                weather.weatherData.temperature.toString().plus("\u2103")
-            itemView.findViewById<TextView>(R.id.cityName).text = weather.city.name
-            itemView.findViewById<TextView>(R.id.conditionValue).text =
-                WeatherCondition.getRusName(weather.weatherData.condition)
+            with(itemView) {
+                findViewById<TextView>(R.id.temperatureValueBig).text =
+                    weather.weatherData.temperature.toString().plus("\u2103")
+                findViewById<TextView>(R.id.cityName).text = weather.city.name
+                findViewById<TextView>(R.id.conditionValue).text =
+                    WeatherCondition.getRusName(weather.weatherData.condition)
 
-            itemView.setOnClickListener {
-                onItemViewClickListener?.onItemViewClick(weather)
+                setOnClickListener {
+                    onItemViewClickListener?.onItemViewClick(weather)
 //                Toast.makeText(
 //                    itemView.context,
 //                    weather.city.name,
 //                    Toast.LENGTH_LONG
 //                ).show()
+                }
             }
         }
     }

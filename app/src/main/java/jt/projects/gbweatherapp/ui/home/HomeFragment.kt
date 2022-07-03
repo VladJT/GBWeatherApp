@@ -63,11 +63,12 @@ class HomeFragment : Fragment() {
         initRecyclerView()
 
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
-
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         val observer = Observer<AppState> { renderData(it) }// it = конкрeтный экзмепляр AppState
-        viewModel.getData().observe(viewLifecycleOwner, observer)
-        viewModel.getDataFromLocalSource(isDataSetRus)
+
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java].also {
+            it.getData().observe(viewLifecycleOwner, observer)
+            it.getDataFromLocalSource(isDataSetRus)
+        }
     }
 
     override fun onDestroyView() {
@@ -82,10 +83,11 @@ class HomeFragment : Fragment() {
 
     private fun initRecyclerView() {
         binding.mainFragmentRecyclerView.adapter = adapter
-        // Добавим разделитель карточек
-        val itemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
-        itemDecoration.setDrawable(resources.getDrawable(R.drawable.separator, null))
-        binding.mainFragmentRecyclerView.addItemDecoration(itemDecoration)
+        //  разделитель карточек
+        DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).also {
+            it.setDrawable(resources.getDrawable(R.drawable.separator, null))
+            binding.mainFragmentRecyclerView.addItemDecoration(it)
+        }
 
         // Установим анимацию. А чтобы было хорошо заметно, сделаем анимацию долгой
         val animator = DefaultItemAnimator().apply {
@@ -128,7 +130,11 @@ class HomeFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(listOf())
                 val action = fun() { viewModel.getDataFromLocalSource(isDataSetRus) }
-                binding.root.showSnackBarWithAction(appState.error.message ?: "", R.string.reload, action)
+                binding.root.showSnackBarWithAction(
+                    appState.error.message ?: "",
+                    R.string.reload,
+                    action
+                )
             }
         }
     }
