@@ -5,10 +5,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class WeatherData(
-    val dateOfUpdate: String,//Дата  в UTC
-    val date_ts: Int, //Дата в Unixtime
-    val temperature: Int,//temp	Температура (°C).	Число
-    val feelsLike: Int,//feels_like	Ощущаемая температура (°C).	Число
+    val _dateOfUpdate: String,//Дата  в UTC
+    val _date_ts: Int, //Дата в Unixtime
+    val temp: Int,//temp	Температура (°C).	Число
+    val feels_like: Int,//feels_like	Ощущаемая температура (°C).	Число
     val icon: String,//icon	Код иконки погоды. Иконка доступна по адресу https://yastatic.net/weather/i/icons/funky/dark/<значение из поля icon>.svg.	Строка
     val condition: String,//condition  Код расшифровки погодного описания. Возможные значения:clear — ясно..... Строка
     val wind_speed: Double,//wind_speed	Скорость ветра (в м/с).	Число

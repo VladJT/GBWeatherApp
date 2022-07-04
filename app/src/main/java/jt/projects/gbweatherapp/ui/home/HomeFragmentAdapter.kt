@@ -45,10 +45,10 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
         fun bind(weather: Weather) {
             with(itemView) {
                 findViewById<TextView>(R.id.temperatureValueBig).text =
-                    weather.weatherData.temperature.toString().plus("\u2103")
+                    weather.fact.temp.toString().plus("\u2103")
                 findViewById<TextView>(R.id.cityName).text = weather.city.name
                 findViewById<TextView>(R.id.conditionValue).text =
-                    WeatherCondition.getRusName(weather.weatherData.condition)
+                    WeatherCondition.getRusName(weather.fact.condition)
 
                 setOnClickListener {
                     onItemViewClickListener?.onItemViewClick(weather)

@@ -6,7 +6,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Weather(
-    val weatherData: WeatherData,// информация о текущей погоде
+  //  val now: String,//Дата  в UTC
+  //  val now_dt: Int, //Дата в Unixtime
+    val fact: WeatherData,// информация о текущей погоде
     val city: City,//информация о населенном пункте
     val forecasts: List<WeatherData>?// Прогноз погоды на ближайшие x дней
 ) : Parcelable

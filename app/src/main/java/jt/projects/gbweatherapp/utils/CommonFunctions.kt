@@ -1,9 +1,13 @@
 package jt.projects.gbweatherapp.utils
 
 import android.content.Context
+import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import com.google.android.material.snackbar.Snackbar
+import java.io.BufferedReader
+import java.util.stream.Collectors
 
 // принимает текст для вывода или как строку, или как id Resources (String)
 fun <T> View.showSnackBarShort(text: T) {
@@ -42,4 +46,9 @@ fun View.hideKeyboard(): Boolean {
     } catch (ignored: RuntimeException) {
     }
     return false
+}
+
+@RequiresApi(Build.VERSION_CODES.N)
+fun getLines(reader: BufferedReader): String {
+    return reader.lines().collect(Collectors.joining("\n"))
 }
