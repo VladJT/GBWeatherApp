@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.utils.OnItemViewClickListener
-import jt.projects.gbweatherapp.utils.WeatherCondition
 
 
 internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
@@ -45,10 +44,8 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
         fun bind(weather: Weather) {
             with(itemView) {
                 findViewById<TextView>(R.id.temperatureValueBig).text =
-                    weather.fact.temp.toString().plus("\u2103")
+                    weather.temperature.toString().plus("\u2103")
                 findViewById<TextView>(R.id.cityName).text = weather.city.name
-                findViewById<TextView>(R.id.conditionValue).text =
-                    WeatherCondition.getRusName(weather.fact.condition)
 
                 setOnClickListener {
                     onItemViewClickListener?.onItemViewClick(weather)

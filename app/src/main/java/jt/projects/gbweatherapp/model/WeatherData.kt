@@ -1,12 +1,6 @@
 package jt.projects.gbweatherapp.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
 data class WeatherData(
-    val _dateOfUpdate: String,//Дата  в UTC
-    val _date_ts: Int, //Дата в Unixtime
     val temp: Int,//temp	Температура (°C).	Число
     val feels_like: Int,//feels_like	Ощущаемая температура (°C).	Число
     val icon: String,//icon	Код иконки погоды. Иконка доступна по адресу https://yastatic.net/weather/i/icons/funky/dark/<значение из поля icon>.svg.	Строка
@@ -16,4 +10,4 @@ data class WeatherData(
     val humidity: Int,//	Влажность воздуха (в процентах).
     val prec_type: Int,//prec_type	Тип осадков. Возможные значения:0 — без осадков.1 — дождь.2 — дождь со снегом.3 — снег.4 — град.Число
     val prec_strength: Double,//prec_strength	Сила осадков. Возможные значения:0 — без осадков.0.25 — слабый дождь/слабый снег.0.5 — дождь/снег.0.75 — сильный дождь/сильный снег.1 — сильный ливень/очень сильный снег.Число
-) : Parcelable
+)

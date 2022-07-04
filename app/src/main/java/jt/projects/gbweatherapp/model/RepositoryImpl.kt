@@ -2,7 +2,7 @@ package jt.projects.gbweatherapp.model
 
 class RepositoryImpl : Repository {
     override fun getWeatherFromInternet(): Weather {
-        return getTestWeather()
+        return getRussianCities()[0]
     }
 
     override fun getWeatherFromLocalStorageRus(): List<Weather> {

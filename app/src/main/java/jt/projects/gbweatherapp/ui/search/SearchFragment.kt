@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import jt.projects.gbweatherapp.databinding.FragmentSearchBinding
 import jt.projects.gbweatherapp.utils.hideKeyboard
-import jt.projects.gbweatherapp.utils.showKeyboard
 
 class SearchFragment : Fragment() {
 

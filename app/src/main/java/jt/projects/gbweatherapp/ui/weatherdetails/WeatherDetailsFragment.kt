@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import jt.projects.gbweatherapp.databinding.WeatherDetailsFragmentBinding
 import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.model.WeatherDTO
 import jt.projects.gbweatherapp.utils.WeatherCondition
 import jt.projects.gbweatherapp.utils.getLines
 import java.io.BufferedReader
@@ -57,7 +58,7 @@ class WeatherDetailsFragment : Fragment() {
         loadWeather()
     }
 
-    private fun renderData(weather: Weather) {
+    private fun renderData(weather: WeatherDTO) {
         with(binding.includeWeatherCard) {
             cityName.text = weatherBundle.city.name
             cityCoordinates.text = String.format(
@@ -95,7 +96,8 @@ class WeatherDetailsFragment : Fragment() {
                     urlConnection.readTimeout = 10000
                     val bufferedReader =
                         BufferedReader(InputStreamReader(urlConnection.inputStream))// преобразование ответа от сервера (JSON) в модель данных
-                    val weatherDTO = Gson().fromJson(getLines(bufferedReader), Weather::class.java)
+                    val weatherDTO =
+                        Gson().fromJson(getLines(bufferedReader), WeatherDTO::class.java)
                     handler.post { renderData(weatherDTO) }
                 } catch (e: Exception) {
                     Log.e("", "Fail connection", e)
