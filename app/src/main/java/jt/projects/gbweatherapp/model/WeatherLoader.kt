@@ -2,6 +2,7 @@ package jt.projects.gbweatherapp.model
 
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
@@ -26,11 +27,10 @@ class WeatherLoader(
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    public fun loadWeather() {
+    fun loadWeather() {
         try {
             val uri =
                 URL("https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}")
-            val handler = Handler()
             Thread {
                 lateinit var urlConnection: HttpsURLConnection
                 try {
@@ -46,10 +46,13 @@ class WeatherLoader(
                             readTimeout = 10000
                         }
                     // преобразование ответа от сервера (JSON) в модель данных
-                    val bufferedReader = BufferedReader(InputStreamReader(urlConnection.inputStream))
+                    val bufferedReader =
+                        BufferedReader(InputStreamReader(urlConnection.inputStream))
 
-                    val weatherDTO = Gson().fromJson(getLines(bufferedReader), WeatherDTO::class.java)
-                    handler.post { weatherLoaderListener.onLoaded(weatherDTO) }
+                    val weatherDTO =
+                        Gson().fromJson(getLines(bufferedReader), WeatherDTO::class.java)
+                   Handler(Looper.getMainLooper()).post { weatherLoaderListener.onLoaded(weatherDTO) }
+
                 } catch (e: Exception) {
                     Log.e("", "Fail connection", e)
                     weatherLoaderListener.onFailed(e)

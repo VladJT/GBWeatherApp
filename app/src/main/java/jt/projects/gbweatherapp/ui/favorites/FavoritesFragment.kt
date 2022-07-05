@@ -3,6 +3,7 @@ package jt.projects.gbweatherapp.ui.favorites
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,6 @@ import androidx.fragment.app.Fragment
 import jt.projects.gbweatherapp.databinding.FragmentFavoritesBinding
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.net.MalformedURLException
 import java.net.URL
 import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
@@ -23,40 +23,35 @@ class FavoritesFragment : Fragment() {
 
     private val listener = object : View.OnClickListener {
         override fun onClick(v: View?) {
-            try {
-                val uri = URL(binding.url.text.toString())
-                val handler = Handler() //Запоминаем основной поток
-                Thread {
-                    var urlConnection: HttpsURLConnection? = null
-                    try {
-                        urlConnection = (uri.openConnection() as HttpsURLConnection).apply {
-                            requestMethod = "GET" //установка метода получения
-                            readTimeout = 10000 //установка таймаута — 10 000
-                        }
-
-                        val reader = BufferedReader(InputStreamReader(urlConnection.inputStream))
-                        val result = getLines(reader)
-
-                        handler.post {
-                            binding.webview.loadDataWithBaseURL(
-                                null,
-                                result,
-                                "text/html; charset=utf-8",
-                                "utf-8",
-                                null
-                            )
-                        }
-                    } catch (e: Exception) {
-                        Log.e("!!!", "Fail connection", e)
-                        e.printStackTrace()
-                    } finally {
-                        urlConnection?.disconnect()
+            val uri = URL(binding.url.text.toString())
+            Thread {
+                var urlConnection: HttpsURLConnection? = null
+                try {
+                    urlConnection = (uri.openConnection() as HttpsURLConnection).apply {
+                        requestMethod = "GET" //установка метода получения
+                        readTimeout = 10000 //установка таймаута — 10 000
                     }
-                }.start()
-            } catch (e: MalformedURLException) {
-                Log.e("@@@", "Fail URI", e)
-                e.printStackTrace()
-            }
+
+                    val reader = BufferedReader(InputStreamReader(urlConnection.inputStream))
+                    val result = getLines(reader)
+
+                    activity?.runOnUiThread {
+                        binding.webview.settings.javaScriptEnabled = true
+                        binding.webview.loadDataWithBaseURL(
+                            null,
+                            result,
+                            "text/html; charset=utf-8",
+                            "utf-8",
+                            null
+                        )
+                    }
+                } catch (e: Exception) {
+                    Log.e("@@@", "Fail connection", e)
+                    e.printStackTrace()
+                } finally {
+                    urlConnection?.disconnect()
+                }
+            }.start()
         }
     }
 
