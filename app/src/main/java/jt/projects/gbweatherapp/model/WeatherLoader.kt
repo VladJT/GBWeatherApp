@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import jt.projects.gbweatherapp.BuildConfig
+import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.getLines
 import java.io.BufferedReader
 import java.io.InputStreamReader

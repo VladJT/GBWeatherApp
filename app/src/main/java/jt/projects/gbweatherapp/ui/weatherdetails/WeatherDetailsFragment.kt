@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import jt.projects.gbweatherapp.databinding.WeatherDetailsFragmentBinding
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.model.WeatherDTO
 import jt.projects.gbweatherapp.model.WeatherLoader
+import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.WeatherCondition
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 
@@ -71,10 +71,10 @@ class WeatherDetailsFragment : Fragment() {
             weather?.run {
                 temperatureValue.text = "${fact.temp}\u2103"
                 temperatureValueBig.text = "${fact.temp}\u2103"
-                feelsLikeValue.text = "${fact.feels_like}\u2103"
+                feelsLikeValue.text = "${fact.feelsLike}\u2103"
                 humidityValue.text = "${fact.humidity}%"
-                pressureValue.text = fact.pressure_mm.toString()
-                windSpeedValue.text = fact.wind_speed.toString()
+                pressureValue.text = fact.pressureMm.toString()
+                windSpeedValue.text = fact.windSpeed.toString()
                 conditionValue.text = WeatherCondition.getRusName(fact.condition)
             }
         }

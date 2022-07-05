@@ -19,7 +19,7 @@
             android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/weatherIcon"
             app:layout_constraintTop_toTopOf="@+id/guideline6"
             tools:text="Москва" />
 
@@ -32,7 +32,8 @@
             android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline6" />
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
+            app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
         <ImageView
             android:id="@+id/weatherIcon"
@@ -57,7 +58,7 @@
             android:id="@+id/cityCoordinates"
             style="@style/text_style_labels"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/weatherIcon"
             app:layout_constraintTop_toBottomOf="@+id/cityName"
             tools:text="lt/ln: 55.755826, 37.617299900000035" />
 
@@ -122,7 +123,7 @@
             style="@style/text_style_labels"
             android:text="@string/wind_speed"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <TextView
             android:id="@+id/windSpeedValue"
