@@ -51,7 +51,7 @@ class WeatherLoader(
 
                     val weatherDTO =
                         Gson().fromJson(getLines(bufferedReader), WeatherDTO::class.java)
-                   Handler(Looper.getMainLooper()).post { weatherLoaderListener.onLoaded(weatherDTO) }
+                    Handler(Looper.getMainLooper()).post { weatherLoaderListener.onLoaded(weatherDTO) }
 
                 } catch (e: Exception) {
                     Log.e("", "Fail connection", e)
