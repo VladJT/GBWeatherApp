@@ -12,6 +12,7 @@ import jt.projects.gbweatherapp.model.WeatherLoader
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.WeatherCondition
 import jt.projects.gbweatherapp.utils.showSnackBarShort
+import kotlinx.android.synthetic.main.weather_card_small_info.view.*
 
 class WeatherDetailsFragment : Fragment() {
 
