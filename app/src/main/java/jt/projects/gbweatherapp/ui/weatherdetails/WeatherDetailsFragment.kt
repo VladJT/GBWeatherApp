@@ -56,9 +56,7 @@ class WeatherDetailsFragment : Fragment() {
         weatherBundle = arguments?.getParcelable<Weather>(BUNDLE_EXTRA)!!
         binding.buttonBack.setOnClickListener { activity?.supportFragmentManager?.popBackStack() }
 
-        val loader =
-            WeatherLoader(weatherLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)
-        loader.loadWeather()
+        WeatherLoader(weatherLoadListener, weatherBundle.city.lat, weatherBundle.city.lon)?.loadWeather()
     }
 
     private fun renderData(weather: WeatherDTO) {
