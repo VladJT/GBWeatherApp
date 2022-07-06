@@ -25,6 +25,7 @@ fun <T, R> View.showSnackBarWithAction(text: T, actionText: R, action: () -> Uni
         .show()
 }
 
+
 fun <T> View.getUniString(text: T): String {
     return ((text as? Int)?.let { resources.getText(text as Int) } ?: text) as String
 }

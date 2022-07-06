@@ -11,7 +11,6 @@ class HomeViewModel : ViewModel() {
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
     private val repositoryImpl: Repository = RepositoryImpl()
 
-
     fun getData(): LiveData<AppState> = liveDataToObserve
 
     fun getDataFromLocalSource(isRussian: Boolean) {

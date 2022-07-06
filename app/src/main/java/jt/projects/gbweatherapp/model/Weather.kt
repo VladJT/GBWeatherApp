@@ -3,6 +3,7 @@ package jt.projects.gbweatherapp.model
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+
 @Parcelize
 data class Weather(
     val city: City = getDefaultCity(),

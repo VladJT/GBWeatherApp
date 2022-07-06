@@ -22,6 +22,7 @@ class WeatherLoader(
     private val lon: Double
 ) {
 
+
     private val tag = "WeatherLoader"
 
     interface WeatherLoaderListener {
