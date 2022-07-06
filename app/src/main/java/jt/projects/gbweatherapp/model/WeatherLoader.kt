@@ -22,6 +22,8 @@ class WeatherLoader(
     private val lon: Double
 ) {
 
+    private val tag = "WeatherLoader"
+
     interface WeatherLoaderListener {
         fun onLoaded(weatherDTO: WeatherDTO)
         fun onFailed(throwable: Throwable)
@@ -41,8 +43,7 @@ class WeatherLoader(
                             addRequestProperty(
                                 "X-Yandex-API-Key",
                                 BuildConfig.WEATHER_API_KEY
-                                //ключ можно будет получать из кода: в автосгенерированном
-                                //средой разработки классе BuildConfig появится поле WEATHER_API_KEY
+                                //ключ получаем из BuildConfig (поле WEATHER_API_KEY)
                             )
                             readTimeout = 10000
                         }
@@ -55,14 +56,14 @@ class WeatherLoader(
                     Handler(Looper.getMainLooper()).post { weatherLoaderListener.onLoaded(weatherDTO) }
 
                 } catch (e: Exception) {
-                    Log.e("", "Fail connection", e)
+                    Log.e(tag, "Fail connection", e)
                     weatherLoaderListener.onFailed(e)
                 } finally {
                     urlConnection.disconnect()
                 }
             }.start()
         } catch (e: MalformedURLException) {
-            Log.e("", "Fail URI", e)
+            Log.e(tag, "Fail URI", e)
             weatherLoaderListener.onFailed(e)
         }
     }

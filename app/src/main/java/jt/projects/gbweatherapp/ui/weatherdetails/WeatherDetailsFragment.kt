@@ -67,7 +67,7 @@ class WeatherDetailsFragment : Fragment() {
                 weatherBundle.city.lat.toString(),
                 weatherBundle.city.lon.toString()
             )
-            weather?.run {
+            weather.run {
                 temperatureValue.text = "${fact.temp}\u2103"
                 temperatureValueBig.text = "${fact.temp}\u2103"
                 feelsLikeValue.text = "${fact.feelsLike}\u2103"
