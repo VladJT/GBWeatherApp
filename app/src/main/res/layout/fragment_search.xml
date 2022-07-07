@@ -54,45 +54,66 @@
 
     <LinearLayout
         android:id="@+id/mainContainerThreads"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonSearch">
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonThreadsUi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/calculate"
-        android:textSize="10sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonThreadsUi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/calculate" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonThreads"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/calculate_in_thread"
-            android:textSize="10sp" />
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editTextThreads"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="2"
-        android:gravity="center_horizontal"
-        android:inputType="number"
-        android:text="@string/default_number"
-        android:textSize="20sp" />
+            android:text="@string/calculate_in_thread" />
+
+        <Button
+            android:id="@+id/buttonThreadHandler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/handler_thread" />
+
+        <Button
+            android:id="@+id/serviceButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/service" />
+
+        <Button
+            android:id="@+id/serviceWithBroadcastButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/service_broadcast" />
+
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editTextThreads"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="2"
+            android:gravity="center_horizontal"
+            android:inputType="number"
+            android:text="@string/default_number"
+            android:textSize="20sp" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewThreads"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            tools:text="0"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:text="0" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,6 @@ import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
-import jt.projects.gbweatherapp.utils.OnItemViewClickListener
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
@@ -32,7 +31,7 @@ class HomeFragment : Fragment() {
     }
 
 
-    private val adapter = HomeFragmentAdapter(object : OnItemViewClickListener {
+    private val adapter = HomeFragmentAdapter(object : HomeFragmentAdapter.OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
             activity?.supportFragmentManager?.also { manager ->
                 val bundle = Bundle()

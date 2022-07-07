@@ -7,11 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.utils.OnItemViewClickListener
-
 
 internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
     RecyclerView.Adapter<HomeFragmentAdapter.HomeViewHolder>() {
+
+    interface OnItemViewClickListener {
+        fun onItemViewClick(weather: Weather)
+    }
 
     var weatherData: List<Weather> = listOf()
 
