@@ -25,7 +25,6 @@
         android:id="@+id/text_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="counter"
         android:textColor="#EA0A0A"
         android:textSize="20sp"

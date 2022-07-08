@@ -14,10 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
+
+private const val MY_DEFAULT_DURATION: Long = 300
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -26,16 +29,14 @@ class HomeFragment : Fragment() {
     private var isDataSetRus: Boolean = true
 
     companion object {
-        const val MY_DEFAULT_DURATION: Long = 300
         fun newInstance() = HomeFragment()
     }
-
 
     private val adapter = HomeFragmentAdapter(object : HomeFragmentAdapter.OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
             activity?.supportFragmentManager?.also { manager ->
                 val bundle = Bundle()
-                bundle.putParcelable(WeatherDetailsFragment.BUNDLE_EXTRA, weather)
+                bundle.putParcelable(BUNDLE_EXTRA, weather)
                 manager.beginTransaction()
                     .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
                     .addToBackStack("").commit()

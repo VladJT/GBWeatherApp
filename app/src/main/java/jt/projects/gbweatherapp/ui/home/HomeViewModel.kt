@@ -11,7 +11,6 @@ class HomeViewModel : ViewModel() {
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
     private val repositoryImpl: Repository = RepositoryImpl()
 
-
     fun getData(): LiveData<AppState> = liveDataToObserve
 
     fun getDataFromLocalSource(isRussian: Boolean) {
@@ -28,7 +27,7 @@ class HomeViewModel : ViewModel() {
                     liveDataToObserve.postValue(AppState.SuccessMulti(result))
                 }
                 4, 5 -> {
-                    Thread.sleep(500)
+                    Thread.sleep(200)
                     liveDataToObserve.postValue(AppState.Error(Throwable("Не удалось получить данные")))
                 }
             }

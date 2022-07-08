@@ -3,8 +3,9 @@ package jt.projects.gbweatherapp.memo
 import android.app.IntentService
 import android.content.Intent
 import android.util.Log
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import jt.projects.gbweatherapp.ui.search.BROADCAST_EXTRA
 import jt.projects.gbweatherapp.ui.search.TEST_BROADCAST_INTENT_FILTER
-import jt.projects.gbweatherapp.ui.search.THREADS_FRAGMENT_BROADCAST_EXTRA
 
 private const val TAG = "MainServiceTAG"
 const val MAIN_SERVICE_STRING_EXTRA = "MainServiceExtra"
@@ -20,24 +21,25 @@ class Service(name: String = "MainService") : IntentService(name) {
     //step 2
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createLogMessage("onStartCommand")
-        val s = intent?.getStringExtra(MAIN_SERVICE_STRING_EXTRA)?.toLong()?.times(1000)
-        Thread.sleep(s?:0)
         return super.onStartCommand(intent, flags, startId)
     }
 
     //step 3 - result
     override fun onHandleIntent(intent: Intent?) {
         createLogMessage("onHandleIntent ${intent?.getStringExtra(MAIN_SERVICE_STRING_EXTRA)}")
+        val s = intent?.getStringExtra(MAIN_SERVICE_STRING_EXTRA)?.toLong()?.times(1000)
+        Thread.sleep(s ?: 0)
         intent?.let {
-            sendBack(it.getStringExtra(MAIN_SERVICE_STRING_EXTRA).toString())
+            sendBack("onHandleIntent ${intent?.getStringExtra(MAIN_SERVICE_STRING_EXTRA)}")
         }
     }
 
     //Отправка уведомления о завершении сервиса
     private fun sendBack(result: String) {
         val broadcastIntent = Intent(TEST_BROADCAST_INTENT_FILTER)
-        broadcastIntent.putExtra(THREADS_FRAGMENT_BROADCAST_EXTRA, result)
-        sendBroadcast(broadcastIntent)
+        broadcastIntent.putExtra(BROADCAST_EXTRA, result)
+        //sendBroadcast(broadcastIntent)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent)
     }
 
     //step 4

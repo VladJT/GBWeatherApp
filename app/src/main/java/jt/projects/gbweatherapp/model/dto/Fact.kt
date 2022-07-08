@@ -1,8 +1,11 @@
 package jt.projects.gbweatherapp.model.dto
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Fact(
     @SerializedName("accum_prec")
     val accumPrec: AccumPrec,
@@ -54,4 +57,4 @@ data class Fact(
     val windGust: Double,
     @SerializedName("wind_speed")
     val windSpeed: Double
-)
+) : Parcelable

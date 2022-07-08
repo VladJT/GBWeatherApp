@@ -29,9 +29,11 @@
 
         <!--> Сервисы д.б. в манифесте <-->
         <service android:name="jt.projects.gbweatherapp.memo.Service" />
+        <service android:name="jt.projects.gbweatherapp.utils.WeatherLoaderService" />
 
         <!--> BroadcastReceiver д.б. в манифесте <-->
-        <receiver android:name="jt.projects.gbweatherapp.memo.ExBroadcastReceiver"
+        <receiver
+            android:name="jt.projects.gbweatherapp.memo.ExBroadcastReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_AIRPLANE_MODE_CHANGED" />
