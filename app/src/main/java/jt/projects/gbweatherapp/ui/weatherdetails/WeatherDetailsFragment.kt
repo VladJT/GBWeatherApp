@@ -27,7 +27,7 @@ const val DETAILS_REQUEST_ERROR_EXTRA = "REQUEST ERROR"
 const val DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = "REQUEST ERROR MESSAGE"
 const val DETAILS_URL_MALFORMED_EXTRA = "URL MALFORMED"
 const val DETAILS_RESPONSE_SUCCESS_EXTRA = "RESPONSE SUCCESS"
-private const val PROCESS_ERROR = "Обработка ошибки"
+const val PROCESS_ERROR = "Обработка ошибки"
 
 class WeatherDetailsFragment : Fragment() {
 
@@ -70,7 +70,6 @@ class WeatherDetailsFragment : Fragment() {
             }
         }
     }
-
 
     @Deprecated("Используется для загрузки данных через WeatherLoader")
     private val weatherLoadListener = object : WeatherLoader.WeatherLoaderListener {

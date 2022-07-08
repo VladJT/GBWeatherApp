@@ -27,15 +27,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- > Сервисы д.б. в манифесте < -->
+        </activity>
+
+        <!-- > Сервисы д.б. в манифесте < -->
         <service android:name="jt.projects.gbweatherapp.memo.ExService" />
         <service android:name="jt.projects.gbweatherapp.memo.ExIntentService" />
         <service android:name="jt.projects.gbweatherapp.utils.WeatherLoaderService" /> <!-- > BroadcastReceiver д.б. в манифесте < -->
+
         <receiver
             android:name="jt.projects.gbweatherapp.memo.ExBroadcastReceiver"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_AIRPLANE_MODE_CHANGED" />
+                <action android:name="android.intent.action.AIRPLANE_MODE" />
             </intent-filter>
         </receiver>
     </application>

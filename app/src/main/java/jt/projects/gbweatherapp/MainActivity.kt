@@ -1,7 +1,11 @@
 package jt.projects.gbweatherapp
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +40,10 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             showFragment(HomeFragment.newInstance())
         }
+
+        // Для формирования канала и нотификации инициализируем его в активити
+        initNotificationChannel()
+
         initBottomMenu()
         initAppBarThemeSwitch()
     }
@@ -43,6 +51,19 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         unregisterReceiver(receiver)
         super.onDestroy()
+    }
+
+    // инициализация канала нотификаций
+    private fun initNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val channel = NotificationChannel(
+                "2", "name",
+                NotificationManager.IMPORTANCE_LOW
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     private fun initAppBarThemeSwitch() {

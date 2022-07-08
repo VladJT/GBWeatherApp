@@ -24,7 +24,7 @@ class ExIntentService(name: String = "MainService") : IntentService(name) {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    //step 3 - result
+    //step 3
     override fun onHandleIntent(intent: Intent?) {
         createLogMessage("onHandleIntent ${intent?.getStringExtra(MAIN_SERVICE_STRING_EXTRA)}")
         val s = intent?.getStringExtra(MAIN_SERVICE_STRING_EXTRA)?.toLong()?.times(1000)
