@@ -11,7 +11,7 @@ private const val TAG = "MainServiceTAG"
 const val MAIN_SERVICE_STRING_EXTRA = "MainServiceExtra"
 private fun createLogMessage(message: String) = Log.d(TAG, message)
 
-class Service(name: String = "MainService") : IntentService(name) {
+class ExIntentService(name: String = "MainService") : IntentService(name) {
     //step 1
     override fun onCreate() {
         createLogMessage("onCreate")

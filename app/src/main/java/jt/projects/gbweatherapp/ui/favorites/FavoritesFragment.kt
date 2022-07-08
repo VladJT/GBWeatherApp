@@ -7,15 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import jt.projects.gbweatherapp.databinding.FragmentFavoritesBinding
+import jt.projects.gbweatherapp.memo.ExService
 import jt.projects.gbweatherapp.utils.getLines
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
+const val BROADCAST_ACTION_CALCFINISHED = "BROADCAST_ACTION_CALCFINISHED"
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
+
+
+    val isBound = false
+    lateinit var serviceBinder : ExService
 
     private val listener = View.OnClickListener {
         val uri = URL(binding.url.text.toString())
@@ -52,6 +58,12 @@ class FavoritesFragment : Fragment() {
 
     companion object {
         fun newInstance() = FavoritesFragment()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+   //           initView()
+  //      initNotificationChannel()
     }
 
     override fun onCreateView(

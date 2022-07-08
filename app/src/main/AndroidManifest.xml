@@ -7,7 +7,6 @@
 
     <application
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -15,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DarkTheme"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -25,13 +27,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!--> Сервисы д.б. в манифесте <-->
-        <service android:name="jt.projects.gbweatherapp.memo.Service" />
-        <service android:name="jt.projects.gbweatherapp.utils.WeatherLoaderService" />
-
-        <!--> BroadcastReceiver д.б. в манифесте <-->
+        </activity> <!-- > Сервисы д.б. в манифесте < -->
+        <service android:name="jt.projects.gbweatherapp.memo.ExService" />
+        <service android:name="jt.projects.gbweatherapp.memo.ExIntentService" />
+        <service android:name="jt.projects.gbweatherapp.utils.WeatherLoaderService" /> <!-- > BroadcastReceiver д.б. в манифесте < -->
         <receiver
             android:name="jt.projects.gbweatherapp.memo.ExBroadcastReceiver"
             android:exported="true">
@@ -39,7 +38,6 @@
                 <action android:name="android.intent.action.ACTION_AIRPLANE_MODE_CHANGED" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>
