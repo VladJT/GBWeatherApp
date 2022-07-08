@@ -9,11 +9,9 @@ private const val THEME_KEY = "theme"
 
 class SharedPref {
     companion object {
-        private lateinit var context: Context
         private lateinit var sharedPref: SharedPreferences
 
-        fun initSharedPreferencesContext(c: Context) {
-            context = c
+        fun initSharedPreferencesContext(context: Context) {
             sharedPref = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
         }
 
