@@ -15,13 +15,14 @@ import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
 const val BROADCAST_ACTION_CALCFINISHED = "BROADCAST_ACTION_CALCFINISHED"
+
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
 
 
     val isBound = false
-    lateinit var serviceBinder : ExService
+    lateinit var serviceBinder: ExService
 
     private val listener = View.OnClickListener {
         val uri = URL(binding.url.text.toString())
@@ -62,8 +63,8 @@ class FavoritesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-   //           initView()
-  //      initNotificationChannel()
+        //           initView()
+        //      initNotificationChannel()
     }
 
     override fun onCreateView(

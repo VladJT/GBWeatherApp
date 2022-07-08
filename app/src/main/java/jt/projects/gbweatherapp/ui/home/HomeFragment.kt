@@ -16,7 +16,6 @@ import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
-import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
 
@@ -116,12 +115,12 @@ class HomeFragment : Fragment() {
             is AppState.Success -> {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(listOf(appState.weather))
-                binding.root.showSnackBarShort("Данные по 1 городу успешно загружены")
+                //     binding.root.showSnackBarShort("Данные по 1 городу успешно загружены")
             }
             is AppState.SuccessMulti -> {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(appState.weather)
-                binding.root.showSnackBarShort(R.string.load_completed)
+                //    binding.root.showSnackBarShort(R.string.load_completed)
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE

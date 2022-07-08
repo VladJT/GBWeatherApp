@@ -2,6 +2,7 @@ package jt.projects.gbweatherapp
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -10,23 +11,49 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import jt.projects.gbweatherapp.databinding.ActivityMainBinding
-import jt.projects.gbweatherapp.memo.ExBroadcastReceiver
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
+import jt.projects.gbweatherapp.utils.*
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val receiver = ExBroadcastReceiver()
+    //  private val receiver = ExBroadcastReceiver()
+    //  private val networkChangeReceiver = NetworkChangeReceiver()
+
+    private val networkChangeReceiverAlternative: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            StringBuilder().apply {
+                append("Сеть: ${intent.getStringExtra(NetworkStatusExtra)}").toString().also {
+                    binding.root.showSnackBarShort(it)
+                }
+            }
+        }
+    }
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        registerReceiver(receiver, IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED))
+        //    registerReceiver(receiver, IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED))
+        //    registerReceiver(networkChangeReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        applicationContext?.let {
+            // ресивер для отслеживания статуса сети
+            LocalBroadcastManager.getInstance(it)
+                .registerReceiver(
+                    networkChangeReceiverAlternative,
+                    IntentFilter(NetworkStatusIntent)
+                )
+
+            // сервис для рассылки сообщений об изменении состояния сети
+            startService(Intent(it, NetworkStatusService::class.java))
+        }
+
 
         SharedPref.initSharedPreferencesContext(applicationContext)
         setTheme(SharedPref.getAppTheme())
@@ -41,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             showFragment(HomeFragment.newInstance())
         }
 
-        // Для формирования канала и нотификации инициализируем его в активити
+        // Для канала и нотификации через push-уведомления
         initNotificationChannel()
 
         initBottomMenu()
@@ -49,7 +76,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        unregisterReceiver(receiver)
+        //   unregisterReceiver(networkChangeReceiver)
+        applicationContext?.let {
+            LocalBroadcastManager.getInstance(it).unregisterReceiver(networkChangeReceiverAlternative)
+        }
         super.onDestroy()
     }
 

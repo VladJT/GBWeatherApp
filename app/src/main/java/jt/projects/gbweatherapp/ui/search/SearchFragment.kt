@@ -17,8 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentSearchBinding
-import jt.projects.gbweatherapp.memo.MAIN_SERVICE_STRING_EXTRA
 import jt.projects.gbweatherapp.memo.ExIntentService
+import jt.projects.gbweatherapp.memo.MAIN_SERVICE_STRING_EXTRA
 import java.util.*
 import java.util.concurrent.TimeUnit
 
