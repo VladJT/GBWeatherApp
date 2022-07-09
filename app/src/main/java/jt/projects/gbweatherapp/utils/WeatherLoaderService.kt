@@ -10,7 +10,8 @@ import com.google.gson.Gson
 import jt.projects.gbweatherapp.BuildConfig
 import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
-import jt.projects.gbweatherapp.ui.weatherdetails.*
+import jt.projects.gbweatherapp.ui.weatherdetails.DETAILS_DTO_EXTRA
+import jt.projects.gbweatherapp.ui.weatherdetails.DETAILS_INTENT_FILTER
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.MalformedURLException
@@ -118,8 +119,9 @@ class WeatherLoaderService(name: String = "WeatherLoaderService") : IntentServic
     private fun putLoadResult(result: String) =
         broadcastIntent.putExtra(DETAILS_LOAD_RESULT_EXTRA, result)
 
-    private fun sendIt()  {
+    private fun sendIt() {
         Log.i(TAG, "request: ".plus(broadcastIntent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)))
-        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent)}
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent)
+    }
 
 }

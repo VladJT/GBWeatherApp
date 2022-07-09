@@ -19,12 +19,12 @@ import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.DURATION_ITEM_ANIMATOR
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
+import jt.projects.gbweatherapp.viewmodel.SharedPref
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: HomeViewModel
-    private var isDataSetRus: Boolean = true
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -65,8 +65,9 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java].also {
             it.getData().observe(viewLifecycleOwner, observer)
-            it.getDataFromLocalSource(isDataSetRus)
+            it.getDataFromLocalSource(SharedPref.getData().isDataSetRus)
         }
+        renderDataSetButton()
     }
 
     override fun onDestroy() {
@@ -95,13 +96,19 @@ class HomeFragment : Fragment() {
 
 
     private fun changeWeatherDataSet() {
-        if (isDataSetRus) {
-            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
-        } else {
+        SharedPref.settings.isDataSetRus = !SharedPref.settings.isDataSetRus
+        SharedPref.save()
+        viewModel.getDataFromLocalSource(SharedPref.getData().isDataSetRus)
+        renderDataSetButton()
+    }
+
+
+    private fun renderDataSetButton() {
+        if (SharedPref.getData().isDataSetRus) {
             binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
+        } else {
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
         }
-        isDataSetRus = !isDataSetRus
-        viewModel.getDataFromLocalSource(isDataSetRus)
     }
 
 
@@ -123,7 +130,8 @@ class HomeFragment : Fragment() {
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(listOf())
-                val action = fun() { viewModel.getDataFromLocalSource(isDataSetRus) }
+                val action =
+                    fun() { viewModel.getDataFromLocalSource(SharedPref.getData().isDataSetRus) }
                 binding.root.showSnackBarWithAction(
                     appState.error.message ?: "",
                     R.string.reload,

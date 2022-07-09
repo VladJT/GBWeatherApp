@@ -27,7 +27,7 @@ class MainActivity : BaseActivity() {
 
     private fun initAppBarThemeSwitch() {
         binding.switchTheme.apply {
-            if (SharedPref.getAppTheme() == R.style.Theme_DarkTheme) {
+            if (SharedPref.getData().theme == R.style.Theme_DarkTheme) {
                 isChecked = true
             }
 
@@ -37,7 +37,8 @@ class MainActivity : BaseActivity() {
                 } else {
                     R.style.Theme_LightTheme
                 }
-                SharedPref.saveAppTheme(appTheme)
+                SharedPref.settings.theme = appTheme
+                SharedPref.save()
                 recreate()
             }
         }

@@ -46,7 +46,7 @@ open class BaseActivity : AppCompatActivity() {
 
 
         SharedPref.initSharedPreferencesContext(applicationContext)
-        setTheme(SharedPref.getAppTheme())
+        setTheme(SharedPref.getData().theme)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
