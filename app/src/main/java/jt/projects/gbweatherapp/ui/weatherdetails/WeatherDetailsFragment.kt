@@ -34,18 +34,18 @@ class WeatherDetailsFragment : Fragment() {
     private val loadResultsReceiver: BroadcastReceiver = object :
         BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            when (intent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
+            val result = intent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)
+            when (result) {
                 DETAILS_RESPONSE_SUCCESS_EXTRA -> {
-                    binding.root.showSnackBarShort(DETAILS_RESPONSE_SUCCESS_EXTRA)
                     intent.getParcelableExtra<WeatherDTO>(DETAILS_DTO_EXTRA)?.also {
                         renderData(it)
                     }
                 }
                 else -> {
                     binding.progressBarDetails.visibility = View.GONE
-                    binding.root.showSnackBarShort(intent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA))
                 }
             }
+            binding.root.showSnackBarShort(result)
         }
     }
 

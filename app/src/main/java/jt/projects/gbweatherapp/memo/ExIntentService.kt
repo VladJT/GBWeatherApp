@@ -7,11 +7,14 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import jt.projects.gbweatherapp.ui.search.BROADCAST_EXTRA
 import jt.projects.gbweatherapp.ui.search.TEST_BROADCAST_INTENT_FILTER
 
-private const val TAG = "MainServiceTAG"
-const val MAIN_SERVICE_STRING_EXTRA = "MainServiceExtra"
-private fun createLogMessage(message: String) = Log.d(TAG, message)
 
-class ExIntentService(name: String = "MainService") : IntentService(name) {
+const val EX_SERVICE_STRING_EXTRA = "EX_SERVICE_STRING_EXTRA"
+
+// типовой IntentService
+class ExIntentService(name: String = "ExIntentService") : IntentService(name) {
+    private val TAG = "ExIntentService"
+    private fun createLogMessage(message: String) = Log.d(TAG, message)
+
     //step 1
     override fun onCreate() {
         createLogMessage("onCreate")
@@ -26,11 +29,11 @@ class ExIntentService(name: String = "MainService") : IntentService(name) {
 
     //step 3
     override fun onHandleIntent(intent: Intent?) {
-        createLogMessage("onHandleIntent ${intent?.getStringExtra(MAIN_SERVICE_STRING_EXTRA)}")
-        val s = intent?.getStringExtra(MAIN_SERVICE_STRING_EXTRA)?.toLong()?.times(1000)
+        createLogMessage("onHandleIntent ${intent?.getStringExtra(EX_SERVICE_STRING_EXTRA)}")
+        val s = intent?.getStringExtra(EX_SERVICE_STRING_EXTRA)?.toLong()?.times(1000)
         Thread.sleep(s ?: 0)
         intent?.let {
-            sendBack("onHandleIntent ${intent?.getStringExtra(MAIN_SERVICE_STRING_EXTRA)}")
+            sendBack("onHandleIntent ${intent?.getStringExtra(EX_SERVICE_STRING_EXTRA)}")
         }
     }
 

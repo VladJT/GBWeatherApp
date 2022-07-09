@@ -7,8 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import jt.projects.gbweatherapp.utils.NOTIFICATION_CHANNEL_ID
 
 
+// типовой BroadcastReceiver
 class ExBroadcastReceiver : BroadcastReceiver() {
 
     private var messageId = 0
@@ -23,7 +25,7 @@ class ExBroadcastReceiver : BroadcastReceiver() {
         }
 
         // создать нотификацию
-        val notificationBuilder = NotificationCompat.Builder(context, "2")
+        val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.mipmap.sym_def_app_icon)
             .setContentTitle("СООБЩЕНИЕ ОТ СИСТЕМЫ")
             .setContentText("${intent.action}")

@@ -17,8 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentSearchBinding
+import jt.projects.gbweatherapp.memo.EX_SERVICE_STRING_EXTRA
 import jt.projects.gbweatherapp.memo.ExIntentService
-import jt.projects.gbweatherapp.memo.MAIN_SERVICE_STRING_EXTRA
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -151,7 +151,7 @@ class SearchFragment : Fragment() {
             context?.let {
                 it.startService(Intent(it, ExIntentService::class.java).apply {
                     putExtra(
-                        MAIN_SERVICE_STRING_EXTRA,
+                        EX_SERVICE_STRING_EXTRA,
                         binding.editTextThreads.text.toString()
                     )
                 })
@@ -165,7 +165,7 @@ class SearchFragment : Fragment() {
             context?.let {
                 it.startService(Intent(it, ExIntentService::class.java).apply {
                     putExtra(
-                        MAIN_SERVICE_STRING_EXTRA,
+                        EX_SERVICE_STRING_EXTRA,
                         getString(R.string.hello_from_thread_fragment)
                     )
                 })

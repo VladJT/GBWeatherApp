@@ -1,17 +1,25 @@
 package jt.projects.gbweatherapp.utils
 
+// для HTTP-запросов
 const val REQUEST_GET = "GET"
 const val REQUEST_TIMEOUT = 2000
 const val REQUEST_API_KEY = "X-Yandex-API-Key"
 
 
-// ключи ответа
+// ключи ответа запросов HTTP
 const val DETAILS_LOAD_RESULT_EXTRA = "LOAD RESULT"
-const val DETAILS_INTENT_EMPTY_EXTRA = "INTENT IS EMPTY"
-const val DETAILS_DATA_EMPTY_EXTRA = "DATA IS EMPTY"
-const val DETAILS_RESPONSE_EMPTY_EXTRA = "RESPONSE IS EMPTY"
-const val DETAILS_REQUEST_ERROR_EXTRA = "REQUEST ERROR"
-const val DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = "REQUEST ERROR MESSAGE"
-const val DETAILS_URL_MALFORMED_EXTRA = "URL MALFORMED"
-const val DETAILS_RESPONSE_SUCCESS_EXTRA = "RESPONSE SUCCESS"
-const val PROCESS_ERROR = "Обработка ошибки"
+const val DETAILS_INTENT_EMPTY_EXTRA = "Интент пуст"
+const val DETAILS_DATA_EMPTY_EXTRA = "Нет данных"
+const val DETAILS_RESPONSE_EMPTY_EXTRA = "Ответ пуст"
+const val DETAILS_REQUEST_ERROR_EXTRA = "Ошибка ответа"
+const val DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = "Детализация ошибки ответа"
+const val DETAILS_URL_MALFORMED_EXTRA = "Некорректный URL(URI)"
+const val DETAILS_RESPONSE_SUCCESS_EXTRA = "Успешный ответ"
+
+
+// анимации VIEW
+const val DURATION_ITEM_ANIMATOR: Long = 300
+
+// настройки канала PUSH-уведомлений
+const val NOTIFICATION_CHANNEL_ID = "2"
+const val NOTIFICATION_CHANNEL_NAME = "vlad"

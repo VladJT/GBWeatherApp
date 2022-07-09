@@ -79,7 +79,7 @@ class WeatherLoaderService(name: String = "WeatherLoaderService") : IntentServic
         if (weatherDTO?.fact == null) {
             onEmptyResponse()
         } else {
-            onSuccessResponse(weatherDTO!!)
+            onSuccessResponse(weatherDTO)
         }
     }
 

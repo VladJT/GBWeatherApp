@@ -16,10 +16,9 @@ import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
+import jt.projects.gbweatherapp.utils.DURATION_ITEM_ANIMATOR
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
-
-private const val MY_DEFAULT_DURATION: Long = 300
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -86,10 +85,10 @@ class HomeFragment : Fragment() {
 
         // Установим анимацию. А чтобы было хорошо заметно, сделаем анимацию долгой
         val animator = DefaultItemAnimator().apply {
-            addDuration = MY_DEFAULT_DURATION
-            changeDuration = MY_DEFAULT_DURATION
-            removeDuration = MY_DEFAULT_DURATION
-            moveDuration = MY_DEFAULT_DURATION
+            addDuration = DURATION_ITEM_ANIMATOR
+            changeDuration = DURATION_ITEM_ANIMATOR
+            removeDuration = DURATION_ITEM_ANIMATOR
+            moveDuration = DURATION_ITEM_ANIMATOR
         }
         binding.mainFragmentRecyclerView.itemAnimator = animator
     }
