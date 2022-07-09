@@ -13,8 +13,8 @@ const val NetworkStatusExtra = "NetworkStatusExtra"
 
 class NetworkStatusService(name: String = "NetworkStatusService") : IntentService(name) {
 
-    var networkStatus = ""
     override fun onHandleIntent(intent: Intent?) {
+        var networkStatus = ""
         var result = ""
         while (true) {
             result = getConnectionInfo()

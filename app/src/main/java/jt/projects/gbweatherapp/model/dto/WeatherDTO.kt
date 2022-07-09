@@ -7,7 +7,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class WeatherDTO(
-    @SerializedName("fact")
     val fact: Fact//,
 //    @SerializedName("forecasts")
 //    val forecasts: List<Forecast>,

@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import jt.projects.gbweatherapp.BuildConfig
+import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.ui.weatherdetails.*
 import java.io.BufferedReader
@@ -16,24 +17,20 @@ import java.net.MalformedURLException
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
+const val BUNDLE_CITY_KEY = "BUNDLE_CITY_KEY"
 private const val TAG = "WeatherLoaderService"
-const val LATITUDE_EXTRA = "Latitude"
-const val LONGITUDE_EXTRA = "Longitude"
-private const val REQUEST_GET = "GET"
-private const val REQUEST_TIMEOUT = 10000
-private const val REQUEST_API_KEY = "X-Yandex-API-Key"
 
 class WeatherLoaderService(name: String = "WeatherLoaderService") : IntentService(name) {
 
     private val broadcastIntent = Intent(DETAILS_INTENT_FILTER)
-    private fun sendIt() = LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent)
 
     override fun onHandleIntent(intent: Intent?) {
         if (intent == null) {
             onEmptyIntent()
         } else {
-            val lat = intent.getDoubleExtra(LATITUDE_EXTRA, 0.0)
-            val lon = intent.getDoubleExtra(LONGITUDE_EXTRA, 0.0)
+            val city = intent.getParcelableExtra<City>(BUNDLE_CITY_KEY)
+            val lat = city?.lat ?: 0
+            val lon = city?.lon ?: 0
             if (lat == 0.0 && lon == 0.0) {
                 onEmptyData()
             } else {
@@ -120,4 +117,9 @@ class WeatherLoaderService(name: String = "WeatherLoaderService") : IntentServic
 
     private fun putLoadResult(result: String) =
         broadcastIntent.putExtra(DETAILS_LOAD_RESULT_EXTRA, result)
+
+    private fun sendIt()  {
+        Log.i(TAG, "request: ".plus(broadcastIntent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)))
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent)}
+
 }

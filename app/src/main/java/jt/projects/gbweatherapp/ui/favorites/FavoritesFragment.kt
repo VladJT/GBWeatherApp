@@ -14,14 +14,11 @@ import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
-const val BROADCAST_ACTION_CALCFINISHED = "BROADCAST_ACTION_CALCFINISHED"
 
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
 
-
-    val isBound = false
     lateinit var serviceBinder: ExService
 
     private val listener = View.OnClickListener {
@@ -61,12 +58,6 @@ class FavoritesFragment : Fragment() {
         fun newInstance() = FavoritesFragment()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //           initView()
-        //      initNotificationChannel()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,8 +72,8 @@ class FavoritesFragment : Fragment() {
         binding.ok.setOnClickListener(listener)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
         _binding = null
+        super.onDestroy()
     }
 }

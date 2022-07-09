@@ -64,6 +64,7 @@ class SearchFragment : Fragment() {
         context?.let {
             LocalBroadcastManager.getInstance(it).unregisterReceiver(testReceiver)
         }
+        _binding = null
         super.onDestroy()
     }
 

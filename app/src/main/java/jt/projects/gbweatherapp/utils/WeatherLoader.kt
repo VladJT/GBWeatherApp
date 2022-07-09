@@ -38,13 +38,12 @@ class WeatherLoader(
                 try {
                     urlConnection = (uri.openConnection() as HttpsURLConnection)
                         .apply {
-                            requestMethod = "GET"
+                            requestMethod = REQUEST_GET
                             addRequestProperty(
-                                "X-Yandex-API-Key",
+                                REQUEST_API_KEY,
                                 BuildConfig.WEATHER_API_KEY
-                                //ключ получаем из BuildConfig (поле WEATHER_API_KEY)
                             )
-                            readTimeout = 10000
+                            readTimeout = REQUEST_TIMEOUT
                         }
                     // преобразование ответа от сервера (JSON) в модель данных
                     val bufferedReader =

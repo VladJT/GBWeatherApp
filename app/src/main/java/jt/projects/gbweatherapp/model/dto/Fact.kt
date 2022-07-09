@@ -30,7 +30,7 @@ data class Fact(
     @SerializedName("prec_prob")
     val precProb: Int,
     @SerializedName("prec_strength")
-    val precStrength: Int,
+    val precStrength: Double,
     @SerializedName("prec_type")
     val precType: Int,
     @SerializedName("pressure_mm")

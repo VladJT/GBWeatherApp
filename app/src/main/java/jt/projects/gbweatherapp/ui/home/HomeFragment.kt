@@ -70,13 +70,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onDestroy() {
         adapter.removeListener()//чтобы не возникало утечек памяти
+        _binding = null//чтобы не возникало утечек памяти
         super.onDestroy()
     }
 
