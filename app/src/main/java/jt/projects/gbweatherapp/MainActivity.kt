@@ -1,6 +1,11 @@
 package jt.projects.gbweatherapp
 
+import android.app.ActivityManager
 import android.os.Bundle
+import android.os.Message
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
@@ -22,6 +27,32 @@ class MainActivity : BaseActivity() {
         }
         initBottomMenu()
         initAppBarThemeSwitch()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // мы получаем Меню приложения и с помощью специального MenuInflater’а (по
+        //аналогии с LayoutInflater’ом) надуваем кнопки в получаемом меню.
+        menuInflater.inflate(R.menu.appbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_service_info -> {
+                showAllRunningServices()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showAllRunningServices() {
+        val am = getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        val rs = am.getRunningServices(50)
+        val sb = StringBuilder()
+        for (i in rs.indices) {
+            sb.append(rs[i].service.shortClassName.plus("\n"))
+        }
+        showMsgDialog("Список процессов", sb.toString())
     }
 
 
@@ -68,6 +99,16 @@ class MainActivity : BaseActivity() {
             ) { _, _ -> finish() } // A null listener allows the button to dismiss the dialog and take no further action.
             .setNegativeButton(android.R.string.no, null)
             .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
+    @Suppress("DEPRECATION")
+    private fun showMsgDialog(title: String, message: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.yes,null)
+            .setIcon(android.R.drawable.ic_menu_help)
             .show()
     }
 

@@ -3,6 +3,7 @@ package jt.projects.gbweatherapp.utils
 import android.app.IntentService
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -36,7 +37,16 @@ class NetworkStatusService(name: String = "NetworkStatusService") : IntentServic
     private fun getConnectionInfo(): String {
         val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
-        return capabilities?.transportInfo?.toString() ?: "нет сети"
+        var result = ""
+        if (capabilities != null) {
+            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                result = "Сеть: мобильный интернет"
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                result = "Сеть: WIFI"
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                result = "Сеть: ETHERNET"
+            }
+        }else  result = "Нет сети"
+        return result
     }
-
 }

@@ -21,11 +21,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private val networkChangeReceiverAlternative: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            StringBuilder().apply {
-                append("Сеть: ${intent.getStringExtra(NetworkStatusExtra)}").toString().also {
-                    binding.root.showSnackBarShort(it)
-                }
-            }
+            binding.root.showSnackBarShort("${intent.getStringExtra(NetworkStatusExtra)}")
         }
     }
 
