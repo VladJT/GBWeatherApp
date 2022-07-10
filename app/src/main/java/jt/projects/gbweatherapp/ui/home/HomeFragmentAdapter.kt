@@ -15,6 +15,7 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
         fun onItemViewClick(weather: Weather)
     }
 
+
     var weatherData: List<Weather> = listOf()
 
     fun setWeather(data: List<Weather>) {

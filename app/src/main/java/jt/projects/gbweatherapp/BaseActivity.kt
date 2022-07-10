@@ -17,6 +17,7 @@ import jt.projects.gbweatherapp.viewmodel.SharedPref
 open class BaseActivity : AppCompatActivity() {
     //  private val networkChangeReceiver = NetworkChangeReceiver()
 
+
     lateinit var binding: ActivityMainBinding
 
     private val networkChangeReceiverAlternative: BroadcastReceiver = object : BroadcastReceiver() {

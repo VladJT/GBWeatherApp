@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 
+
 const val NetworkStatusIntent = "NetworkStatusIntent"
 const val NetworkStatusExtra = "NetworkStatusExtra"
 

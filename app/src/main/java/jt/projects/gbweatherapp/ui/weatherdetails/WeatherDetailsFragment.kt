@@ -16,6 +16,7 @@ import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.*
 
+
 const val BUNDLE_EXTRA = "weather"
 const val DETAILS_INTENT_FILTER = "DETAILS INTENT FILTER"
 const val DETAILS_DTO_EXTRA = "DETAILS_DTO_EXTRA"

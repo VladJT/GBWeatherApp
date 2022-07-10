@@ -102,6 +102,7 @@ class MainActivity : BaseActivity() {
             .show()
     }
 
+
     @Suppress("DEPRECATION")
     private fun showMsgDialog(title: String, message: String) {
         AlertDialog.Builder(this)

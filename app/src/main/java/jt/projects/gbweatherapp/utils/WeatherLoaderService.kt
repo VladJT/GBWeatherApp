@@ -21,6 +21,7 @@ import javax.net.ssl.HttpsURLConnection
 const val BUNDLE_CITY_KEY = "BUNDLE_CITY_KEY"
 private const val TAG = "WeatherLoaderService"
 
+
 class WeatherLoaderService(name: String = "WeatherLoaderService") : IntentService(name) {
 
     private val broadcastIntent = Intent(DETAILS_INTENT_FILTER)

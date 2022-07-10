@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import jt.projects.gbweatherapp.R
 
+
 private const val SHARED_PREF_NAME = "database"
 private const val DATA_KEY = "JSON_SETTINGS"
 
