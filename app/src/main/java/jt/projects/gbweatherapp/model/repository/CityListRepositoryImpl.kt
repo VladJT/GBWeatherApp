@@ -1,15 +1,18 @@
-package jt.projects.gbweatherapp.model
+package jt.projects.gbweatherapp.model.repository
 
 import android.os.Handler
 import android.os.Looper
 import com.google.gson.Gson
 import jt.projects.gbweatherapp.BuildConfig
+import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
+import jt.projects.gbweatherapp.model.getRussianCities
+import jt.projects.gbweatherapp.model.getWorldCities
 import jt.projects.gbweatherapp.utils.REQUEST_API_KEY
 import okhttp3.*
 import java.io.IOException
 
-class RepositoryImpl : Repository {
+class CityListRepositoryImpl : CityListRepository {
     override fun getWeatherFromInternet(): Weather {
         return getRussianCities()[0]
     }

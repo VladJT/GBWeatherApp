@@ -1,4 +1,4 @@
-package jt.projects.gbweatherapp.model.weatherdetails
+package jt.projects.gbweatherapp.model.repository
 
 import okhttp3.Callback
 

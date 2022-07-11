@@ -1,4 +1,4 @@
-package jt.projects.gbweatherapp.model.weatherdetails
+package jt.projects.gbweatherapp.model.repository
 
 import jt.projects.gbweatherapp.BuildConfig
 import jt.projects.gbweatherapp.utils.REQUEST_API_KEY

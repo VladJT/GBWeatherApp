@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
-import jt.projects.gbweatherapp.model.weatherdetails.DetailsRepository
-import jt.projects.gbweatherapp.model.weatherdetails.DetailsRepositoryImpl
-import jt.projects.gbweatherapp.model.weatherdetails.RemoteDataSource
+import jt.projects.gbweatherapp.model.repository.DetailsRepository
+import jt.projects.gbweatherapp.model.repository.DetailsRepositoryImpl
+import jt.projects.gbweatherapp.model.repository.RemoteDataSource
 import jt.projects.gbweatherapp.viewmodel.DTOAppState
 import okhttp3.Call
 import okhttp3.Callback

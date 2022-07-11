@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import jt.projects.gbweatherapp.BuildConfig
-import jt.projects.gbweatherapp.model.Repository
-import jt.projects.gbweatherapp.model.RepositoryImpl
+import jt.projects.gbweatherapp.model.repository.CityListRepository
+import jt.projects.gbweatherapp.model.repository.CityListRepositoryImpl
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.REQUEST_API_KEY
 import jt.projects.gbweatherapp.utils.WeatherCondition
@@ -17,7 +17,7 @@ import java.io.IOException
 
 class HomeViewModel : ViewModel() {
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
-    private val repositoryImpl: Repository = RepositoryImpl()
+    private val cityListRepositoryImpl: CityListRepository = CityListRepositoryImpl()
 
     fun getData(): LiveData<AppState> = liveDataToObserve
 
@@ -25,8 +25,8 @@ class HomeViewModel : ViewModel() {
         liveDataToObserve.value = AppState.Loading
 
         var cities = if (isRussian)
-            repositoryImpl.getWeatherFromLocalStorageRus() else
-            repositoryImpl.getWeatherFromLocalStorageWorld()
+            cityListRepositoryImpl.getWeatherFromLocalStorageRus() else
+            cityListRepositoryImpl.getWeatherFromLocalStorageWorld()
 
         val client = OkHttpClient() // Клиент
         val builder: Request.Builder = Request.Builder().apply {  // Создаём строителя запроса
@@ -72,8 +72,8 @@ class HomeViewModel : ViewModel() {
     fun getDataFromLocalSource(isRussian: Boolean) {
         liveDataToObserve.value = AppState.Loading
         var result = if (isRussian)
-            repositoryImpl.getWeatherFromLocalStorageRus() else
-            repositoryImpl.getWeatherFromLocalStorageWorld()
+            cityListRepositoryImpl.getWeatherFromLocalStorageRus() else
+            cityListRepositoryImpl.getWeatherFromLocalStorageWorld()
         Thread {
             when ((0..5).random()) {
                 0, 1, 2, 3 -> {
