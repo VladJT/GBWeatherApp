@@ -10,11 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import jt.projects.gbweatherapp.databinding.WeatherDetailsFragmentBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
+import jt.projects.gbweatherapp.ui.home.HomeViewModel
 import jt.projects.gbweatherapp.utils.*
+import jt.projects.gbweatherapp.viewmodel.DTOAppState
+import jt.projects.gbweatherapp.viewmodel.SharedPref
 
 const val BUNDLE_EXTRA = "weather"
 const val DETAILS_INTENT_FILTER = "DETAILS INTENT FILTER"
@@ -25,12 +30,14 @@ class WeatherDetailsFragment : Fragment() {
     private var _binding: WeatherDetailsFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var weatherBundle: Weather
+    private lateinit var viewModel: WeatherDetailsViewModel
 
     companion object {
         fun newInstance(bundle: Bundle): WeatherDetailsFragment =
             WeatherDetailsFragment().apply { arguments = bundle }
     }
 
+    @Deprecated("Используется для загрузки данных через BroadcastReceiver")
     private val loadResultsReceiver: BroadcastReceiver = object :
         BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -62,21 +69,21 @@ class WeatherDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        context?.let {
-            LocalBroadcastManager.getInstance(it)
-                .registerReceiver(
-                    loadResultsReceiver,
-                    IntentFilter(DETAILS_INTENT_FILTER)
-                )
-        }
+//        context?.let {
+//            LocalBroadcastManager.getInstance(it)
+//                .registerReceiver(
+//                    loadResultsReceiver,
+//                    IntentFilter(DETAILS_INTENT_FILTER)
+//                )
+//        }
     }
 
     override fun onDestroy() {
         _binding = null//чтобы не возникало утечек памяти
         // останавливаем BroadcastReciever
-        context?.let {
-            LocalBroadcastManager.getInstance(it).unregisterReceiver(loadResultsReceiver)
-        }
+//        context?.let {
+//            LocalBroadcastManager.getInstance(it).unregisterReceiver(loadResultsReceiver)
+//        }
         super.onDestroy()
     }
 
@@ -105,13 +112,32 @@ class WeatherDetailsFragment : Fragment() {
 //            weatherBundle.city.lon
 //        )?.loadWeather()
 
-        binding.progressBarDetails.visibility = View.VISIBLE
-
+        viewModel = ViewModelProvider(this)[WeatherDetailsViewModel::class.java].also { it ->
+            it.getLiveData().observe(viewLifecycleOwner,  Observer { renderDataVM(it)})
+            it.getWeatherFromRemoteSource("https://api.weather.yandex.ru/v2/forecast?lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}")
+        }
+        
         // загружаем данные через сервис
-        context?.let {
-            it.startService(Intent(it, WeatherLoaderService::class.java).apply {
-                putExtra(BUNDLE_CITY_KEY, weatherBundle.city)
-            })
+//        context?.let {
+//            it.startService(Intent(it, WeatherLoaderService::class.java).apply {
+//                putExtra(BUNDLE_CITY_KEY, weatherBundle.city)
+//            })
+//        }
+    }
+
+    private fun renderDataVM(appState: DTOAppState) {
+        when (appState) {
+            is DTOAppState.Success -> {
+                binding.progressBarDetails.visibility = View.GONE
+                renderData(appState.weather)
+            }
+            is DTOAppState.Loading -> {
+                binding.progressBarDetails.visibility = View.VISIBLE
+            }
+            is DTOAppState.Error -> {
+                binding.progressBarDetails.visibility = View.GONE
+                binding.root.showSnackBarShort("Ошибка загрузки детализации погоды")
+            }
         }
     }
 

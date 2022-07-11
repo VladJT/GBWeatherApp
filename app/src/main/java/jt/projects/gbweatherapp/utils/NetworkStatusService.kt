@@ -8,6 +8,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
+// Thread.sleep(100) - это жестко
+//какие есть выходы?
+//1) вызывать функцию getConnectionInfo только в моменты, когда вам нужно знать, что с сетью
+//2) использовать CONNECTIVITY_ACTION событие
+//3) использовать триггер android.intent.action.AIRPLANE_MODE с урока
 
 const val NetworkStatusIntent = "NetworkStatusIntent"
 const val NetworkStatusExtra = "NetworkStatusExtra"

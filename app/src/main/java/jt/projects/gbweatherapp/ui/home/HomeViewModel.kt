@@ -33,8 +33,7 @@ class HomeViewModel : ViewModel() {
             header(REQUEST_API_KEY, BuildConfig.WEATHER_API_KEY) // Создаём заголовок запроса
         }
 
-
-        for (i in 0..cities.size - 1) {
+        for (i in cities.indices) {
             builder.url("https://api.weather.yandex.ru/v2/forecast?lat=${cities[i].city.lat}&lon=${cities[i].city.lon}")
             val request: Request = builder.build() // Создаём запрос
             val call: Call = client.newCall(request) // Ставим запрос в очередь и отправляем
@@ -62,7 +61,6 @@ class HomeViewModel : ViewModel() {
                         //     TODO(PROCESS_ERROR)
                     }
                 }
-
                 // Вызывается при сбое в процессе запроса на сервер
                 override fun onFailure(call: Call?, e: IOException?) {
                     //    TODO(PROCESS_ERROR)
@@ -73,11 +71,9 @@ class HomeViewModel : ViewModel() {
 
     fun getDataFromLocalSource(isRussian: Boolean) {
         liveDataToObserve.value = AppState.Loading
-
         var result = if (isRussian)
             repositoryImpl.getWeatherFromLocalStorageRus() else
             repositoryImpl.getWeatherFromLocalStorageWorld()
-
         Thread {
             when ((0..5).random()) {
                 0, 1, 2, 3 -> {
