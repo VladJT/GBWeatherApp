@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java].also {
             it.getData().observe(viewLifecycleOwner, observer)
-            it.getDataFromLocalSource(SharedPref.getData().isDataSetRus)
+            it.getDataFromInternet(SharedPref.getData().isDataSetRus)
         }
         renderDataSetButton()
     }
@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
     private fun changeWeatherDataSet() {
         SharedPref.settings.isDataSetRus = !SharedPref.settings.isDataSetRus
         SharedPref.save()
-        viewModel.getDataFromLocalSource(SharedPref.getData().isDataSetRus)
+        viewModel.getDataFromInternet(SharedPref.getData().isDataSetRus)
         renderDataSetButton()
     }
 

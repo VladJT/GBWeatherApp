@@ -47,6 +47,9 @@ dependencies {
     //GSON
     implementation 'com.google.code.gson:gson:2.9.0'
 
+    //OkHttp
+    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+
     // KOTLIN
     implementation 'androidx.core:core-ktx:1.8.0'
 

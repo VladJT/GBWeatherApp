@@ -4,6 +4,8 @@ enum class WeatherCondition(var enName: String, var rusName: String) {
     CLEAR("clear", "ясно"),
     PARTLY_CLOUDY("partly-cloudy", "малооблачно"),
     CLOUDY("cloudy", "облачно с прояснениями"),
+    RAIN("rain", "дождь"),
+    LIGHT_RAIN("light-rain", "небольшой дождь"),
     OVERCAST("overcast", "облачно");
 
 
