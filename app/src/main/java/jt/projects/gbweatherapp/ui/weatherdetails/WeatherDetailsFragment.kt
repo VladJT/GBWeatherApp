@@ -3,7 +3,6 @@ package jt.projects.gbweatherapp.ui.weatherdetails
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import jt.projects.gbweatherapp.databinding.WeatherDetailsFragmentBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
-import jt.projects.gbweatherapp.ui.home.HomeViewModel
 import jt.projects.gbweatherapp.utils.*
 import jt.projects.gbweatherapp.viewmodel.DTOAppState
-import jt.projects.gbweatherapp.viewmodel.SharedPref
 
 const val BUNDLE_EXTRA = "weather"
 const val DETAILS_INTENT_FILTER = "DETAILS INTENT FILTER"
@@ -113,10 +109,11 @@ class WeatherDetailsFragment : Fragment() {
 //        )?.loadWeather()
 
         viewModel = ViewModelProvider(this)[WeatherDetailsViewModel::class.java].also { it ->
-            it.getLiveData().observe(viewLifecycleOwner,  Observer { renderDataVM(it)})
-            it.getWeatherFromRemoteSource("https://api.weather.yandex.ru/v2/forecast?lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}")
+            it.getLiveData().observe(viewLifecycleOwner, Observer { renderDataVM(it) })
+            it.getWeatherFromRemoteSourceRetrofit(weatherBundle.city.lat, weatherBundle.city.lon)
+            //    it.getWeatherFromRemoteSource("https://api.weather.yandex.ru/v2/forecast?lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}")
         }
-        
+
         // загружаем данные через сервис
 //        context?.let {
 //            it.startService(Intent(it, WeatherLoaderService::class.java).apply {

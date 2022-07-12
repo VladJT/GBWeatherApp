@@ -8,9 +8,6 @@ import jt.projects.gbweatherapp.model.repository.DetailsRepository
 import jt.projects.gbweatherapp.model.repository.DetailsRepositoryImpl
 import jt.projects.gbweatherapp.model.repository.RemoteDataSource
 import jt.projects.gbweatherapp.viewmodel.DTOAppState
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Response
 import java.io.IOException
 
 private const val SERVER_ERROR = "Ошибка сервера"
@@ -20,19 +17,25 @@ private const val CORRUPTED_DATA = "Неполные данные"
 
 class WeatherDetailsViewModel : ViewModel() {
 
-    private val detailsLiveData: MutableLiveData<DTOAppState> = MutableLiveData()
+    val detailsLiveData: MutableLiveData<DTOAppState> = MutableLiveData()
     private val detailsRepositoryImpl: DetailsRepository = DetailsRepositoryImpl(RemoteDataSource())
 
     fun getLiveData() = detailsLiveData
 
-    fun getWeatherFromRemoteSource(requestLink: String) {
+    fun getWeatherFromRemoteSourceOkHttp(requestLink: String) {
         detailsLiveData.value = DTOAppState.Loading
-        detailsRepositoryImpl.getWeatherDetailsFromServer(requestLink, callBack)
+        detailsRepositoryImpl.getWeatherDetailsFromServerOkHttp(requestLink, callBackOkHttp)
     }
 
-    private val callBack = object : Callback {
+    fun getWeatherFromRemoteSourceRetrofit(lat: Double, lon: Double) {
+        detailsLiveData.value = DTOAppState.Loading
+        detailsRepositoryImpl.getWeatherDetailsFromServerRetrofit(lat, lon, callBackRetrofit)
+    }
+
+    @Deprecated("OkHTTP")
+    private val callBackOkHttp = object : okhttp3.Callback {
         @Throws(IOException::class)
-        override fun onResponse(call: Call, response: Response) {
+        override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
             val serverResponse: String? = response.body()?.string()
             detailsLiveData.postValue(
                 if (response.isSuccessful && serverResponse != null) {
@@ -43,7 +46,7 @@ class WeatherDetailsViewModel : ViewModel() {
             )
         }
 
-        override fun onFailure(call: Call, e: IOException) {
+        override fun onFailure(call: okhttp3.Call, e: IOException) {
             detailsLiveData.postValue(
                 DTOAppState.Error(
                     Throwable(
@@ -53,6 +56,33 @@ class WeatherDetailsViewModel : ViewModel() {
             )
         }
     }
+
+    private val callBackRetrofit = object : retrofit2.Callback<WeatherDTO> {
+        override fun onResponse(
+            call: retrofit2.Call<WeatherDTO>, response:
+            retrofit2.Response<WeatherDTO>
+        ) {
+            val serverResponse: WeatherDTO? = response.body()
+            detailsLiveData.postValue(
+                if (response.isSuccessful && serverResponse != null) {
+                    checkResponse(serverResponse)
+                } else {
+                    DTOAppState.Error(Throwable(SERVER_ERROR))
+                }
+            )
+        }
+
+        override fun onFailure(call: retrofit2.Call<WeatherDTO>, t: Throwable) {
+            detailsLiveData.postValue(
+                DTOAppState.Error(
+                    Throwable(
+                        t.message ?: REQUEST_ERROR
+                    )
+                )
+            )
+        }
+    }
+
 
     private fun checkResponse(serverResponse: String): DTOAppState {
         val weatherDTO: WeatherDTO =
@@ -65,4 +95,11 @@ class WeatherDetailsViewModel : ViewModel() {
         }
     }
 
+    private fun checkResponse(serverResponse: WeatherDTO): DTOAppState {
+        return if (serverResponse.fact == null) {
+            DTOAppState.Error(Throwable(CORRUPTED_DATA))
+        } else {
+            DTOAppState.Success(serverResponse)
+        }
+    }
 }
