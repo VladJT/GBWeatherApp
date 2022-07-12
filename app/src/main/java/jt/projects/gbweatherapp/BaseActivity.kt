@@ -37,7 +37,7 @@ open class BaseActivity : AppCompatActivity() {
                 )
 
             // сервис для рассылки сообщений об изменении состояния сети
-            startService(Intent(it, NetworkStatusService::class.java))
+        //    startService(Intent(it, NetworkStatusService::class.java))
         }
 
 
