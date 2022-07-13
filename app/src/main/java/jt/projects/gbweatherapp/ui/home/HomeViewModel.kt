@@ -21,12 +21,12 @@ class HomeViewModel : ViewModel() {
 
     fun getData(): LiveData<AppState> = liveDataToObserve
 
-    fun getDataFromInternet(isRussian: Boolean) {
+    fun getData(isRussian: Boolean) {
         liveDataToObserve.value = AppState.Loading
 
         var cities = if (isRussian)
-            cityListRepositoryImpl.getWeatherFromLocalStorageRus() else
-            cityListRepositoryImpl.getWeatherFromLocalStorageWorld()
+            cityListRepositoryImpl.getCityListFromLocalStorageRus() else
+            cityListRepositoryImpl.getCityListFromLocalStorageWorld()
 
         val client = OkHttpClient() // Клиент
         val builder: Request.Builder = Request.Builder().apply {  // Создаём строителя запроса
@@ -70,23 +70,23 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun getDataFromLocalSource(isRussian: Boolean) {
-        liveDataToObserve.value = AppState.Loading
-        var result = if (isRussian)
-            cityListRepositoryImpl.getWeatherFromLocalStorageRus() else
-            cityListRepositoryImpl.getWeatherFromLocalStorageWorld()
-        Thread {
-            when ((0..5).random()) {
-                0, 1, 2, 3 -> {
-                    Thread.sleep(200)
-                    liveDataToObserve.postValue(AppState.SuccessMulti(result))
-                }
-                4, 5 -> {
-                    Thread.sleep(200)
-                    liveDataToObserve.postValue(AppState.Error(Throwable("Не удалось получить данные")))
-                }
-            }
-        }.start()
-    }
+//    fun getDataFromLocalSource(isRussian: Boolean) {
+//        liveDataToObserve.value = AppState.Loading
+//        var result = if (isRussian)
+//            cityListRepositoryImpl.getWeatherFromLocalStorageRus() else
+//            cityListRepositoryImpl.getWeatherFromLocalStorageWorld()
+//        Thread {
+//            when ((0..5).random()) {
+//                0, 1, 2, 3 -> {
+//                    Thread.sleep(200)
+//                    liveDataToObserve.postValue(AppState.SuccessMulti(result))
+//                }
+//                4, 5 -> {
+//                    Thread.sleep(200)
+//                    liveDataToObserve.postValue(AppState.Error(Throwable("Не удалось получить данные")))
+//                }
+//            }
+//        }.start()
+//    }
 
 }

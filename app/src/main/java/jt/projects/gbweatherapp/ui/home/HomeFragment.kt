@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java].also {
             it.getData().observe(viewLifecycleOwner, observer)
-            it.getDataFromInternet(SharedPref.getData().isDataSetRus)
+            it.getData(SharedPref.getData().isDataSetRus)
         }
         renderDataSetButton()
     }
@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
     private fun changeWeatherDataSet() {
         SharedPref.settings.isDataSetRus = !SharedPref.settings.isDataSetRus
         SharedPref.save()
-        viewModel.getDataFromInternet(SharedPref.getData().isDataSetRus)
+        viewModel.getData(SharedPref.getData().isDataSetRus)
         renderDataSetButton()
     }
 
@@ -131,7 +131,7 @@ class HomeFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(listOf())
                 val action =
-                    fun() { viewModel.getDataFromLocalSource(SharedPref.getData().isDataSetRus) }
+                    fun() { viewModel.getData(SharedPref.getData().isDataSetRus) }
                 binding.root.showSnackBarWithAction(
                     appState.error.message ?: "",
                     R.string.reload,

@@ -17,18 +17,18 @@ import okhttp3.Response
 import java.io.IOException
 
 class CityListRepositoryImpl : CityListRepository {
-    override fun getWeatherFromInternet(): List<Weather> {
+    override fun getCityListFromInternet(): List<Weather> {
         TODO("ПЕРЕДЕЛАТЬ!")
         val cities = getRussianCities()
         return loadFromOkHttp(cities)
     }
 
-    override fun getWeatherFromLocalStorageRus(): List<Weather> {
+    override fun getCityListFromLocalStorageRus(): List<Weather> {
         val cities = getRussianCities()
         return loadFromOkHttp(cities)
     }
 
-    override fun getWeatherFromLocalStorageWorld(): List<Weather> {
+    override fun getCityListFromLocalStorageWorld(): List<Weather> {
         val cities = getWorldCities()
         return loadFromOkHttp(cities)
     }
