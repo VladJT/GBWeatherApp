@@ -38,8 +38,9 @@ class NetworkStatusService(name: String = "NetworkStatusService") : IntentServic
         }
     }
 
+
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun getConnectionInfo(): String {
+    fun getConnectionInfo(): String {
         val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
         var result = ""

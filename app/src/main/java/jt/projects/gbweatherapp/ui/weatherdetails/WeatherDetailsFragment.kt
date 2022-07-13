@@ -46,7 +46,7 @@ class WeatherDetailsFragment : Fragment() {
                     }
                 }
                 else -> {
-                    binding.progressBarDetails.visibility = View.GONE
+                    //   binding.progressBarDetails.visibility = View.GONE
                 }
             }
             binding.root.showSnackBarShort(result)
@@ -126,21 +126,30 @@ class WeatherDetailsFragment : Fragment() {
     private fun renderDataVM(appState: DTOAppState) {
         when (appState) {
             is DTOAppState.Success -> {
-                binding.progressBarDetails.visibility = View.GONE
+                showLoadLayout(false)
                 renderData(appState.weather)
             }
             is DTOAppState.Loading -> {
-                binding.progressBarDetails.visibility = View.VISIBLE
+                showLoadLayout(true)
             }
             is DTOAppState.Error -> {
-                binding.progressBarDetails.visibility = View.GONE
+                showLoadLayout(false)
                 binding.root.showSnackBarShort("Ошибка загрузки детализации погоды")
             }
         }
     }
 
+    private fun showLoadLayout(isLoading: Boolean) {
+        if (isLoading) {
+            binding.includeWeatherCard.root.visibility = View.GONE
+            binding.loadingLayout.visibility = View.VISIBLE
+        } else {
+            binding.includeWeatherCard.root.visibility = View.VISIBLE
+            binding.loadingLayout.visibility = View.GONE
+        }
+    }
+
     private fun renderData(weather: WeatherDTO) {
-        binding.progressBarDetails.visibility = View.GONE
         with(binding.includeWeatherCard) {
             cityIcon.load("https://img4.goodfon.com/original/1680x1050/7/28/skyscraper-sunset-new-york.jpg")
             weatherIcon.load(String.format(ICON_URL, weather.fact.icon))
