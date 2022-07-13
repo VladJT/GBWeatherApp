@@ -36,7 +36,7 @@ class WeatherDetailsViewModel : ViewModel() {
     private val callBackOkHttp = object : okhttp3.Callback {
         @Throws(IOException::class)
         override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-            val serverResponse: String? = response.body()?.string()
+            val serverResponse: String? = response.body?.string()
             detailsLiveData.postValue(
                 if (response.isSuccessful && serverResponse != null) {
                     checkResponse(serverResponse)

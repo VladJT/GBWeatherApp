@@ -51,7 +51,7 @@ class NetworkStatusService(name: String = "NetworkStatusService") : IntentServic
             } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
                 result = "Сеть: ETHERNET"
             }
-        }else  result = "Нет сети"
+        } else result = "Нет сети"
         return result
     }
 }

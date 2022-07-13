@@ -1,6 +1,5 @@
 package jt.projects.gbweatherapp.viewmodel
 
-import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 
 sealed class DTOAppState {

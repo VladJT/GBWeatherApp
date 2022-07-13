@@ -28,22 +28,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            tools:text="+15"
             android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+            app:layout_constraintTop_toTopOf="@+id/guideline3"
+            tools:text="+15" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cityIcon"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/guideline6"
+            android:minHeight="250dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline7"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_home_24" />
+            app:srcCompat="@drawable/ic_baseline_location_city_24" />
 
         <ImageView
             android:id="@+id/weatherIcon"
@@ -52,7 +52,7 @@
             android:contentDescription="@string/app_name"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/weather" />
+            app:srcCompat="@drawable/ic_baseline_light_mode_24" />
 
         <TextView
             android:id="@+id/conditionValue"
@@ -147,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="307dp" />
+            app:layout_constraintGuide_begin="413dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
@@ -161,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="228dp" />
+            app:layout_constraintGuide_begin="339dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"
@@ -175,14 +175,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="278dp" />
+            app:layout_constraintGuide_begin="280dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="110dp" />
+            app:layout_constraintGuide_begin="251dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline7"

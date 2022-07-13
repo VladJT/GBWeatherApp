@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import jt.projects.gbweatherapp.BuildConfig
+import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.repository.CityListRepository
 import jt.projects.gbweatherapp.model.repository.CityListRepositoryImpl
-import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.REQUEST_API_KEY
 import jt.projects.gbweatherapp.utils.WeatherCondition
 import jt.projects.gbweatherapp.viewmodel.AppState
@@ -43,8 +43,8 @@ class HomeViewModel : ViewModel() {
 
                 // Вызывается, если ответ от сервера пришёл
                 @Throws(IOException::class)
-                override fun onResponse(call: Call?, response: Response) {
-                    val serverResponce: String? = response.body()?.string()
+                override fun onResponse(call: Call, response: Response) {
+                    val serverResponce: String? = response.body?.string()
                     // Синхронизируем поток с потоком UI
                     if (response.isSuccessful && serverResponce != null) {
                         handler.post {
@@ -61,8 +61,9 @@ class HomeViewModel : ViewModel() {
                         //     TODO(PROCESS_ERROR)
                     }
                 }
+
                 // Вызывается при сбое в процессе запроса на сервер
-                override fun onFailure(call: Call?, e: IOException?) {
+                override fun onFailure(call: Call, e: IOException) {
                     //    TODO(PROCESS_ERROR)
                 }
             })

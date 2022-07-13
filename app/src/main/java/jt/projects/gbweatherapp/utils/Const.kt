@@ -4,7 +4,7 @@ package jt.projects.gbweatherapp.utils
 const val REQUEST_GET = "GET"
 const val REQUEST_TIMEOUT = 2000
 const val REQUEST_API_KEY = "X-Yandex-API-Key"
-
+const val ICON_URL = "https://yastatic.net/weather/i/icons/blueye/color/svg/%s.svg"
 
 // ключи ответа запросов HTTP
 const val DETAILS_LOAD_RESULT_EXTRA = "LOAD RESULT"
@@ -23,3 +23,5 @@ const val DURATION_ITEM_ANIMATOR: Long = 300
 // настройки канала PUSH-уведомлений
 const val NOTIFICATION_CHANNEL_ID = "2"
 const val NOTIFICATION_CHANNEL_NAME = "vlad"
+
+

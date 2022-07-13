@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.squareup.picasso.Picasso
+import coil.load
 import jt.projects.gbweatherapp.databinding.WeatherDetailsFragmentBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
@@ -142,10 +142,9 @@ class WeatherDetailsFragment : Fragment() {
     private fun renderData(weather: WeatherDTO) {
         binding.progressBarDetails.visibility = View.GONE
         with(binding.includeWeatherCard) {
-            Picasso
-                .get()
-                .load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
-                .into(cityIcon)
+            cityIcon.load("https://img4.goodfon.com/original/1680x1050/7/28/skyscraper-sunset-new-york.jpg")
+            weatherIcon.load(String.format(ICON_URL, weather.fact.icon))
+
             cityName.text = weatherBundle.city.name
             cityCoordinates.text = String.format(
                 "lt/ln: %s, %s",

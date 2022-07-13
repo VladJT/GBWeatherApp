@@ -9,7 +9,10 @@ import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.getRussianCities
 import jt.projects.gbweatherapp.model.getWorldCities
 import jt.projects.gbweatherapp.utils.REQUEST_API_KEY
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import java.io.IOException
 
 class CityListRepositoryImpl : CityListRepository {
@@ -38,13 +41,13 @@ class CityListRepositoryImpl : CityListRepository {
             builder.url("https://api.weather.yandex.ru/v2/forecast?lat=${cities[i].city.lat}&lon=${cities[i].city.lon}")
             val request: Request = builder.build() // Создаём запрос
             val call: Call = client.newCall(request) // Ставим запрос в очередь и отправляем
-            call.enqueue(object : Callback {
+            call.enqueue(object : okhttp3.Callback {
                 val handler: Handler = Handler(Looper.getMainLooper())
 
                 // Вызывается, если ответ от сервера пришёл
                 @Throws(IOException::class)
-                override fun onResponse(call: Call?, response: Response) {
-                    val serverResponce: String? = response.body()?.string()
+                override fun onResponse(call: Call, response: Response) {
+                    val serverResponce: String? = response.body?.string()
                     // Синхронизируем поток с потоком UI
                     if (response.isSuccessful && serverResponce != null) {
                         handler.post {
@@ -53,6 +56,7 @@ class CityListRepositoryImpl : CityListRepository {
                             with(cities[i]) {
                                 temperature = weatherDTO.fact.temp
                                 feelsLike = weatherDTO.fact.feelsLike
+                                icon = weatherDTO.fact.icon
                                 condition =
                                     jt.projects.gbweatherapp.utils.WeatherCondition.getRusName(
                                         weatherDTO.fact.condition
@@ -66,7 +70,7 @@ class CityListRepositoryImpl : CityListRepository {
                 }
 
                 // Вызывается при сбое в процессе запроса на сервер
-                override fun onFailure(call: Call?, e: IOException?) {
+                override fun onFailure(call: Call, e: IOException) {
                     //    TODO(PROCESS_ERROR)
                 }
             })

@@ -7,9 +7,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import coil.Coil
+import coil.ImageLoader
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.decode.SvgDecoder
 import jt.projects.gbweatherapp.databinding.ActivityMainBinding
 import jt.projects.gbweatherapp.utils.*
 import jt.projects.gbweatherapp.viewmodel.SharedPref
@@ -37,7 +43,7 @@ open class BaseActivity : AppCompatActivity() {
                 )
 
             // сервис для рассылки сообщений об изменении состояния сети
-        //    startService(Intent(it, NetworkStatusService::class.java))
+            //    startService(Intent(it, NetworkStatusService::class.java))
         }
 
 
@@ -50,6 +56,21 @@ open class BaseActivity : AppCompatActivity() {
 
         // Для канала и нотификации через push-уведомления
         initNotificationChannel()
+
+        // для возможности загрузки изображений SVG & GIF через библиотеку COIL
+        val imageLoader = ImageLoader.Builder(applicationContext)
+            .components {
+                //GIF
+                if (SDK_INT >= 28) {
+                    add(ImageDecoderDecoder.Factory())
+                } else {
+                    add(GifDecoder.Factory())
+                }
+                //SVG
+                add(SvgDecoder.Factory())
+            }
+            .build()
+        Coil.setImageLoader(imageLoader)
     }
 
     override fun onDestroy() {

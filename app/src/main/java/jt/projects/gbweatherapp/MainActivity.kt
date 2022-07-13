@@ -2,10 +2,8 @@ package jt.projects.gbweatherapp
 
 import android.app.ActivityManager
 import android.os.Bundle
-import android.os.Message
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
@@ -107,7 +105,7 @@ class MainActivity : BaseActivity() {
         AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)
-            .setPositiveButton(android.R.string.yes,null)
+            .setPositiveButton(android.R.string.yes, null)
             .setIcon(android.R.drawable.ic_menu_help)
             .show()
     }
