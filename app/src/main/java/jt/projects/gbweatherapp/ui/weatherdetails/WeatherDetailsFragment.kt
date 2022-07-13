@@ -34,6 +34,7 @@ class WeatherDetailsFragment : Fragment() {
             WeatherDetailsFragment().apply { arguments = bundle }
     }
 
+
     @Deprecated("Используется для загрузки данных через BroadcastReceiver")
     private val loadResultsReceiver: BroadcastReceiver = object :
         BroadcastReceiver() {

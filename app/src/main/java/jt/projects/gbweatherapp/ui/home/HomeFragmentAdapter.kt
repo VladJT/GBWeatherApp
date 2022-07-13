@@ -29,6 +29,7 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
         onItemViewClickListener = null
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         return HomeViewHolder(
             LayoutInflater.from(parent.context)

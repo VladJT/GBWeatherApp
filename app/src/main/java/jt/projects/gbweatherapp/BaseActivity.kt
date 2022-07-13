@@ -50,6 +50,7 @@ open class BaseActivity : AppCompatActivity() {
         }
 
 
+
         SharedPref.initSharedPreferencesContext(applicationContext)
         setTheme(SharedPref.getData().theme)
 

@@ -22,6 +22,7 @@ class WeatherDetailsViewModel : ViewModel() {
         return liveData
     }
 
+
     private fun choiceRepository() {
         repository = when (2) {
             1 -> {

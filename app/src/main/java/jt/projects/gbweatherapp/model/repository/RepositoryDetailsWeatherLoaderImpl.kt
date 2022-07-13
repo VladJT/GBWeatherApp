@@ -15,6 +15,7 @@ import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
+
 @RequiresApi(Build.VERSION_CODES.N)
 
 class RepositoryDetailsWeatherLoaderImpl : RepositoryDetails {

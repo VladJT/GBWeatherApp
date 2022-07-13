@@ -7,6 +7,7 @@ import jt.projects.gbweatherapp.utils.REQUEST_API_KEY
 import okhttp3.*
 import java.io.IOException
 
+
 class RepositoryDetailsOkHttpImpl : RepositoryDetails {
     override fun getWeather(lat: Double, lon: Double, callback: MyLargeSuperCallback) {
         val client = OkHttpClient()

@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 
+
 class RepositoryDetailsRetrofitImpl : RepositoryDetails {
     override fun getWeather(lat: Double, lon: Double, callback: MyLargeSuperCallback) {
         val retrofitImpl = Retrofit.Builder()

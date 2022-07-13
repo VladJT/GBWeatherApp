@@ -33,6 +33,7 @@ class HomeViewModel : ViewModel() {
             header(REQUEST_API_KEY, BuildConfig.WEATHER_API_KEY) // Создаём заголовок запроса
         }
 
+
         for (i in cities.indices) {
             builder.url("https://api.weather.yandex.ru/v2/forecast?lat=${cities[i].city.lat}&lon=${cities[i].city.lon}")
             val request: Request = builder.build() // Создаём запрос
