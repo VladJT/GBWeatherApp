@@ -110,8 +110,8 @@ class WeatherDetailsFragment : Fragment() {
 //        )?.loadWeather()
 
         viewModel = ViewModelProvider(this)[WeatherDetailsViewModel::class.java].also { it ->
-            it.getLiveData().observe(viewLifecycleOwner, Observer { renderDataVM(it) })
-            it.getWeatherFromRemoteSourceRetrofit(weatherBundle.city.lat, weatherBundle.city.lon)
+            it.getDetailsLiveData().observe(viewLifecycleOwner, Observer { renderDataVM(it) })
+            it.getWeather(weatherBundle.city.lat, weatherBundle.city.lon)
             //    it.getWeatherFromRemoteSource("https://api.weather.yandex.ru/v2/forecast?lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}")
         }
 

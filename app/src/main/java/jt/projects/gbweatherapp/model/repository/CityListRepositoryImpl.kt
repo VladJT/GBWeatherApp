@@ -9,6 +9,7 @@ import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.getRussianCities
 import jt.projects.gbweatherapp.model.getWorldCities
 import jt.projects.gbweatherapp.utils.REQUEST_API_KEY
+import jt.projects.gbweatherapp.utils.REQUEST_URL
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -16,8 +17,10 @@ import okhttp3.Response
 import java.io.IOException
 
 class CityListRepositoryImpl : CityListRepository {
-    override fun getWeatherFromInternet(): Weather {
-        return getRussianCities()[0]
+    override fun getWeatherFromInternet(): List<Weather> {
+        TODO("ПЕРЕДЕЛАТЬ!")
+        val cities = getRussianCities()
+        return loadFromOkHttp(cities)
     }
 
     override fun getWeatherFromLocalStorageRus(): List<Weather> {
@@ -38,7 +41,7 @@ class CityListRepositoryImpl : CityListRepository {
         }
 
         for (i in cities.indices) {
-            builder.url("https://api.weather.yandex.ru/v2/forecast?lat=${cities[i].city.lat}&lon=${cities[i].city.lon}")
+            builder.url(String.format(REQUEST_URL, cities[i].city.lat, cities[i].city.lon))
             val request: Request = builder.build() // Создаём запрос
             val call: Call = client.newCall(request) // Ставим запрос в очередь и отправляем
             call.enqueue(object : okhttp3.Callback {
@@ -65,13 +68,13 @@ class CityListRepositoryImpl : CityListRepository {
 
                         }
                     } else {
-                        //     TODO(PROCESS_ERROR)
+                        throw IOException("403 404")
                     }
                 }
 
                 // Вызывается при сбое в процессе запроса на сервер
                 override fun onFailure(call: Call, e: IOException) {
-                    //    TODO(PROCESS_ERROR)
+                    throw IOException("403 404")
                 }
             })
         }

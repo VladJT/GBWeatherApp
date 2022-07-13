@@ -5,6 +5,7 @@ const val REQUEST_GET = "GET"
 const val REQUEST_TIMEOUT = 2000
 const val REQUEST_API_KEY = "X-Yandex-API-Key"
 const val ICON_URL = "https://yastatic.net/weather/i/icons/blueye/color/svg/%s.svg"
+const val REQUEST_URL = "https://api.weather.yandex.ru/v2/forecast?lat=%s&lon=%s"
 
 // ключи ответа запросов HTTP
 const val DETAILS_LOAD_RESULT_EXTRA = "LOAD RESULT"
