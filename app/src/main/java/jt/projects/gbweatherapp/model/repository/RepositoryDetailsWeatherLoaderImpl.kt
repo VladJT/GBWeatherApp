@@ -5,10 +5,7 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import jt.projects.gbweatherapp.BuildConfig
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
-import jt.projects.gbweatherapp.utils.REQUEST_API_KEY
-import jt.projects.gbweatherapp.utils.REQUEST_GET
-import jt.projects.gbweatherapp.utils.REQUEST_TIMEOUT
-import jt.projects.gbweatherapp.utils.getLines
+import jt.projects.gbweatherapp.utils.*
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -20,7 +17,7 @@ import javax.net.ssl.HttpsURLConnection
 class RepositoryDetailsWeatherLoaderImpl : RepositoryDetails {
     override fun getWeather(lat: Double, lon: Double, callback: MyLargeSuperCallback) {
         Thread {
-            val uri = URL("https://api.weather.yandex.ru/v2/informers?lat=${lat}&lon=${lon}")
+            val uri = URL(String.format(REQUEST_URL, lat, lon))
             var myConnection: HttpsURLConnection? = null
             myConnection = uri.openConnection() as HttpsURLConnection
             try {

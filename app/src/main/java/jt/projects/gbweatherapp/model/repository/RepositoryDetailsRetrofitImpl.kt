@@ -30,7 +30,7 @@ class RepositoryDetailsRetrofitImpl : RepositoryDetails {
                         callback.onResponse(response.body()!!)
                     } else {
                         // TODO HW callback.on??? 403 404
-                        callback.onFailure(IOException("403 404"))
+                        callback.onFailure(IOException("Retrofit Exception - 403/404"))
                     }
 
                 }
