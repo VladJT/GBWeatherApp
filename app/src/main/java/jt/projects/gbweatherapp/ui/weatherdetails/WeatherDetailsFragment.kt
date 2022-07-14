@@ -170,6 +170,7 @@ class WeatherDetailsFragment : Fragment() {
                 windSpeedValue.text = fact.windSpeed.toString()
                 conditionValue.text = WeatherCondition.getRusName(fact.condition)
                 textViewDateOfWeather.text = nowDt
+                precTypeValue.text = getPrecType(fact.precType)
             }
         }
     }

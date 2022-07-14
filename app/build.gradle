@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
+
+    // ROOM плагин для работы с аннотациями в Kotlin
+    id 'kotlin-kapt'
 }
 
 android {
@@ -44,6 +47,10 @@ android {
 }
 
 dependencies {
+    //Room
+    implementation 'androidx.room:room-runtime:2.4.2'
+    kapt 'androidx.room:room-compiler:2.4.2'
+
     // GLIDE
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'

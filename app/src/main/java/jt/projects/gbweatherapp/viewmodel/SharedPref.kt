@@ -6,8 +6,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import jt.projects.gbweatherapp.R
 
-private const val SHARED_PREF_NAME = "database"
-private const val DATA_KEY = "JSON_SETTINGS"
+private const val SP_DB_NAME = "database"
+private const val SP_DB_KEY = "JSON_SETTINGS"
 
 class SharedPref {
     companion object {
@@ -15,7 +15,7 @@ class SharedPref {
         private lateinit var sharedPref: SharedPreferences
 
         fun initSharedPreferencesContext(context: Context) {
-            sharedPref = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            sharedPref = context.getSharedPreferences(SP_DB_NAME, Context.MODE_PRIVATE)
         }
 
 //        fun saveAppTheme(theme: Int) {
@@ -31,7 +31,7 @@ class SharedPref {
 //        }
 
         fun getData(): Settings {
-            val jsonNotes = sharedPref.getString(DATA_KEY, null)
+            val jsonNotes = sharedPref.getString(SP_DB_KEY, null)
             val type = object : TypeToken<Settings>() {}.type
             val data = GsonBuilder().create().fromJson<Any>(jsonNotes, type)
             settings = if (data == null) {
@@ -45,7 +45,7 @@ class SharedPref {
             settings?.let {
                 jsonNotes = GsonBuilder().create().toJson(it)
             }
-            sharedPref.edit().putString(DATA_KEY, jsonNotes).apply()
+            sharedPref.edit().putString(SP_DB_KEY, jsonNotes).apply()
         }
     }
 

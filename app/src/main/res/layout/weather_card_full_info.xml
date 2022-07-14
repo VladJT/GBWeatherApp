@@ -12,29 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/cityName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_big"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline6"
-            tools:text="Москва" />
-
-        <TextView
-            android:id="@+id/temperatureValueBig"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:textSize="@dimen/text_size_big"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toTopOf="@+id/guideline3"
-            tools:text="+15" />
-
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/cityIcon"
             android:layout_width="match_parent"
@@ -55,11 +32,33 @@
             app:srcCompat="@drawable/ic_baseline_light_mode_24" />
 
         <TextView
+            android:id="@+id/cityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline6"
+            tools:text="Москва" />
+
+        <TextView
+            android:id="@+id/temperatureValueBig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="60sp"
+            android:textColor="#1C2349"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="+15" />
+
+        <TextView
             android:id="@+id/conditionValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Облачно"
-            android:textColor="@color/black"
+            android:textColor="#1C2349"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/weatherIcon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -114,6 +113,21 @@
             android:text="@string/humidity"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+        <TextView
+            android:id="@+id/precTypeLabel"
+            style="@style/text_style_labels"
+            android:text="@string/prec_type"
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
+            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+        <TextView
+            android:id="@+id/precTypeValue"
+            style="@style/text_style_values"
+            android:textSize="@dimen/text_size_small"
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
+            app:layout_constraintTop_toBottomOf="@+id/humidityLabel"
+            tools:text="дождь" />
 
         <TextView
             android:id="@+id/humidityValue"

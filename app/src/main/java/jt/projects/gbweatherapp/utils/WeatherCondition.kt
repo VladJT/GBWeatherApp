@@ -20,3 +20,14 @@ enum class WeatherCondition(var enName: String, var rusName: String) {
         }
     }
 }
+
+fun getPrecType(code: Int): String {
+    return when (code) {
+        0 -> "без осадков"
+        1 -> "дождь"
+        2 -> "дождь со снегом"
+        3 -> "снег"
+        4 -> "град"
+        else -> "без осадков"
+    }
+}
