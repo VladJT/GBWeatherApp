@@ -10,6 +10,7 @@ import java.io.IOException
 
 class CityListRepositoryImpl : CityListRepository {
 
+    private val lock = Any()
     lateinit var allCitiesLoadedCallback: CityListLoadCallback
 
     override fun getCityList(choose: Location, callback: CityListLoadCallback): List<Weather> {
@@ -41,12 +42,12 @@ class CityListRepositoryImpl : CityListRepository {
                     city.feelsLike = weatherDTO.fact.feelsLike
                     city.condition = WeatherCondition.getRusName(weatherDTO.fact.condition)
                     city.icon = weatherDTO.fact.icon
-                    totalCounter++
+                    synchronized(lock) { totalCounter++}
                 }
 
                 override fun onFailure(e: IOException) {
                     Log.e("CityListRepositoryImpl", "load city list error")
-                    totalCounter++
+                    synchronized(lock) { totalCounter++}
                 }
             }
             repository.getWeather(city.city.lat, city.city.lon, callbackOneCityWeather)

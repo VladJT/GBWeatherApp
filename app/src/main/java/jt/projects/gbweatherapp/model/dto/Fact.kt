@@ -7,8 +7,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Fact(
-    @SerializedName("accum_prec")
-    val accumPrec: AccumPrec,
+//    @SerializedName("accum_prec")
+//    val accumPrec: AccumPrec,
     @SerializedName("cloudness")
     val cloudness: Double,
     @SerializedName("condition")

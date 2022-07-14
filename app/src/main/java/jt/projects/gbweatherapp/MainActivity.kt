@@ -4,7 +4,6 @@ import android.app.ActivityManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
@@ -85,28 +84,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    @Suppress("DEPRECATION")
-    private fun showExitDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Выход")
-            .setMessage("Вы уверены, что хотите выйти?")
-            .setPositiveButton(
-                android.R.string.yes
-            ) { _, _ -> finish() } // A null listener allows the button to dismiss the dialog and take no further action.
-            .setNegativeButton(android.R.string.no, null)
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show()
-    }
-
-    @Suppress("DEPRECATION")
-    private fun showMsgDialog(title: String, message: String) {
-        AlertDialog.Builder(this)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(android.R.string.yes, null)
-            .setIcon(android.R.drawable.ic_menu_help)
-            .show()
-    }
 
     private fun initBottomMenu() {
         binding.buttonHome.setOnClickListener {

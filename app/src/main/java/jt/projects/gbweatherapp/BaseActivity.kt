@@ -10,6 +10,7 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import coil.Coil
@@ -81,14 +82,6 @@ open class BaseActivity : AppCompatActivity() {
         Coil.setImageLoader(imageLoader)
     }
 
-    override fun onDestroy() {
-        unregisterReceiver(networkChangeReceiver)
-//        applicationContext?.let {
-//            LocalBroadcastManager.getInstance(it)
-//                .unregisterReceiver(networkChangeReceiverAlternative)
-//        }
-        super.onDestroy()
-    }
 
     // инициализация канала нотификаций
     private fun initNotificationChannel() {
@@ -108,5 +101,37 @@ open class BaseActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(binding.fragmentContainer.id, fragment)
             .commit()
+    }
+
+    @Suppress("DEPRECATION")
+    fun showExitDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Выход")
+            .setMessage("Вы уверены, что хотите выйти?")
+            .setPositiveButton(
+                android.R.string.yes
+            ) { _, _ -> finish() } // A null listener allows the button to dismiss the dialog and take no further action.
+            .setNegativeButton(android.R.string.no, null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
+    @Suppress("DEPRECATION")
+    fun showMsgDialog(title: String, message: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.yes, null)
+            .setIcon(android.R.drawable.ic_menu_help)
+            .show()
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver(networkChangeReceiver)
+//        applicationContext?.let {
+//            LocalBroadcastManager.getInstance(it)
+//                .unregisterReceiver(networkChangeReceiverAlternative)
+//        }
+        super.onDestroy()
     }
 }

@@ -11,11 +11,12 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 
 
-//    registerReceiver(networkChangeReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+//  registerReceiver(networkChangeReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
 
+// BroadcastReceiver для отслеживания состояния СЕТИ
 class NetworkChangeReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent) {
-        var connInfo = getConnectionInfo(context!!)
+    override fun onReceive(context: Context, intent: Intent) {
+        var connInfo = getConnectionInfo(context)
         Toast.makeText(context, connInfo, Toast.LENGTH_LONG).show()
     }
 
@@ -35,5 +36,4 @@ class NetworkChangeReceiver : BroadcastReceiver() {
         } else result = "Нет сети"
         return result
     }
-
 }

@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
         when (appState) {
             is AppState.Success<*> -> {
                 binding.loadingLayout.visibility = View.GONE
-                adapter.setWeather(appState.weather as List<Weather>)
+                adapter.setWeather(appState.data as List<Weather>)
                 //    binding.root.showSnackBarShort(R.string.load_completed)
             }
             is AppState.Loading -> {

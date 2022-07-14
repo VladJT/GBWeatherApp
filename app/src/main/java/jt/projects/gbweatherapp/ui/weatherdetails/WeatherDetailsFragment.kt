@@ -128,7 +128,7 @@ class WeatherDetailsFragment : Fragment() {
         when (appState) {
             is AppState.Success<*> -> {
                 showLoadLayout(false)
-                renderData(appState.weather as WeatherDTO)
+                renderData(appState.data as WeatherDTO)
             }
             is AppState.Loading -> {
                 showLoadLayout(true)
