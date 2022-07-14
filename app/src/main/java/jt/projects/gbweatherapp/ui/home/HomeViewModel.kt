@@ -12,10 +12,10 @@ import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
 class HomeViewModel : ViewModel() {
-    private val liveData: MutableLiveData<AppState> = MutableLiveData()
+    private val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
     private val cityListRepositoryImpl: CityListRepository = CityListRepositoryImpl()
 
-    fun getData(): LiveData<AppState> = liveData
+    fun getData(): LiveData<AppState<List<Weather>>> = liveData
     lateinit var cities: List<Weather>
 
     fun getData(isRussian: Boolean) {

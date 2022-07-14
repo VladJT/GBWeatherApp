@@ -17,7 +17,7 @@ import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.*
 import jt.projects.gbweatherapp.utils.old.WeatherLoader
-import jt.projects.gbweatherapp.viewmodel.DTOAppState
+import jt.projects.gbweatherapp.viewmodel.AppState
 
 const val BUNDLE_EXTRA = "weather"
 const val DETAILS_INTENT_FILTER = "DETAILS INTENT FILTER"
@@ -124,16 +124,16 @@ class WeatherDetailsFragment : Fragment() {
 //        }
     }
 
-    private fun renderDataVM(appState: DTOAppState) {
+    private fun renderDataVM(appState: AppState<WeatherDTO>) {
         when (appState) {
-            is DTOAppState.Success -> {
+            is AppState.Success<*> -> {
                 showLoadLayout(false)
-                renderData(appState.weather)
+                renderData(appState.weather as WeatherDTO)
             }
-            is DTOAppState.Loading -> {
+            is AppState.Loading -> {
                 showLoadLayout(true)
             }
-            is DTOAppState.Error -> {
+            is AppState.Error -> {
                 showLoadLayout(false)
                 binding.root.showSnackBarShort("Ошибка загрузки детализации погоды")
             }

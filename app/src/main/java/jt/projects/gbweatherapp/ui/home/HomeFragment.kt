@@ -61,7 +61,8 @@ class HomeFragment : Fragment() {
         initRecyclerView()
 
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
-        val observer = Observer<AppState> { renderData(it) }// it = конкрeтный экзмепляр AppState
+        val observer =
+            Observer<AppState<List<Weather>>> { renderData(it) }// it = конкрeтный экзмепляр AppState
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java].also {
             it.getData().observe(viewLifecycleOwner, observer)
@@ -112,11 +113,11 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun renderData(appState: AppState) {
+    private fun renderData(appState: AppState<List<Weather>>) {
         when (appState) {
-            is AppState.Success -> {
+            is AppState.Success<*> -> {
                 binding.loadingLayout.visibility = View.GONE
-                adapter.setWeather(appState.weather)
+                adapter.setWeather(appState.weather as List<Weather>)
                 //    binding.root.showSnackBarShort(R.string.load_completed)
             }
             is AppState.Loading -> {

@@ -4,14 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.repository.*
-import jt.projects.gbweatherapp.viewmodel.DTOAppState
+import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
 class WeatherDetailsViewModel : ViewModel() {
-    val liveData: MutableLiveData<DTOAppState> = MutableLiveData()
+    val liveData: MutableLiveData<AppState<WeatherDTO>> = MutableLiveData()
     lateinit var repository: RepositoryDetails
 
-    fun getDetailsLiveData(): MutableLiveData<DTOAppState> {
+    fun getDetailsLiveData(): MutableLiveData<AppState<WeatherDTO>> {
         choiceRepository()
         return liveData
     }
@@ -36,17 +36,17 @@ class WeatherDetailsViewModel : ViewModel() {
 
     fun getWeather(lat: Double, lon: Double) {
         choiceRepository()
-        liveData.value = DTOAppState.Loading
+        liveData.value = AppState.Loading
         repository.getWeather(lat, lon, callback)
     }
 
     private val callback = object : WeatherDTOLoadCallback {
         override fun onResponse(weatherDTO: WeatherDTO) {
-            liveData.postValue(DTOAppState.Success(weatherDTO))
+            liveData.postValue(AppState.Success(weatherDTO))
         }
 
         override fun onFailure(e: IOException) {
-            liveData.postValue(DTOAppState.Error(e))
+            liveData.postValue(AppState.Error(e))
         }
     }
 
