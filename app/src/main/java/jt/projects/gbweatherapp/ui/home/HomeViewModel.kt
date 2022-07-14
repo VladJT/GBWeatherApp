@@ -25,8 +25,8 @@ class HomeViewModel : ViewModel() {
         liveDataToObserve.value = AppState.Loading
 
         var cities = if (isRussian)
-            cityListRepositoryImpl.getCityListFromLocalStorageRus() else
-            cityListRepositoryImpl.getCityListFromLocalStorageWorld()
+            cityListRepositoryImpl.getCityList(2) else
+            cityListRepositoryImpl.getCityList(3)
 
         val client = OkHttpClient() // Клиент
         val builder: Request.Builder = Request.Builder().apply {  // Создаём строителя запроса

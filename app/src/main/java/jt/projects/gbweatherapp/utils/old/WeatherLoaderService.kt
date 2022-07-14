@@ -1,4 +1,4 @@
-package jt.projects.gbweatherapp.utils
+package jt.projects.gbweatherapp.utils.old
 
 import android.app.IntentService
 import android.content.Intent
@@ -12,6 +12,7 @@ import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.ui.weatherdetails.DETAILS_DTO_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.DETAILS_INTENT_FILTER
+import jt.projects.gbweatherapp.utils.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.MalformedURLException

@@ -16,6 +16,7 @@ import jt.projects.gbweatherapp.databinding.WeatherDetailsFragmentBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.*
+import jt.projects.gbweatherapp.utils.old.WeatherLoader
 import jt.projects.gbweatherapp.viewmodel.DTOAppState
 
 const val BUNDLE_EXTRA = "weather"

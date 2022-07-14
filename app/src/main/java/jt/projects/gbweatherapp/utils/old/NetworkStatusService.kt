@@ -1,4 +1,4 @@
-package jt.projects.gbweatherapp.utils
+package jt.projects.gbweatherapp.utils.old
 
 import android.app.IntentService
 import android.content.Intent

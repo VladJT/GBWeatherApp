@@ -1,12 +1,14 @@
-package jt.projects.gbweatherapp.model.repository
+package jt.projects.gbweatherapp.model.repository.old
 
 import com.google.gson.GsonBuilder
 import jt.projects.gbweatherapp.BuildConfig
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
+import jt.projects.gbweatherapp.model.repository.WeatherAPI
 import jt.projects.gbweatherapp.utils.REQUEST_API_KEY
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
@@ -42,9 +44,10 @@ class RemoteDataSource {
 
     private fun createOkHttpClient(interceptor: Interceptor): OkHttpClient {
         val httpClient = OkHttpClient.Builder()
-        //    httpClient.addInterceptor(interceptor)
-        //   httpClient.addInterceptor(
-        //       HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        httpClient.addInterceptor(interceptor)
+        httpClient.addInterceptor(
+            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        )
         return httpClient.build()
     }
 

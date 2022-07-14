@@ -18,6 +18,7 @@ import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import jt.projects.gbweatherapp.databinding.ActivityMainBinding
 import jt.projects.gbweatherapp.utils.*
+import jt.projects.gbweatherapp.utils.old.NetworkStatusExtra
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 
 open class BaseActivity : AppCompatActivity() {

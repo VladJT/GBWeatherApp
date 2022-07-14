@@ -48,7 +48,7 @@ fun View.hideKeyboard(): Boolean {
     return false
 }
 
-// для VebView
+// для WebView
 @RequiresApi(Build.VERSION_CODES.N)
 fun getLines(reader: BufferedReader): String {
     return reader.lines().collect(Collectors.joining("\n"))
