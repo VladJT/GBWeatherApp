@@ -13,7 +13,7 @@ import java.io.IOException
 
 class HomeViewModel : ViewModel() {
     private val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
-    private val cityListRepositoryImpl: CityListRepository = CityListRepositoryImpl()
+    private val cityList: CityListRepository = CityListRepositoryImpl()
 
     fun getData(): LiveData<AppState<List<Weather>>> = liveData
     lateinit var cities: List<Weather>
@@ -21,8 +21,8 @@ class HomeViewModel : ViewModel() {
     fun getData(isRussian: Boolean) {
         liveData.value = AppState.Loading
         cities = if (isRussian)
-            cityListRepositoryImpl.getCityList(Location.RUSSIAN, callback) else
-            cityListRepositoryImpl.getCityList(Location.WORLD, callback)
+            cityList.getCityList(Location.RUSSIAN, callback) else
+            cityList.getCityList(Location.WORLD, callback)
     }
 
     private val callback = object : CityListLoadCallback {

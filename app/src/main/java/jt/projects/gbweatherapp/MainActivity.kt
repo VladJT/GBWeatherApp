@@ -16,7 +16,6 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // Нам нужно создать фрагмент со списком всего лишь один раз — при первом запуске. Задачу по
         // пересозданию фрагментов после поворота экрана берет на себя FragmentManager.
         if (savedInstanceState == null) {
@@ -49,7 +48,7 @@ class MainActivity : BaseActivity() {
         for (i in rs.indices) {
             sb.append(rs[i].service.shortClassName.plus("\n"))
         }
-        showMsgDialog("Список процессов", sb.toString())
+        showMsgDialog("Список запущенных процессов", sb.toString())
     }
 
 
