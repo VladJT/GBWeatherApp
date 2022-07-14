@@ -59,8 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Облачно"
+            android:textColor="@color/black"
             android:textStyle="bold"
-            android:textColor="#2E313E"
             app:layout_constraintStart_toEndOf="@+id/weatherIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,6 +71,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cityName"
             tools:text="lt/ln: 55.755826, 37.617299900000035" />
+
+        <TextView
+            android:id="@+id/textViewDateOfWeather"
+            style="@style/text_style_labels"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/guideline6"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="2022/07/01" />
 
         <TextView
             android:id="@+id/temperatureLabel"

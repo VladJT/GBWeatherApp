@@ -53,3 +53,8 @@ fun View.hideKeyboard(): Boolean {
 fun getLines(reader: BufferedReader): String {
     return reader.lines().collect(Collectors.joining("\n"))
 }
+
+fun String.toTemperature(): String {
+    val i: Int = this.toInt()
+    return if (i > 0) "+${this}\u2103" else "${this}\u2103"
+}

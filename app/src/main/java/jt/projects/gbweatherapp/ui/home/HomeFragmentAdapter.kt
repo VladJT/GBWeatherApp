@@ -10,6 +10,7 @@ import coil.load
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.utils.ICON_URL
+import jt.projects.gbweatherapp.utils.toTemperature
 
 internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
     RecyclerView.Adapter<HomeFragmentAdapter.HomeViewHolder>() {
@@ -49,7 +50,7 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
         fun bind(weather: Weather) {
             with(itemView) {
                 findViewById<TextView>(R.id.temperatureValueBigSmallCard).text =
-                    weather.temperature.toString().plus("\u2103")
+                    weather.temperature.toString().toTemperature()
                 findViewById<TextView>(R.id.cityNameSmallCard).text = weather.city.name
                 findViewById<TextView>(R.id.conditionValueSmallCard).text = weather.condition
                 val imageWeather = findViewById<AppCompatImageView>(R.id.weatherIconSmallCard)

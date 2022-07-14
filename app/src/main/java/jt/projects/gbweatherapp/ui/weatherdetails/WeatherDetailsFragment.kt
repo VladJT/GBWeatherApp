@@ -162,13 +162,14 @@ class WeatherDetailsFragment : Fragment() {
                 weatherBundle.city.lon.toString()
             )
             weather.run {
-                temperatureValue.text = "${fact.temp}\u2103"
-                temperatureValueBig.text = "${fact.temp}\u2103"
-                feelsLikeValue.text = "${fact.feelsLike}\u2103"
+                temperatureValue.text = fact.temp.toString().toTemperature()
+                temperatureValueBig.text = fact.temp.toString().toTemperature()
+                feelsLikeValue.text = fact.feelsLike.toString().toTemperature()
                 humidityValue.text = "${fact.humidity}%"
                 pressureValue.text = fact.pressureMm.toString()
                 windSpeedValue.text = fact.windSpeed.toString()
                 conditionValue.text = WeatherCondition.getRusName(fact.condition)
+                textViewDateOfWeather.text = nowDt
             }
         }
     }
