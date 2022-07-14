@@ -1,5 +1,6 @@
 package jt.projects.gbweatherapp.model.repository
 
+import android.util.Log
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.getRussianCities
@@ -9,7 +10,7 @@ import java.io.IOException
 
 class CityListRepositoryImpl : CityListRepository {
 
-    lateinit var vmCallback : MyLargeSuperCallback
+    lateinit var vmCallback: MyLargeSuperCallback
 
     override fun getCityList(choose: Int, callback: MyLargeSuperCallback): List<Weather> {
         vmCallback = callback
@@ -24,7 +25,7 @@ class CityListRepositoryImpl : CityListRepository {
     }
 
     private fun getCityListFromInternet(): List<Weather> {
-        TODO("ПЕРЕДЕЛАТЬ!")
+        TODO("ПЕРЕДЕЛАТЬ (ТВОРЧЕСКИ)!")
         return updateDataWithInternet(getRussianCities())
     }
 
@@ -39,21 +40,37 @@ class CityListRepositoryImpl : CityListRepository {
 
     fun updateDataWithInternet(cities: List<Weather>): List<Weather> {
         val repository = RepositoryDetailsOkHttpImpl()
+        var totalCounter = 0
+        lateinit var lastDTO: WeatherDTO
         for (city in cities) {
-            val callback = object : MyLargeSuperCallback {
+            val callbackOneCityWeather = object : MyLargeSuperCallback {
                 override fun onResponse(weatherDTO: WeatherDTO) {
+                    lastDTO = weatherDTO
                     city.temperature = weatherDTO.fact.temp
                     city.feelsLike = weatherDTO.fact.feelsLike
                     city.condition = WeatherCondition.getRusName(weatherDTO.fact.condition)
                     city.icon = weatherDTO.fact.icon
-                    vmCallback.onResponse(weatherDTO)
+                    totalCounter++
                 }
+
                 override fun onFailure(e: IOException) {
-                    throw IOException("load city list error")
+                    Log.e("CityListRepositoryImpl", "load city list error")
+                    totalCounter++
                 }
             }
-            repository.getWeather(city.city.lat, city.city.lon, callback)
+            repository.getWeather(city.city.lat, city.city.lon, callbackOneCityWeather)
         }
+
+        // ждем завершения всех запросов по списку городов
+        Thread {
+            while (true) {
+                if (totalCounter == cities.size) {
+                    lastDTO?.let { vmCallback.onResponse(it) }
+                    break
+                }
+            }
+        }.start()
+
         return cities
     }
 }

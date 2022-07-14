@@ -17,8 +17,11 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import jt.projects.gbweatherapp.databinding.ActivityMainBinding
-import jt.projects.gbweatherapp.utils.*
+import jt.projects.gbweatherapp.utils.NOTIFICATION_CHANNEL_ID
+import jt.projects.gbweatherapp.utils.NOTIFICATION_CHANNEL_NAME
+import jt.projects.gbweatherapp.utils.NetworkChangeReceiver
 import jt.projects.gbweatherapp.utils.old.NetworkStatusExtra
+import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 
 open class BaseActivity : AppCompatActivity() {

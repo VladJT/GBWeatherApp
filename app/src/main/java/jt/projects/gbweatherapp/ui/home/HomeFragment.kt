@@ -116,11 +116,6 @@ class HomeFragment : Fragment() {
         when (appState) {
             is AppState.Success -> {
                 binding.loadingLayout.visibility = View.GONE
-                adapter.setWeather(listOf(appState.weather))
-                //     binding.root.showSnackBarShort("Данные по 1 городу успешно загружены")
-            }
-            is AppState.SuccessMulti -> {
-                binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(appState.weather)
                 //    binding.root.showSnackBarShort(R.string.load_completed)
             }

@@ -27,11 +27,11 @@ class HomeViewModel : ViewModel() {
 
     private val callback = object : MyLargeSuperCallback {
         override fun onResponse(weatherDTO: WeatherDTO) {
-            liveDataToObserve.postValue(AppState.SuccessMulti(cities))
+            liveDataToObserve.postValue(AppState.Success(cities))
         }
 
         override fun onFailure(e: IOException) {
-            liveDataToObserve.postValue(AppState.Error(Throwable("city list total error")))
+            liveDataToObserve.postValue(AppState.Error(Throwable("Ошибка загрузки списка городов")))
         }
     }
 
