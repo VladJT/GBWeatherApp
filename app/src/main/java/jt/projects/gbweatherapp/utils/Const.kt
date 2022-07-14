@@ -28,4 +28,7 @@ const val DURATION_ITEM_ANIMATOR: Long = 300
 const val NOTIFICATION_CHANNEL_ID = "2"
 const val NOTIFICATION_CHANNEL_NAME = "vlad"
 
+// ROOM
+const val ROOM_DB_NAME_WEATHER = "weather.db"
+
 

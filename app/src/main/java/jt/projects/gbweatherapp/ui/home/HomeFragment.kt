@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.Weather
@@ -69,6 +70,7 @@ class HomeFragment : Fragment() {
             it.getData(SharedPref.getData().isDataSetRus)
         }
         renderDataSetButton()
+        val rows = MyApp.getWeatherDatabase().weatherDao().getWeatherAll()
     }
 
     override fun onDestroy() {
