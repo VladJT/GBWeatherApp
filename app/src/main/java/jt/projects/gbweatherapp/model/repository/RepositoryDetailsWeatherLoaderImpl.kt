@@ -15,7 +15,7 @@ import javax.net.ssl.HttpsURLConnection
 @RequiresApi(Build.VERSION_CODES.N)
 
 class RepositoryDetailsWeatherLoaderImpl : RepositoryDetails {
-    override fun getWeather(lat: Double, lon: Double, callback: MyLargeSuperCallback) {
+    override fun getWeather(lat: Double, lon: Double, callback: WeatherDTOLoadCallback) {
         Thread {
             val uri = URL(String.format(REQUEST_URL, lat, lon))
             var myConnection: HttpsURLConnection? = null

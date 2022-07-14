@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import coil.Coil
 import coil.ImageLoader
 import coil.decode.GifDecoder
@@ -102,4 +103,10 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+    fun showFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(binding.fragmentContainer.id, fragment)
+            .commit()
+    }
 }

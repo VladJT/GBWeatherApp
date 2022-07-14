@@ -4,32 +4,34 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.model.dto.WeatherDTO
-import jt.projects.gbweatherapp.model.repository.*
+import jt.projects.gbweatherapp.model.repository.CityListLoadCallback
+import jt.projects.gbweatherapp.model.repository.CityListRepository
+import jt.projects.gbweatherapp.model.repository.CityListRepositoryImpl
+import jt.projects.gbweatherapp.model.repository.Location
 import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
 class HomeViewModel : ViewModel() {
-    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
+    private val liveData: MutableLiveData<AppState> = MutableLiveData()
     private val cityListRepositoryImpl: CityListRepository = CityListRepositoryImpl()
 
-    fun getData(): LiveData<AppState> = liveDataToObserve
+    fun getData(): LiveData<AppState> = liveData
     lateinit var cities: List<Weather>
 
     fun getData(isRussian: Boolean) {
-        liveDataToObserve.value = AppState.Loading
+        liveData.value = AppState.Loading
         cities = if (isRussian)
             cityListRepositoryImpl.getCityList(Location.RUSSIAN, callback) else
             cityListRepositoryImpl.getCityList(Location.WORLD, callback)
     }
 
-    private val callback = object : SuperCallback {
+    private val callback = object : CityListLoadCallback {
         override fun onResponse() {
-            liveDataToObserve.postValue(AppState.Success(cities))
+            liveData.postValue(AppState.Success(cities))
         }
 
         override fun onFailure(e: IOException) {
-            liveDataToObserve.postValue(AppState.Error(Throwable("Ошибка загрузки списка городов")))
+            liveData.postValue(AppState.Error(Throwable("Ошибка загрузки списка городов")))
         }
     }
 

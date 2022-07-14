@@ -9,7 +9,7 @@ import okhttp3.*
 import java.io.IOException
 
 class RepositoryDetailsOkHttpImpl : RepositoryDetails {
-    override fun getWeather(lat: Double, lon: Double, callback: MyLargeSuperCallback) {
+    override fun getWeather(lat: Double, lon: Double, callback: WeatherDTOLoadCallback) {
         val client = OkHttpClient()
         val builder = Request.Builder().apply {
             addHeader(REQUEST_API_KEY, BuildConfig.WEATHER_API_KEY)

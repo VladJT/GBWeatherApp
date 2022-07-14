@@ -52,10 +52,11 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
                     weather.temperature.toString().plus("\u2103")
                 findViewById<TextView>(R.id.cityNameSmallCard).text = weather.city.name
                 findViewById<TextView>(R.id.conditionValueSmallCard).text = weather.condition
+                val imageWeather = findViewById<AppCompatImageView>(R.id.weatherIconSmallCard)
+                imageWeather.load(String.format(ICON_URL, weather.icon)) {}
 
                 //val imageUrl =
                 //    "https://thumbs.dreamstime.com/b/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD-%D0%BE%D0%B1-%D0%B0%D0%BA%D0%B0-%D0%B8-%D0%BE%D0%B6-%D1%8F-%D1%81%D0%BE-%D0%BD%D1%86%D1%8F-80915204.jpg"
-                val imageWeather = findViewById<AppCompatImageView>(R.id.weatherIconSmallCard)
 
                 // GLIDE
                 // Glide.with(this).load(imageUrl).into(imageWeather)
@@ -67,8 +68,6 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
                 //imageWeather.load(imageUrl)
 
                 // Picasso.get().load(iconWeatherUrl).into(imageWeather)
-
-                imageWeather.load(String.format(ICON_URL, weather.icon)) {}
 
                 setOnClickListener {
                     onItemViewClickListener?.onItemViewClick(weather)

@@ -8,6 +8,10 @@ const val ICON_URL = "https://yastatic.net/weather/i/icons/blueye/color/svg/%s.s
 const val REQUEST_URL = "https://api.weather.yandex.ru/v2/forecast?lat=%s&lon=%s"
 
 // ключи ответа запросов HTTP
+const val SERVER_ERROR = "Ошибка сервера"
+const val REQUEST_ERROR = "Ошибка запроса на сервер"
+const val CORRUPTED_DATA = "Неполные данные"
+
 const val DETAILS_LOAD_RESULT_EXTRA = "LOAD RESULT"
 const val DETAILS_INTENT_EMPTY_EXTRA = "Интент пуст"
 const val DETAILS_DATA_EMPTY_EXTRA = "Нет данных"

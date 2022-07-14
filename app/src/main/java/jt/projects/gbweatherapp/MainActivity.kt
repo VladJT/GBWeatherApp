@@ -123,11 +123,4 @@ class MainActivity : BaseActivity() {
             showFragment(FavoritesFragment.newInstance())
         }
     }
-
-    private fun showFragment(fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(binding.fragmentContainer.id, fragment)
-            .commit()
-    }
 }

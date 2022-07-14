@@ -12,7 +12,7 @@ import java.io.IOException
 
 
 class RepositoryDetailsRetrofitImpl : RepositoryDetails {
-    override fun getWeather(lat: Double, lon: Double, callback: MyLargeSuperCallback) {
+    override fun getWeather(lat: Double, lon: Double, callback: WeatherDTOLoadCallback) {
         val retrofitImpl = Retrofit.Builder()
         retrofitImpl.baseUrl("https://api.weather.yandex.ru")
         retrofitImpl.addConverterFactory(

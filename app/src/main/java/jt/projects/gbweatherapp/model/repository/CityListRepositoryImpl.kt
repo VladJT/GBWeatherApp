@@ -10,10 +10,10 @@ import java.io.IOException
 
 class CityListRepositoryImpl : CityListRepository {
 
-    lateinit var vmCallback: SuperCallback
+    lateinit var allCitiesLoadedCallback: CityListLoadCallback
 
-    override fun getCityList(choose: Location, callback: SuperCallback): List<Weather> {
-        vmCallback = callback
+    override fun getCityList(choose: Location, callback: CityListLoadCallback): List<Weather> {
+        allCitiesLoadedCallback = callback
         return when (choose) {
             Location.RUSSIAN -> getCityListFromLocalStorageRus()
             Location.WORLD -> getCityListFromLocalStorageWorld()
@@ -31,12 +31,11 @@ class CityListRepositoryImpl : CityListRepository {
         return updateDataWithInternet(getWorldCities())
     }
 
-
-    fun updateDataWithInternet(cities: List<Weather>): List<Weather> {
+    private fun updateDataWithInternet(cities: List<Weather>): List<Weather> {
         val repository = RepositoryDetailsOkHttpImpl()
         var totalCounter = 0
         for (city in cities) {
-            val callbackOneCityWeather = object : MyLargeSuperCallback {
+            val callbackOneCityWeather = object : WeatherDTOLoadCallback {
                 override fun onResponse(weatherDTO: WeatherDTO) {
                     city.temperature = weatherDTO.fact.temp
                     city.feelsLike = weatherDTO.fact.feelsLike
@@ -57,7 +56,7 @@ class CityListRepositoryImpl : CityListRepository {
         Thread {
             while (true) {
                 if (totalCounter == cities.size) {
-                    vmCallback.onResponse()
+                    allCitiesLoadedCallback.onResponse()
                     break
                 }
             }

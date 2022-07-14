@@ -7,13 +7,7 @@ import jt.projects.gbweatherapp.model.repository.*
 import jt.projects.gbweatherapp.viewmodel.DTOAppState
 import java.io.IOException
 
-private const val SERVER_ERROR = "Ошибка сервера"
-private const val REQUEST_ERROR = "Ошибка запроса на сервер"
-private const val CORRUPTED_DATA = "Неполные данные"
-
-
 class WeatherDetailsViewModel : ViewModel() {
-
     val liveData: MutableLiveData<DTOAppState> = MutableLiveData()
     lateinit var repository: RepositoryDetails
 
@@ -46,7 +40,7 @@ class WeatherDetailsViewModel : ViewModel() {
         repository.getWeather(lat, lon, callback)
     }
 
-    private val callback = object : MyLargeSuperCallback {
+    private val callback = object : WeatherDTOLoadCallback {
         override fun onResponse(weatherDTO: WeatherDTO) {
             liveData.postValue(DTOAppState.Success(weatherDTO))
         }
