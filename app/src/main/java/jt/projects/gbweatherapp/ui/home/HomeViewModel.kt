@@ -1,18 +1,14 @@
 package jt.projects.gbweatherapp.ui.home
 
-import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
-import jt.projects.gbweatherapp.BuildConfig
+import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.repository.CityListRepository
 import jt.projects.gbweatherapp.model.repository.CityListRepositoryImpl
-import jt.projects.gbweatherapp.utils.REQUEST_API_KEY
-import jt.projects.gbweatherapp.utils.WeatherCondition
+import jt.projects.gbweatherapp.model.repository.MyLargeSuperCallback
 import jt.projects.gbweatherapp.viewmodel.AppState
-import okhttp3.*
 import java.io.IOException
 
 class HomeViewModel : ViewModel() {
@@ -20,73 +16,23 @@ class HomeViewModel : ViewModel() {
     private val cityListRepositoryImpl: CityListRepository = CityListRepositoryImpl()
 
     fun getData(): LiveData<AppState> = liveDataToObserve
+    lateinit var cities: List<Weather>
 
     fun getData(isRussian: Boolean) {
         liveDataToObserve.value = AppState.Loading
-
-        var cities = if (isRussian)
-            cityListRepositoryImpl.getCityList(2) else
-            cityListRepositoryImpl.getCityList(3)
-
-        val client = OkHttpClient() // Клиент
-        val builder: Request.Builder = Request.Builder().apply {  // Создаём строителя запроса
-            header(REQUEST_API_KEY, BuildConfig.WEATHER_API_KEY) // Создаём заголовок запроса
-        }
-
-        for (i in cities.indices) {
-            builder.url("https://api.weather.yandex.ru/v2/forecast?lat=${cities[i].city.lat}&lon=${cities[i].city.lon}")
-            val request: Request = builder.build() // Создаём запрос
-            val call: Call = client.newCall(request) // Ставим запрос в очередь и отправляем
-
-            call.enqueue(object : Callback {
-                val handler: Handler = Handler()
-
-                // Вызывается, если ответ от сервера пришёл
-                @Throws(IOException::class)
-                override fun onResponse(call: Call, response: Response) {
-                    val serverResponce: String? = response.body?.string()
-                    // Синхронизируем поток с потоком UI
-                    if (response.isSuccessful && serverResponce != null) {
-                        handler.post {
-                            val weatherDTO =
-                                Gson().fromJson(serverResponce, WeatherDTO::class.java)
-                            with(cities[i]) {
-                                temperature = weatherDTO.fact.temp
-                                feelsLike = weatherDTO.fact.feelsLike
-                                condition = WeatherCondition.getRusName(weatherDTO.fact.condition)
-                            }
-                            liveDataToObserve.postValue(AppState.SuccessMulti(cities))
-                        }
-                    } else {
-                        //     TODO(PROCESS_ERROR)
-                    }
-                }
-
-                // Вызывается при сбое в процессе запроса на сервер
-                override fun onFailure(call: Call, e: IOException) {
-                    //    TODO(PROCESS_ERROR)
-                }
-            })
-        }
+        cities = if (isRussian)
+            cityListRepositoryImpl.getCityList(2, callback) else
+            cityListRepositoryImpl.getCityList(3, callback)
     }
 
-//    fun getDataFromLocalSource(isRussian: Boolean) {
-//        liveDataToObserve.value = AppState.Loading
-//        var result = if (isRussian)
-//            cityListRepositoryImpl.getWeatherFromLocalStorageRus() else
-//            cityListRepositoryImpl.getWeatherFromLocalStorageWorld()
-//        Thread {
-//            when ((0..5).random()) {
-//                0, 1, 2, 3 -> {
-//                    Thread.sleep(200)
-//                    liveDataToObserve.postValue(AppState.SuccessMulti(result))
-//                }
-//                4, 5 -> {
-//                    Thread.sleep(200)
-//                    liveDataToObserve.postValue(AppState.Error(Throwable("Не удалось получить данные")))
-//                }
-//            }
-//        }.start()
-//    }
+    private val callback = object : MyLargeSuperCallback {
+        override fun onResponse(weatherDTO: WeatherDTO) {
+            liveDataToObserve.postValue(AppState.SuccessMulti(cities))
+        }
+
+        override fun onFailure(e: IOException) {
+            liveDataToObserve.postValue(AppState.Error(Throwable("city list total error")))
+        }
+    }
 
 }
