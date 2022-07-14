@@ -32,7 +32,6 @@ class RepositoryDetailsRetrofitImpl : RepositoryDetails {
                         // TODO HW callback.on??? 403 404
                         callback.onFailure(IOException("Retrofit Exception - 403/404"))
                     }
-
                 }
 
                 override fun onFailure(call: Call<WeatherDTO>, t: Throwable) {

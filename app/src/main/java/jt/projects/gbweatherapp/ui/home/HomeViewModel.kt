@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
-import jt.projects.gbweatherapp.model.repository.CityListRepository
-import jt.projects.gbweatherapp.model.repository.CityListRepositoryImpl
-import jt.projects.gbweatherapp.model.repository.MyLargeSuperCallback
+import jt.projects.gbweatherapp.model.repository.*
 import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
@@ -21,12 +19,12 @@ class HomeViewModel : ViewModel() {
     fun getData(isRussian: Boolean) {
         liveDataToObserve.value = AppState.Loading
         cities = if (isRussian)
-            cityListRepositoryImpl.getCityList(2, callback) else
-            cityListRepositoryImpl.getCityList(3, callback)
+            cityListRepositoryImpl.getCityList(Location.RUSSIAN, callback) else
+            cityListRepositoryImpl.getCityList(Location.WORLD, callback)
     }
 
-    private val callback = object : MyLargeSuperCallback {
-        override fun onResponse(weatherDTO: WeatherDTO) {
+    private val callback = object : SuperCallback {
+        override fun onResponse() {
             liveDataToObserve.postValue(AppState.Success(cities))
         }
 

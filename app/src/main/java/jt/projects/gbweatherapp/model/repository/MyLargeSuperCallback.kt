@@ -7,3 +7,8 @@ interface MyLargeSuperCallback {
     fun onResponse(weatherDTO: WeatherDTO)
     fun onFailure(e: IOException)
 }
+
+interface SuperCallback {
+    fun onResponse()
+    fun onFailure(e: IOException)
+}
