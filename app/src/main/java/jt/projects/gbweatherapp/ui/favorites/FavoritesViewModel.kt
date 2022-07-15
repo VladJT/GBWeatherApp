@@ -4,13 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.model.repository.*
+import jt.projects.gbweatherapp.model.repository.RepositoryAllWeather
+import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
+import jt.projects.gbweatherapp.model.repository.WeatherListLoadCallback
 import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
 class FavoritesViewModel : ViewModel() {
     private val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
-    private val repository : RepositoryAllWeather = RepositoryRoomImpl()
+    private val repository: RepositoryAllWeather = RepositoryRoomImpl()
 
     fun getLiveData(): LiveData<AppState<List<Weather>>> = liveData
 

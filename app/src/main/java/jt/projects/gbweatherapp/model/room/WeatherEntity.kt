@@ -13,5 +13,6 @@ data class WeatherEntity(
     var temperature: Int = 0,
     var feelsLike: Int = 0,
     var condition: String = "--",
-    var icon: String = "ovc"
+    var icon: String = "ovc",
+    val now: Long
 )

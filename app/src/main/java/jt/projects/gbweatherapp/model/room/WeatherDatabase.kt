@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
 //указывает, создавать или нет файл в проекте, где будет храниться история версий БД. Это
 //совершенно необязательно, но в коммерческих проектах — практика хорошая. В классе также
 //требуется определить метод, возвращающий объект доступа к данным
-@Database(entities = arrayOf(WeatherEntity::class), version = 1)
+@Database(entities = arrayOf(WeatherEntity::class), version = 2)
 abstract class WeatherDatabase : RoomDatabase() {
     abstract fun weatherDao(): WeatherDAO
 }

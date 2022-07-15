@@ -53,7 +53,8 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
                 findViewById<TextView>(R.id.temperatureValueBigSmallCard).text =
                     weather.temperature.toString().toTemperature()
                 findViewById<TextView>(R.id.cityNameSmallCard).text = weather.city.name
-                findViewById<TextView>(R.id.conditionValueSmallCard).text =  WeatherCondition.getRusName(weather.condition)
+                findViewById<TextView>(R.id.conditionValueSmallCard).text =
+                    WeatherCondition.getRusName(weather.condition)
                 val imageWeather = findViewById<AppCompatImageView>(R.id.weatherIconSmallCard)
                 imageWeather.load(String.format(ICON_URL, weather.icon)) {}
 

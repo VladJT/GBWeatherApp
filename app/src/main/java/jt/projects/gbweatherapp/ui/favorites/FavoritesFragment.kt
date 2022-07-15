@@ -1,7 +1,6 @@
 package jt.projects.gbweatherapp.ui.favorites
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -12,20 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentFavoritesBinding
-import jt.projects.gbweatherapp.memo.ExService
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.ui.home.HomeViewModel
 import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.DURATION_ITEM_ANIMATOR
-import jt.projects.gbweatherapp.utils.getLines
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
-import jt.projects.gbweatherapp.viewmodel.SharedPref
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 
 class FavoritesFragment : Fragment() {

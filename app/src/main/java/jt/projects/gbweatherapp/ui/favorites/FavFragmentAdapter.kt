@@ -11,6 +11,7 @@ import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.utils.ICON_URL
 import jt.projects.gbweatherapp.utils.WeatherCondition
+import jt.projects.gbweatherapp.utils.getDateFromUnixTime
 import jt.projects.gbweatherapp.utils.toTemperature
 
 internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
@@ -53,7 +54,10 @@ internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemVie
                 findViewById<TextView>(R.id.temperatureValueBigSmallCard).text =
                     weather.temperature.toString().toTemperature()
                 findViewById<TextView>(R.id.cityNameSmallCard).text = weather.city.name
-                findViewById<TextView>(R.id.conditionValueSmallCard).text = WeatherCondition.getRusName(weather.condition)
+                findViewById<TextView>(R.id.conditionValueSmallCard).text =
+                    WeatherCondition.getRusName(weather.condition)
+                findViewById<TextView>(R.id.dateOfWeatherSmallCard).text =
+                    getDateFromUnixTime(weather.now)
                 val imageWeather = findViewById<AppCompatImageView>(R.id.weatherIconSmallCard)
                 imageWeather.load(String.format(ICON_URL, weather.icon)) {}
 

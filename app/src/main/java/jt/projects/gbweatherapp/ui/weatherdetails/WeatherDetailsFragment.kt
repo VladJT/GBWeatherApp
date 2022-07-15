@@ -43,7 +43,7 @@ class WeatherDetailsFragment : Fragment() {
             when (result) {
                 DETAILS_RESPONSE_SUCCESS_EXTRA -> {
                     intent.getParcelableExtra<WeatherDTO>(DETAILS_DTO_EXTRA)?.also {
-                     //   renderData(convertDTOtoModel(it, ))
+                        //   renderData(convertDTOtoModel(it, ))
                     }
                 }
                 else -> {
@@ -57,7 +57,7 @@ class WeatherDetailsFragment : Fragment() {
     @Deprecated("Используется для загрузки данных через WeatherLoader")
     private val weatherLoadListener = object : WeatherLoader.WeatherLoaderListener {
         override fun onLoaded(weatherDTO: WeatherDTO) {
-        //    renderData(convertDTOtoModel(weatherDTO))
+            //    renderData(convertDTOtoModel(weatherDTO))
         }
 
         override fun onFailed(throwable: Throwable) {
@@ -170,7 +170,7 @@ class WeatherDetailsFragment : Fragment() {
             windSpeedValue.text = weather.windSpeed.toString()
             conditionValue.text = WeatherCondition.getRusName(weather.condition)
             val sdf = java.text.SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
-            val date = java.util.Date(weather.now*1000)
+            val date = java.util.Date(weather.now * 1000)
             textViewDateOfWeather.text = getDateFromUnixTime(weather.now)
             precTypeValue.text = getPrecType(weather.precType)
 

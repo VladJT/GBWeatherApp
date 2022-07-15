@@ -30,20 +30,17 @@ class RepositoryCityListImpl : RepositoryCityList {
         return updateDataWithInternet(getWorldCities())
     }
 
-    private fun updateDataWithInternet(cities: List<Weather>): List<Weather> {
+    private fun updateDataWithInternet(cityList: List<Weather>): List<Weather> {
+        val result = mutableListOf<Weather>()
         val repository = RepositoryOkHttpImpl()
         var totalCounter = 0
-        for (city in cities) {
+        for (city in cityList) {
             val callbackOneCityWeather = object : WeatherLoadCallback {
                 override fun onResponse(weather: Weather) {
-                    city.temperature = weather.temperature
-                    city.feelsLike = weather.feelsLike
-                    city.condition = weather.condition
-                    city.icon = weather.icon
-                    city.city.lon = weather.city.lon
-                    city.city.lat = weather.city.lat
-                    city.city.name = weather.city.name
-                    synchronized(lock) { totalCounter++ }
+                    synchronized(lock) {
+                        result.add(weather)
+                        totalCounter++
+                    }
                 }
 
                 override fun onFailure(e: IOException) {
@@ -57,13 +54,13 @@ class RepositoryCityListImpl : RepositoryCityList {
         // ждем завершения всех запросов по списку городов
         Thread {
             while (true) {
-                if (totalCounter == cities.size) {
+                if (totalCounter == cityList.size) {
                     allCitiesLoadedCallback.onResponse()
                     break
                 }
             }
         }.start()
 
-        return cities
+        return result
     }
 }

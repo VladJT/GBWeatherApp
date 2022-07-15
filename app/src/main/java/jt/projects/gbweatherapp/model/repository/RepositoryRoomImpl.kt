@@ -16,7 +16,7 @@ class RepositoryRoomImpl : RepositoryWeather, WeatherAppendable, RepositoryAllWe
 
     override fun getWeatherAll(callback: WeatherListLoadCallback) {
         callback.onResponse(
-            convertEntityToWeather(
+            convertToWeather(
                 MyApp.getWeatherDatabase().weatherDao().getWeatherAll()
             )
         )
@@ -31,26 +31,20 @@ class RepositoryRoomImpl : RepositoryWeather, WeatherAppendable, RepositoryAllWe
         return entityList.map {
             Weather(
                 City(it.name, it.lat, it.lon),
-                it.temperature,
-                it.feelsLike,
-                it.condition,
-                it.icon
+                temperature = it.temperature,
+                feelsLike = it.feelsLike,
+                condition = it.condition,
+                icon = it.icon,
+                now = it.now
             )
         }
     }
 
-    private fun convertEntityToWeather(eList: List<WeatherEntity>): List<Weather> {
-        return eList.map {
-            Weather(
-                City(it.name, it.lat, it.lon), it.temperature, it.feelsLike, it.condition, it.icon
-            )
-        }
-    }
 
     private fun convertWeatherToEntity(weather: Weather): WeatherEntity {
         return WeatherEntity(
             0, weather.city.name, weather.city.lat, weather.city.lon,
-            weather.temperature, weather.feelsLike, weather.condition, weather.icon
+            weather.temperature, weather.feelsLike, weather.condition, weather.icon, weather.now
         )
     }
 }
