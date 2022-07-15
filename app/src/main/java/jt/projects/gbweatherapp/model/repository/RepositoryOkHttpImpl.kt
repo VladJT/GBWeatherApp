@@ -10,7 +10,7 @@ import jt.projects.gbweatherapp.utils.convertDTOtoModel
 import okhttp3.*
 import java.io.IOException
 
-class RepositoryDetailsOkHttpImpl : RepositoryDetails {
+class RepositoryOkHttpImpl : RepositoryWeather {
     override fun getWeather(city: City, callback: WeatherLoadCallback) {
         val client = OkHttpClient()
         val builder = Request.Builder().apply {

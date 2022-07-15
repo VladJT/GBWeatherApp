@@ -30,6 +30,6 @@ interface WeatherDAO {
     @Update
     fun update(entity: WeatherEntity)
 
-    @Delete
-    fun delete(entity: WeatherEntity)
+    @Query("DELETE FROM weather_entity_table")
+    fun deleteAll()
 }

@@ -9,12 +9,12 @@ interface WeatherLoadCallback {
     fun onFailure(e: IOException)
 }
 
-interface AllWeatherLoadCallback {
+interface WeatherListLoadCallback {
     fun onResponse(weather: List<Weather>)
     fun onFailure(e: IOException)
 }
 
-interface CityListLoadCallback {
+interface CommonLoadCallback {
     fun onResponse()
     fun onFailure(e: IOException)
 }

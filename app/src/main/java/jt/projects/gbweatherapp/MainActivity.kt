@@ -8,6 +8,7 @@ import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
+import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 
 
@@ -35,6 +36,10 @@ class MainActivity : BaseActivity() {
         when (item.itemId) {
             R.id.action_service_info -> {
                 showAllRunningServices()
+            }
+            R.id.action_clean_room -> {
+                MyApp.getWeatherDatabase().weatherDao().deleteAll()
+                binding.root.showSnackBarShort("Список избранного очищен")
             }
         }
         return super.onOptionsItemSelected(item)

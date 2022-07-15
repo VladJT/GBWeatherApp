@@ -5,7 +5,7 @@ import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.room.WeatherEntity
 
-class RepositoryDetailsRoomImpl : RepositoryDetails, RepositoryAppendable, RepositoryWeatherAll {
+class RepositoryRoomImpl : RepositoryWeather, WeatherAppendable, RepositoryAllWeather {
     override fun getWeather(city: City, callback: WeatherLoadCallback) {
         callback.onResponse(
             convertToWeather(
@@ -14,7 +14,20 @@ class RepositoryDetailsRoomImpl : RepositoryDetails, RepositoryAppendable, Repos
         )
     }
 
-    fun convertToWeather(entityList: List<WeatherEntity>): List<Weather> {
+    override fun getWeatherAll(callback: WeatherListLoadCallback) {
+        callback.onResponse(
+            convertEntityToWeather(
+                MyApp.getWeatherDatabase().weatherDao().getWeatherAll()
+            )
+        )
+    }
+
+    override fun addWeather(weather: Weather) {
+        MyApp.getWeatherDatabase().weatherDao().insert(convertWeatherToEntity(weather))
+    }
+
+
+    private fun convertToWeather(entityList: List<WeatherEntity>): List<Weather> {
         return entityList.map {
             Weather(
                 City(it.name, it.lat, it.lon),
@@ -24,11 +37,6 @@ class RepositoryDetailsRoomImpl : RepositoryDetails, RepositoryAppendable, Repos
                 it.icon
             )
         }
-    }
-
-
-    override fun addWeather(weather: Weather) {
-        MyApp.getWeatherDatabase().weatherDao().insert(convertWeatherToEntity(weather))
     }
 
     private fun convertEntityToWeather(eList: List<WeatherEntity>): List<Weather> {
@@ -45,14 +53,4 @@ class RepositoryDetailsRoomImpl : RepositoryDetails, RepositoryAppendable, Repos
             weather.temperature, weather.feelsLike, weather.condition, weather.icon
         )
     }
-
-    override fun getWeatherAll(callback: AllWeatherLoadCallback) {
-        callback.onResponse(
-            convertEntityToWeather(
-                MyApp.getWeatherDatabase().weatherDao().getWeatherAll()
-            )
-        )
-    }
-
-
 }

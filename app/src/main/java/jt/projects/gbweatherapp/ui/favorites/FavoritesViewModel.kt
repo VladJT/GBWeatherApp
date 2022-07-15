@@ -10,7 +10,7 @@ import java.io.IOException
 
 class FavoritesViewModel : ViewModel() {
     private val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
-    private val repository : RepositoryWeatherAll = RepositoryDetailsRoomImpl()
+    private val repository : RepositoryAllWeather = RepositoryRoomImpl()
 
     fun getLiveData(): LiveData<AppState<List<Weather>>> = liveData
 
@@ -19,7 +19,7 @@ class FavoritesViewModel : ViewModel() {
         repository.getWeatherAll(callback)
     }
 
-    private val callback = object : AllWeatherLoadCallback {
+    private val callback = object : WeatherListLoadCallback {
         override fun onResponse(weather: List<Weather>) {
             liveData.postValue(AppState.Success(weather))
         }

@@ -1,9 +1,7 @@
 package jt.projects.gbweatherapp.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -11,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.Weather
@@ -43,6 +40,9 @@ class HomeFragment : Fragment() {
         }
     })
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.action_clean_room).isVisible = false
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

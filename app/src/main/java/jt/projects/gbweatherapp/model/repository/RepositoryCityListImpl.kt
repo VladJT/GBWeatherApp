@@ -6,12 +6,12 @@ import jt.projects.gbweatherapp.model.getRussianCities
 import jt.projects.gbweatherapp.model.getWorldCities
 import java.io.IOException
 
-class CityListRepositoryImpl : CityListRepository {
+class RepositoryCityListImpl : RepositoryCityList {
 
     private val lock = Any()
-    lateinit var allCitiesLoadedCallback: CityListLoadCallback
+    lateinit var allCitiesLoadedCallback: CommonLoadCallback
 
-    override fun getCityList(choose: Location, callback: CityListLoadCallback): List<Weather> {
+    override fun getCityList(choose: Location, callback: CommonLoadCallback): List<Weather> {
         allCitiesLoadedCallback = callback
         return when (choose) {
             Location.RUSSIAN -> getCityListFromLocalStorageRus()
@@ -31,7 +31,7 @@ class CityListRepositoryImpl : CityListRepository {
     }
 
     private fun updateDataWithInternet(cities: List<Weather>): List<Weather> {
-        val repository = RepositoryDetailsOkHttpImpl()
+        val repository = RepositoryOkHttpImpl()
         var totalCounter = 0
         for (city in cities) {
             val callbackOneCityWeather = object : WeatherLoadCallback {
@@ -47,7 +47,7 @@ class CityListRepositoryImpl : CityListRepository {
                 }
 
                 override fun onFailure(e: IOException) {
-                    Log.e("CityListRepositoryImpl", "load city list error")
+                    Log.e("RepositoryCityListImpl", "Ошибка загрузки списка городов")
                     synchronized(lock) { totalCounter++ }
                 }
             }

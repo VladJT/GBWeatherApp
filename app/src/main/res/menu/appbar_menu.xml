@@ -9,6 +9,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/action_clean_room"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/clean_room"
+        app:showAsAction="withText" />
+
+    <item
         android:id="@+id/action_settings"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="Настройки"

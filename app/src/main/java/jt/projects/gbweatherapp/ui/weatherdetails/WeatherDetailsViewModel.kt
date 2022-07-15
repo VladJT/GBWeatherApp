@@ -12,8 +12,8 @@ import java.io.IOException
 
 class WeatherDetailsViewModel : ViewModel() {
     val liveData: MutableLiveData<AppState<WeatherDTO>> = MutableLiveData()
-    lateinit var repository: RepositoryDetails
-    lateinit var repositoryAppendable: RepositoryAppendable
+    lateinit var repository: RepositoryWeather
+    lateinit var repositoryAppendable: WeatherAppendable
 
     fun getDetailsLiveData(): MutableLiveData<AppState<WeatherDTO>> {
         choiceRepository()
@@ -22,30 +22,28 @@ class WeatherDetailsViewModel : ViewModel() {
 
     private fun choiceRepository() {
         if (!isConnection()) {
-            repository = RepositoryDetailsRoomImpl()
+            repository = RepositoryRoomImpl()
         } else {
             repository = when (2) {
                 1 -> {
-                    RepositoryDetailsOkHttpImpl()
+                    RepositoryOkHttpImpl()
                 }
                 2 -> {
-                    RepositoryDetailsRetrofitImpl()
+                    RepositoryRetrofitImpl()
                 }
                 3 -> {
-                    RepositoryDetailsWeatherLoaderImpl()
+                    RepositoryStreamLoaderImpl()
                 }
                 else -> {
-                    //    RepositoryDetailsLocalImpl()
-                    RepositoryDetailsRetrofitImpl()
+                    RepositoryRetrofitImpl()
                 }
             }
         }
 
-        repositoryAppendable = RepositoryDetailsRoomImpl()
+        repositoryAppendable = RepositoryRoomImpl()
     }
 
     fun getWeather(city: City) {
-        choiceRepository()
         liveData.value = AppState.Loading
         repository.getWeather(city, callback)
     }

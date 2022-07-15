@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 
-class RepositoryDetailsRetrofitImpl : RepositoryDetails {
+class RepositoryRetrofitImpl : RepositoryWeather {
     override fun getWeather(city: City, callback: WeatherLoadCallback) {
         val retrofitImpl = Retrofit.Builder()
         retrofitImpl.baseUrl("https://api.weather.yandex.ru")
