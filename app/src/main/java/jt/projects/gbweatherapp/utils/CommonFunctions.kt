@@ -6,8 +6,29 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import com.google.android.material.snackbar.Snackbar
+import jt.projects.gbweatherapp.model.City
+import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.model.dto.Fact
+import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import java.io.BufferedReader
 import java.util.stream.Collectors
+
+// конвертеры
+fun convertDTOtoModel(weatherDTO: WeatherDTO, city: City): Weather {
+    val fact = weatherDTO.fact
+    return Weather(city, fact.temp, fact.feelsLike, fact.condition, fact.icon)
+}
+
+fun convertModelToDto(weather: Weather): WeatherDTO {
+    return WeatherDTO(
+        Fact(
+            temp = weather.temperature,
+            feelsLike = weather.feelsLike,
+            icon = weather.icon,
+            condition = weather.condition
+        )
+    )
+}
 
 // принимает текст для вывода или как строку, или как id Resources (String)
 fun <T> View.showSnackBarShort(text: T) {

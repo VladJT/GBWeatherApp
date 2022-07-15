@@ -23,12 +23,16 @@ class MyApp : Application() {
 
         private var db: WeatherDatabase? = null
 
-        fun getWeatherDatabase():WeatherDatabase {
-           if(db==null){
-               db = Room.databaseBuilder(getApp().applicationContext, WeatherDatabase::class.java, ROOM_DB_NAME_WEATHER)
-                   .allowMainThreadQueries()//delete!!
-                   .build()
-           }
+        fun getWeatherDatabase(): WeatherDatabase {
+            if (db == null) {
+                db = Room.databaseBuilder(
+                    getApp().applicationContext,
+                    WeatherDatabase::class.java,
+                    ROOM_DB_NAME_WEATHER
+                )
+                    .allowMainThreadQueries()//delete!!
+                    .build()
+            }
             return db!!
         }
     }

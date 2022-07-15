@@ -15,6 +15,10 @@ import androidx.annotation.RequiresApi
 
 // BroadcastReceiver для отслеживания состояния СЕТИ
 class NetworkChangeReceiver : BroadcastReceiver() {
+    companion object{
+        var isConnected = false
+    }
+
     override fun onReceive(context: Context, intent: Intent) {
         var connInfo = getConnectionInfo(context)
         Toast.makeText(context, connInfo, Toast.LENGTH_LONG).show()
@@ -25,13 +29,17 @@ class NetworkChangeReceiver : BroadcastReceiver() {
         val cm = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
         var result = ""
+        isConnected=false
         if (capabilities != null) {
             if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
                 result = "Сеть: мобильный интернет"
+                isConnected=true
             } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
                 result = "Сеть: WIFI"
+                isConnected=true
             } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
                 result = "Сеть: ETHERNET"
+                isConnected=true
             }
         } else result = "Нет сети"
         return result

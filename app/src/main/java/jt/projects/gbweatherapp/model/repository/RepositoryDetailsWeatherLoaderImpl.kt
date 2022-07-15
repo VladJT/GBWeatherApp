@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import jt.projects.gbweatherapp.BuildConfig
+import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.*
 import java.io.BufferedReader
@@ -15,9 +16,9 @@ import javax.net.ssl.HttpsURLConnection
 @RequiresApi(Build.VERSION_CODES.N)
 
 class RepositoryDetailsWeatherLoaderImpl : RepositoryDetails {
-    override fun getWeather(lat: Double, lon: Double, callback: WeatherDTOLoadCallback) {
+    override fun getWeather(city: City, callback: WeatherLoadCallback) {
         Thread {
-            val uri = URL(String.format(REQUEST_URL, lat, lon))
+            val uri = URL(String.format(REQUEST_URL, city.lat, city.lon))
             var myConnection: HttpsURLConnection? = null
             myConnection = uri.openConnection() as HttpsURLConnection
             try {
@@ -33,7 +34,7 @@ class RepositoryDetailsWeatherLoaderImpl : RepositoryDetails {
 
                 val reader = BufferedReader(InputStreamReader(myConnection.inputStream))
                 val weatherDTO = Gson().fromJson(getLines(reader), WeatherDTO::class.java)
-                callback.onResponse(weatherDTO)
+                callback.onResponse(convertDTOtoModel(weatherDTO, city))
             } catch (e: IOException) {
                 callback.onFailure(e)
             } finally {

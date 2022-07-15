@@ -2,18 +2,20 @@ package jt.projects.gbweatherapp.model.repository
 
 import com.google.gson.Gson
 import jt.projects.gbweatherapp.BuildConfig
+import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.REQUEST_API_KEY
 import jt.projects.gbweatherapp.utils.REQUEST_URL
+import jt.projects.gbweatherapp.utils.convertDTOtoModel
 import okhttp3.*
 import java.io.IOException
 
 class RepositoryDetailsOkHttpImpl : RepositoryDetails {
-    override fun getWeather(lat: Double, lon: Double, callback: WeatherDTOLoadCallback) {
+    override fun getWeather(city: City, callback: WeatherLoadCallback) {
         val client = OkHttpClient()
         val builder = Request.Builder().apply {
             addHeader(REQUEST_API_KEY, BuildConfig.WEATHER_API_KEY)
-            url(String.format(REQUEST_URL, lat, lon))
+            url(String.format(REQUEST_URL, city.lat, city.lon))
         }
         val request: Request = builder.build()
         val call: Call = client.newCall(request)
@@ -29,7 +31,7 @@ class RepositoryDetailsOkHttpImpl : RepositoryDetails {
                         val responseString = it.string()
                         val weatherDTO =
                             Gson().fromJson((responseString), WeatherDTO::class.java)
-                        callback.onResponse(weatherDTO)
+                        callback.onResponse(convertDTOtoModel(weatherDTO, city))
                     }
                 } else {
 

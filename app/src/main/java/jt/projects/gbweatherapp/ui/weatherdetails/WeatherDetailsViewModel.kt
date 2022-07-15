@@ -2,14 +2,18 @@ package jt.projects.gbweatherapp.ui.weatherdetails
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import jt.projects.gbweatherapp.model.City
+import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.repository.*
+import jt.projects.gbweatherapp.utils.NetworkChangeReceiver
 import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
 class WeatherDetailsViewModel : ViewModel() {
     val liveData: MutableLiveData<AppState<WeatherDTO>> = MutableLiveData()
     lateinit var repository: RepositoryDetails
+    lateinit var repositoryAppendable: RepositoryAppendable
 
     fun getDetailsLiveData(): MutableLiveData<AppState<WeatherDTO>> {
         choiceRepository()
@@ -17,32 +21,39 @@ class WeatherDetailsViewModel : ViewModel() {
     }
 
     private fun choiceRepository() {
-        repository = when (2) {
-            1 -> {
-                RepositoryDetailsOkHttpImpl()
-            }
-            2 -> {
-                RepositoryDetailsRetrofitImpl()
-            }
-            3 -> {
-                RepositoryDetailsWeatherLoaderImpl()
-            }
-            else -> {
-                //    RepositoryDetailsLocalImpl()
-                RepositoryDetailsRetrofitImpl()
+        if (!isConnection()) {
+            repository = RepositoryDetailsRoomImpl()
+        } else {
+            repository = when (2) {
+                1 -> {
+                    RepositoryDetailsOkHttpImpl()
+                }
+                2 -> {
+                    RepositoryDetailsRetrofitImpl()
+                }
+                3 -> {
+                    RepositoryDetailsWeatherLoaderImpl()
+                }
+                else -> {
+                    //    RepositoryDetailsLocalImpl()
+                    RepositoryDetailsRetrofitImpl()
+                }
             }
         }
+
+        repositoryAppendable = RepositoryDetailsRoomImpl()
     }
 
-    fun getWeather(lat: Double, lon: Double) {
+    fun getWeather(city: City) {
         choiceRepository()
         liveData.value = AppState.Loading
-        repository.getWeather(lat, lon, callback)
+        repository.getWeather(city, callback)
     }
 
-    private val callback = object : WeatherDTOLoadCallback {
-        override fun onResponse(weatherDTO: WeatherDTO) {
-            liveData.postValue(AppState.Success(weatherDTO))
+    private val callback = object : WeatherLoadCallback {
+        override fun onResponse(weather: Weather) {
+            liveData.postValue(AppState.Success(weather))
+            if (isConnection()) repositoryAppendable.addWeather(weather)// сохраняем историю
         }
 
         override fun onFailure(e: IOException) {
@@ -51,7 +62,7 @@ class WeatherDetailsViewModel : ViewModel() {
     }
 
     private fun isConnection(): Boolean {
-        return false
+        return NetworkChangeReceiver.isConnected
     }
 
     override fun onCleared() { // TODO HW ***

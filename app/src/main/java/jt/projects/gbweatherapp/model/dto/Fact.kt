@@ -10,51 +10,37 @@ data class Fact(
 //    @SerializedName("accum_prec")
 //    val accumPrec: AccumPrec,
     @SerializedName("cloudness")
-    val cloudness: Double,
+    val cloudness: Double = 0.0,
     @SerializedName("condition")
-    val condition: String,
+    val condition: String = "",
     @SerializedName("daytime")
-    val daytime: String,
+    val daytime: String = "",
     @SerializedName("feels_like")
-    val feelsLike: Int,
+    val feelsLike: Int = 0,
     @SerializedName("humidity")
-    val humidity: Int,
+    val humidity: Int = 0,
     @SerializedName("icon")
-    val icon: String,
-    @SerializedName("is_thunder")
-    val isThunder: Boolean,
-    @SerializedName("obs_time")
-    val obsTime: Int,
-    @SerializedName("polar")
-    val polar: Boolean,
+    val icon: String = "",
     @SerializedName("prec_prob")
-    val precProb: Int,
+    val precProb: Int = 0,
     @SerializedName("prec_strength")
-    val precStrength: Double,
+    val precStrength: Double = 0.0,
     @SerializedName("prec_type")
-    val precType: Int,
+    val precType: Int = 0,
     @SerializedName("pressure_mm")
-    val pressureMm: Double,
+    val pressureMm: Double = 0.0,
     @SerializedName("pressure_pa")
-    val pressurePa: Double,
-    @SerializedName("season")
-    val season: String,
-    @SerializedName("soil_moisture")
-    val soilMoisture: Double,
-    @SerializedName("soil_temp")
-    val soilTemp: Int,
-    @SerializedName("source")
-    val source: String,
+    val pressurePa: Double = 0.0,
     @SerializedName("temp")
-    val temp: Int,
+    val temp: Int = 0,
     @SerializedName("uptime")
-    val uptime: Int,
+    val uptime: Int = 0,
     @SerializedName("uv_index")
-    val uvIndex: Int,
+    val uvIndex: Int = 0,
     @SerializedName("wind_dir")
-    val windDir: String,
+    val windDir: String = "",
     @SerializedName("wind_gust")
-    val windGust: Double,
+    val windGust: Double = 0.0,
     @SerializedName("wind_speed")
-    val windSpeed: Double
+    val windSpeed: Double = 0.0
 ) : Parcelable

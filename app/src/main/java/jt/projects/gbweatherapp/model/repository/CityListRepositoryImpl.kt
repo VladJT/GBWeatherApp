@@ -2,10 +2,8 @@ package jt.projects.gbweatherapp.model.repository
 
 import android.util.Log
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.getRussianCities
 import jt.projects.gbweatherapp.model.getWorldCities
-import jt.projects.gbweatherapp.utils.WeatherCondition
 import java.io.IOException
 
 class CityListRepositoryImpl : CityListRepository {
@@ -36,21 +34,24 @@ class CityListRepositoryImpl : CityListRepository {
         val repository = RepositoryDetailsOkHttpImpl()
         var totalCounter = 0
         for (city in cities) {
-            val callbackOneCityWeather = object : WeatherDTOLoadCallback {
-                override fun onResponse(weatherDTO: WeatherDTO) {
-                    city.temperature = weatherDTO.fact.temp
-                    city.feelsLike = weatherDTO.fact.feelsLike
-                    city.condition = WeatherCondition.getRusName(weatherDTO.fact.condition)
-                    city.icon = weatherDTO.fact.icon
-                    synchronized(lock) { totalCounter++}
+            val callbackOneCityWeather = object : WeatherLoadCallback {
+                override fun onResponse(weather: Weather) {
+                    city.temperature = weather.temperature
+                    city.feelsLike = weather.feelsLike
+                    city.condition = weather.condition
+                    city.icon = weather.icon
+                    city.city.lon = weather.city.lon
+                    city.city.lat = weather.city.lat
+                    city.city.name = weather.city.name
+                    synchronized(lock) { totalCounter++ }
                 }
 
                 override fun onFailure(e: IOException) {
                     Log.e("CityListRepositoryImpl", "load city list error")
-                    synchronized(lock) { totalCounter++}
+                    synchronized(lock) { totalCounter++ }
                 }
             }
-            repository.getWeather(city.city.lat, city.city.lon, callbackOneCityWeather)
+            repository.getWeather(city.city, callbackOneCityWeather)
         }
 
         // ждем завершения всех запросов по списку городов

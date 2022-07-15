@@ -1,7 +1,6 @@
 package jt.projects.gbweatherapp.model.room
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "weather_entity_table")

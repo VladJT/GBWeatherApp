@@ -15,9 +15,9 @@ data class WeatherDTO(
 //    @SerializedName("info")
 //    val info: Info,
     @SerializedName("now")
-    val now: Int,
+    val now: Int = 0,
     @SerializedName("now_dt")
-    val nowDt: String
+    val nowDt: String = ""
 //    @SerializedName("yesterday")
 //    val yesterday: Yesterday
 ) : Parcelable

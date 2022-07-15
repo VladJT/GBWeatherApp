@@ -2,7 +2,9 @@ package jt.projects.gbweatherapp.model.repository
 
 import com.google.gson.GsonBuilder
 import jt.projects.gbweatherapp.BuildConfig
+import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
+import jt.projects.gbweatherapp.utils.convertDTOtoModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,7 +14,7 @@ import java.io.IOException
 
 
 class RepositoryDetailsRetrofitImpl : RepositoryDetails {
-    override fun getWeather(lat: Double, lon: Double, callback: WeatherDTOLoadCallback) {
+    override fun getWeather(city: City, callback: WeatherLoadCallback) {
         val retrofitImpl = Retrofit.Builder()
         retrofitImpl.baseUrl("https://api.weather.yandex.ru")
         retrofitImpl.addConverterFactory(
@@ -22,12 +24,12 @@ class RepositoryDetailsRetrofitImpl : RepositoryDetails {
         )
         val api = retrofitImpl.build().create(WeatherAPI::class.java)
         //api.getWeather(BuildConfig.WEATHER_API_KEY,lat,lon).execute() // синхронный запрос
-        api.getWeather(BuildConfig.WEATHER_API_KEY, lat, lon)
+        api.getWeather(BuildConfig.WEATHER_API_KEY, city.lat, city.lon)
             .enqueue(object : Callback<WeatherDTO> {
                 override fun onResponse(call: Call<WeatherDTO>, response: Response<WeatherDTO>) {
                     // response.raw().request // тут есть информация - а кто же нас вызвал
                     if (response.isSuccessful && response.body() != null) {
-                        callback.onResponse(response.body()!!)
+                        callback.onResponse(convertDTOtoModel(response.body()!!, city))
                     } else {
                         // TODO HW callback.on??? 403 404
                         callback.onFailure(IOException("Retrofit Exception - 403/404"))
