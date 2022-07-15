@@ -1,9 +1,9 @@
-package jt.projects.gbweatherapp.model.dto
+package jt.projects.gbweatherapp.model.dto.others
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Locality(
+data class District(
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")

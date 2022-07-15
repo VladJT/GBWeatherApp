@@ -1,25 +1,23 @@
-package jt.projects.gbweatherapp.model.dto
+package jt.projects.gbweatherapp.model.dto.others
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Hour(
+data class Morning(
     @SerializedName("cloudness")
     val cloudness: Double,
     @SerializedName("condition")
     val condition: String,
+    @SerializedName("daytime")
+    val daytime: String,
     @SerializedName("feels_like")
     val feelsLike: Int,
-    @SerializedName("hour")
-    val hour: String,
-    @SerializedName("hour_ts")
-    val hourTs: Int,
     @SerializedName("humidity")
     val humidity: Int,
     @SerializedName("icon")
     val icon: String,
-    @SerializedName("is_thunder")
-    val isThunder: Boolean,
+    @SerializedName("polar")
+    val polar: Boolean,
     @SerializedName("prec_mm")
     val precMm: Double,
     @SerializedName("prec_period")
@@ -38,8 +36,14 @@ data class Hour(
     val soilMoisture: Double,
     @SerializedName("soil_temp")
     val soilTemp: Int,
-    @SerializedName("temp")
-    val temp: Int,
+    @SerializedName("_source")
+    val source: String,
+    @SerializedName("temp_avg")
+    val tempAvg: Int,
+    @SerializedName("temp_max")
+    val tempMax: Int,
+    @SerializedName("temp_min")
+    val tempMin: Int,
     @SerializedName("uv_index")
     val uvIndex: Int,
     @SerializedName("wind_dir")

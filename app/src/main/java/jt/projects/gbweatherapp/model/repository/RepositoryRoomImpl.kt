@@ -5,7 +5,7 @@ import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.room.WeatherEntity
 
-class RepositoryRoomImpl : RepositoryWeather, WeatherAppendable, RepositoryAllWeather {
+class RepositoryRoomImpl : RepositoryWeather, RepositoryAllWeather, WeatherAppendable{
     override fun getWeather(city: City, callback: WeatherLoadCallback) {
         callback.onResponse(
             convertToWeather(

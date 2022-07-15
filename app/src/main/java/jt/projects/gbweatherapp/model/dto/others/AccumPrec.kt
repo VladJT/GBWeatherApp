@@ -1,4 +1,4 @@
-package jt.projects.gbweatherapp.model.dto
+package jt.projects.gbweatherapp.model.dto.others
 
 
 import android.os.Parcelable

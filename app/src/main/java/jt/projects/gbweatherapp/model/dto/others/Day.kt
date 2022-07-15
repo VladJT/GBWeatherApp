@@ -1,9 +1,9 @@
-package jt.projects.gbweatherapp.model.dto
+package jt.projects.gbweatherapp.model.dto.others
 
 
 import com.google.gson.annotations.SerializedName
 
-data class NightShort(
+data class Day(
     @SerializedName("cloudness")
     val cloudness: Double,
     @SerializedName("condition")
@@ -38,8 +38,12 @@ data class NightShort(
     val soilTemp: Int,
     @SerializedName("_source")
     val source: String,
-    @SerializedName("temp")
-    val temp: Int,
+    @SerializedName("temp_avg")
+    val tempAvg: Int,
+    @SerializedName("temp_max")
+    val tempMax: Int,
+    @SerializedName("temp_min")
+    val tempMin: Int,
     @SerializedName("uv_index")
     val uvIndex: Int,
     @SerializedName("wind_dir")
