@@ -9,9 +9,9 @@ import java.io.IOException
 class RepositoryCityListImpl : RepositoryCityList {
 
     private val lock = Any()
-    lateinit var allCitiesLoadedCallback: CommonLoadCallback
+    lateinit var allCitiesLoadedCallback: CommonCallback
 
-    override fun getCityList(choose: Location, callback: CommonLoadCallback): List<Weather> {
+    override fun getCityList(choose: Location, callback: CommonCallback): List<Weather> {
         allCitiesLoadedCallback = callback
         return when (choose) {
             Location.RUSSIAN -> getCityListFromLocalStorageRus()

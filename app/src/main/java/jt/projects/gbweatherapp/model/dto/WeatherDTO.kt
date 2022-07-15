@@ -15,7 +15,7 @@ data class WeatherDTO(
 //    @SerializedName("info")
 //    val info: Info,
     @SerializedName("now")
-    val now: Int = 0,
+    val now: Long = 0,
     @SerializedName("now_dt")
     val nowDt: String = ""
 //    @SerializedName("yesterday")

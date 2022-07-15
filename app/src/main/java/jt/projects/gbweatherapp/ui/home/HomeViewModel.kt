@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.model.repository.CommonLoadCallback
+import jt.projects.gbweatherapp.model.repository.CommonCallback
+import jt.projects.gbweatherapp.model.repository.Location
 import jt.projects.gbweatherapp.model.repository.RepositoryCityList
 import jt.projects.gbweatherapp.model.repository.RepositoryCityListImpl
-import jt.projects.gbweatherapp.model.repository.Location
 import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
@@ -26,7 +26,7 @@ class HomeViewModel : ViewModel() {
             cityList.getCityList(Location.WORLD, callback)
     }
 
-    private val callback = object : CommonLoadCallback {
+    private val callback = object : CommonCallback {
         override fun onResponse() {
             liveData.postValue(AppState.Success(cities))
         }
@@ -35,5 +35,4 @@ class HomeViewModel : ViewModel() {
             liveData.postValue(AppState.Error(Throwable("Ошибка загрузки списка городов")))
         }
     }
-
 }

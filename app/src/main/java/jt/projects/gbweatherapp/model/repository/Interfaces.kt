@@ -17,5 +17,5 @@ fun interface WeatherAppendable {
 }
 
 interface RepositoryCityList {
-    fun getCityList(choose: Location, callback: CommonLoadCallback): List<Weather>
+    fun getCityList(choose: Location, callback: CommonCallback): List<Weather>
 }

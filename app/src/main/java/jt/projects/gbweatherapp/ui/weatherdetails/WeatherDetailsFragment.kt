@@ -43,7 +43,7 @@ class WeatherDetailsFragment : Fragment() {
             when (result) {
                 DETAILS_RESPONSE_SUCCESS_EXTRA -> {
                     intent.getParcelableExtra<WeatherDTO>(DETAILS_DTO_EXTRA)?.also {
-                        renderData(it)
+                     //   renderData(convertDTOtoModel(it, ))
                     }
                 }
                 else -> {
@@ -57,7 +57,7 @@ class WeatherDetailsFragment : Fragment() {
     @Deprecated("Используется для загрузки данных через WeatherLoader")
     private val weatherLoadListener = object : WeatherLoader.WeatherLoaderListener {
         override fun onLoaded(weatherDTO: WeatherDTO) {
-            renderData(weatherDTO)
+        //    renderData(convertDTOtoModel(weatherDTO))
         }
 
         override fun onFailed(throwable: Throwable) {
@@ -128,7 +128,7 @@ class WeatherDetailsFragment : Fragment() {
         when (appState) {
             is AppState.Success<*> -> {
                 showLoadLayout(false)
-                renderData(convertModelToDto(appState.data as Weather))
+                renderData(appState.data as Weather)
             }
             is AppState.Loading -> {
                 showLoadLayout(true)
@@ -150,10 +150,10 @@ class WeatherDetailsFragment : Fragment() {
         }
     }
 
-    private fun renderData(weather: WeatherDTO) {
+    private fun renderData(weather: Weather) {
         with(binding.includeWeatherCard) {
             cityIcon.load("https://img4.goodfon.com/original/1680x1050/7/28/skyscraper-sunset-new-york.jpg")
-            weatherIcon.load(String.format(ICON_URL, weather.fact.icon))
+            weatherIcon.load(String.format(ICON_URL, weather.icon))
 
             cityName.text = weatherBundle.city.name
             cityCoordinates.text = String.format(
@@ -161,17 +161,19 @@ class WeatherDetailsFragment : Fragment() {
                 weatherBundle.city.lat.toString(),
                 weatherBundle.city.lon.toString()
             )
-            weather.run {
-                temperatureValue.text = fact.temp.toString().toTemperature()
-                temperatureValueBig.text = fact.temp.toString().toTemperature()
-                feelsLikeValue.text = fact.feelsLike.toString().toTemperature()
-                humidityValue.text = "${fact.humidity}%"
-                pressureValue.text = fact.pressureMm.toString()
-                windSpeedValue.text = fact.windSpeed.toString()
-                conditionValue.text = WeatherCondition.getRusName(fact.condition)
-                textViewDateOfWeather.text = nowDt
-                precTypeValue.text = getPrecType(fact.precType)
-            }
+
+            temperatureValue.text = weather.temperature.toString().toTemperature()
+            temperatureValueBig.text = weather.temperature.toString().toTemperature()
+            feelsLikeValue.text = weather.feelsLike.toString().toTemperature()
+            humidityValue.text = "${weather.humidity}%"
+            pressureValue.text = weather.pressureMm.toString()
+            windSpeedValue.text = weather.windSpeed.toString()
+            conditionValue.text = WeatherCondition.getRusName(weather.condition)
+            val sdf = java.text.SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
+            val date = java.util.Date(weather.now*1000)
+            textViewDateOfWeather.text = getDateFromUnixTime(weather.now)
+            precTypeValue.text = getPrecType(weather.precType)
+
         }
     }
 }

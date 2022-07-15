@@ -14,7 +14,7 @@ interface WeatherListLoadCallback {
     fun onFailure(e: IOException)
 }
 
-interface CommonLoadCallback {
+interface CommonCallback {
     fun onResponse()
     fun onFailure(e: IOException)
 }

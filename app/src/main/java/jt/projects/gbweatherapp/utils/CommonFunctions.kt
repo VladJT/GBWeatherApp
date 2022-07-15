@@ -16,7 +16,19 @@ import java.util.stream.Collectors
 // конвертеры
 fun convertDTOtoModel(weatherDTO: WeatherDTO, city: City): Weather {
     val fact = weatherDTO.fact
-    return Weather(city, fact.temp, fact.feelsLike, fact.condition, fact.icon)
+    return Weather(
+        city,
+        fact.temp,
+        fact.feelsLike,
+        fact.condition,
+        fact.icon,
+        fact.pressureMm,
+        fact.humidity,
+        fact.precType,
+        fact.windSpeed,
+        weatherDTO.now,
+        weatherDTO.nowDt
+    )
 }
 
 fun convertModelToDto(weather: Weather): WeatherDTO {
@@ -25,8 +37,14 @@ fun convertModelToDto(weather: Weather): WeatherDTO {
             temp = weather.temperature,
             feelsLike = weather.feelsLike,
             icon = weather.icon,
-            condition = weather.condition
-        )
+            condition = weather.condition,
+            pressureMm = weather.pressureMm,
+            humidity = weather.humidity,
+            precType = weather.precType,
+            windSpeed = weather.windSpeed
+        ),
+        now = weather.now,
+        nowDt = weather.nowDt
     )
 }
 
@@ -78,4 +96,8 @@ fun getLines(reader: BufferedReader): String {
 fun String.toTemperature(): String {
     val i: Int = this.toInt()
     return if (i > 0) "+${this}\u2103" else "${this}\u2103"
+}
+
+fun getDateFromUnixTime(date: Long): String {
+    return java.text.SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(java.util.Date(date * 1000))
 }

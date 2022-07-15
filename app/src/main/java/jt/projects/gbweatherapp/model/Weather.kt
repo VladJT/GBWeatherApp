@@ -1,6 +1,7 @@
 package jt.projects.gbweatherapp.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -9,7 +10,13 @@ data class Weather(
     var temperature: Int = 0,
     var feelsLike: Int = 0,
     var condition: String = "--",
-    var icon: String = "ovc"
+    var icon: String = "ovc",
+    val pressureMm: Double = 0.0,
+    val humidity: Int = 0,
+    val precType: Int = 0,
+    val windSpeed: Double = 0.0,
+    val now: Long = 0,
+    val nowDt: String = ""
 ) : Parcelable
 
 fun getDefaultCity() = City("Москва", 55.755826, 37.617299900000035)

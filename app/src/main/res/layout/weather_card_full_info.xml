@@ -75,6 +75,8 @@
             android:id="@+id/textViewDateOfWeather"
             style="@style/text_style_labels"
             android:textStyle="bold"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/guideline6"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="2022/07/01" />
