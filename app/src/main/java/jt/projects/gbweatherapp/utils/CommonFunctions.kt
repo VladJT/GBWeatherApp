@@ -10,6 +10,7 @@ import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.Fact
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
+import jt.projects.gbweatherapp.model.room.WeatherEntity
 import java.io.BufferedReader
 import java.util.stream.Collectors
 
@@ -45,6 +46,13 @@ fun convertModelToDto(weather: Weather): WeatherDTO {
         ),
         now = weather.now,
         nowDt = weather.nowDt
+    )
+}
+
+fun convertWeatherToEntity(weather: Weather): WeatherEntity {
+    return WeatherEntity(
+        0, weather.city.name, weather.city.lat, weather.city.lon,
+        weather.temperature, weather.feelsLike, weather.condition, weather.icon, weather.now
     )
 }
 

@@ -4,8 +4,9 @@ import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.room.WeatherEntity
+import jt.projects.gbweatherapp.utils.convertWeatherToEntity
 
-class RepositoryRoomImpl : RepositoryWeather, RepositoryAllWeather, WeatherAppendable{
+class RepositoryRoomImpl : RepositoryWeather, RepositoryAllWeather, WeatherAppendable {
     override fun getWeather(city: City, callback: WeatherLoadCallback) {
         callback.onResponse(
             convertToWeather(
@@ -38,13 +39,5 @@ class RepositoryRoomImpl : RepositoryWeather, RepositoryAllWeather, WeatherAppen
                 now = it.now
             )
         }
-    }
-
-
-    private fun convertWeatherToEntity(weather: Weather): WeatherEntity {
-        return WeatherEntity(
-            0, weather.city.name, weather.city.lat, weather.city.lon,
-            weather.temperature, weather.feelsLike, weather.condition, weather.icon, weather.now
-        )
     }
 }

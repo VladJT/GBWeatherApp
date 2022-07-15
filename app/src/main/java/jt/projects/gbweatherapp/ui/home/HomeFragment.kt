@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
     })
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.findItem(R.id.action_clean_room).isVisible = false
+        //    menu.findItem(R.id.action_clean_room).isVisible = false
     }
 
     override fun onCreateView(
@@ -52,6 +52,8 @@ class HomeFragment : Fragment() {
         (activity as? AppCompatActivity)?.let {
             it.supportActionBar?.subtitle = "Список городов"
         }
+        setHasOptionsMenu(true) // эта строчка говорит о том, что у фрагмента должен быть доступ к меню Активити
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -71,6 +73,7 @@ class HomeFragment : Fragment() {
         }
         renderDataSetButton()
     }
+
 
     override fun onDestroy() {
         adapter.removeListener()//чтобы не возникало утечек памяти

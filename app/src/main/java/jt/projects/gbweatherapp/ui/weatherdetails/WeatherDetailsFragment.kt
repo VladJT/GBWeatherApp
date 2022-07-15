@@ -169,8 +169,6 @@ class WeatherDetailsFragment : Fragment() {
             pressureValue.text = weather.pressureMm.toString()
             windSpeedValue.text = weather.windSpeed.toString()
             conditionValue.text = WeatherCondition.getRusName(weather.condition)
-            val sdf = java.text.SimpleDateFormat("dd.MM.yyyy HH:mm:ss")
-            val date = java.util.Date(weather.now * 1000)
             textViewDateOfWeather.text = getDateFromUnixTime(weather.now)
             precTypeValue.text = getPrecType(weather.precType)
 

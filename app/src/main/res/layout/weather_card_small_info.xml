@@ -94,6 +94,17 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="16dp" />
 
+        <ToggleButton
+            android:id="@+id/favButton"
+            style="@style/toggle_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

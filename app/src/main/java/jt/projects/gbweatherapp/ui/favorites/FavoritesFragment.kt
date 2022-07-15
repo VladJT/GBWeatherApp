@@ -45,6 +45,8 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true) // эта строчка говорит о том, что у фрагмента должен быть доступ к меню Активити
+
         (activity as? AppCompatActivity)?.let {
             it.supportActionBar?.subtitle = "Избранное (история)"
         }
@@ -65,7 +67,7 @@ class FavoritesFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.findItem(R.id.action_clean_room).isVisible = true
+        //    menu.findItem(R.id.action_clean_room).isVisible = true
     }
 
     private fun initRecyclerView() {

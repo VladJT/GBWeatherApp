@@ -35,7 +35,7 @@ class NetworkChangeReceiver : BroadcastReceiver() {
                 result = "Сеть: мобильный интернет"
                 isConnected = true
             } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                result = "Сеть: WIFI"
+                result = "Сеть: WiFi"
                 isConnected = true
             } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
                 result = "Сеть: ETHERNET"

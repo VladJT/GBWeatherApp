@@ -51,7 +51,7 @@ class WeatherDetailsViewModel : ViewModel() {
     private val callback = object : WeatherLoadCallback {
         override fun onResponse(weather: Weather) {
             liveData.postValue(AppState.Success(weather))
-            if (isConnection()) repositoryAppendable.addWeather(weather)// сохраняем историю
+            //if (isConnection()) repositoryAppendable.addWeather(weather)// сохраняем историю
         }
 
         override fun onFailure(e: IOException) {
