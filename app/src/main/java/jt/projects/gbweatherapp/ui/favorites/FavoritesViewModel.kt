@@ -12,16 +12,16 @@ class FavoritesViewModel : ViewModel() {
     private val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
     private val repository : RepositoryWeatherAll = RepositoryDetailsRoomImpl()
 
-    fun getData(): LiveData<AppState<List<Weather>>> = liveData
+    fun getLiveData(): LiveData<AppState<List<Weather>>> = liveData
 
-    fun getAllWeather() {
+    fun getWeather() {
         liveData.value = AppState.Loading
-        //repository.getWeatherAll()
+        repository.getWeatherAll(callback)
     }
 
     private val callback = object : AllWeatherLoadCallback {
-        override fun onResponse(weatherList: List<Weather>) {
-            liveData.postValue(AppState.Success(weatherList))
+        override fun onResponse(weather: List<Weather>) {
+            liveData.postValue(AppState.Success(weather))
         }
 
         override fun onFailure(e: IOException) {

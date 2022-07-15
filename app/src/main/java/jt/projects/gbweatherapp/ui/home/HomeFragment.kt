@@ -66,11 +66,10 @@ class HomeFragment : Fragment() {
             Observer<AppState<List<Weather>>> { renderData(it) }// it = конкрeтный экзмепляр AppState
 
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java].also {
-            it.getData().observe(viewLifecycleOwner, observer)
-            it.getData(SharedPref.getData().isDataSetRus)
+            it.getLiveData().observe(viewLifecycleOwner, observer)
+            it.getCityList(SharedPref.getData().isDataSetRus)
         }
         renderDataSetButton()
-        val rows = MyApp.getWeatherDatabase().weatherDao().getWeatherAll()
     }
 
     override fun onDestroy() {
@@ -101,7 +100,7 @@ class HomeFragment : Fragment() {
     private fun changeWeatherDataSet() {
         SharedPref.settings.isDataSetRus = !SharedPref.settings.isDataSetRus
         SharedPref.save()
-        viewModel.getData(SharedPref.getData().isDataSetRus)
+        viewModel.getCityList(SharedPref.getData().isDataSetRus)
         renderDataSetButton()
     }
 
@@ -129,7 +128,7 @@ class HomeFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(listOf())
                 val action =
-                    fun() { viewModel.getData(SharedPref.getData().isDataSetRus) }
+                    fun() { viewModel.getCityList(SharedPref.getData().isDataSetRus) }
                 binding.root.showSnackBarWithAction(
                     appState.error.message ?: "",
                     R.string.reload,
