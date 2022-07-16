@@ -11,9 +11,7 @@ import coil.load
 import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.utils.ICON_URL
-import jt.projects.gbweatherapp.utils.WeatherCondition
-import jt.projects.gbweatherapp.utils.toTemperature
+import jt.projects.gbweatherapp.utils.*
 
 internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
     RecyclerView.Adapter<HomeFragmentAdapter.HomeViewHolder>() {
@@ -81,9 +79,17 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
                 if (isCityExistsInRoom.isNotEmpty()) {
                     favButton.isChecked = true
                 }
-                favButton.setOnClickListener {
-                    favButton.isChecked = true
-                    //   MyApp.getWeatherDatabase().weatherDao().insert(convertWeatherToEntity(weather))
+
+                favButton.setOnCheckedChangeListener { _, isChecked ->
+                    if(!isChecked) {
+                        MyApp.getWeatherDatabase().weatherDao()
+                            .deleteByLocation(weather.city.lat, weather.city.lon)
+                        showSnackBarShort(weather.city.name.plus(" удален из Избранного"))
+                    }else {
+                        MyApp.getWeatherDatabase().weatherDao()
+                            .insert(convertWeatherToEntity(weather))
+                        showSnackBarShort(weather.city.name.plus(" добавлен в Избранное"))
+                    }
                 }
 
                 setOnClickListener {

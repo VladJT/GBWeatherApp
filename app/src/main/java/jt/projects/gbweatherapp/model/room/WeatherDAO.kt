@@ -32,4 +32,7 @@ interface WeatherDAO {
 
     @Query("DELETE FROM weather_entity_table")
     fun deleteAll()
+
+    @Query("DELETE FROM weather_entity_table where lat=:lat and lon=:lon")
+    fun deleteByLocation(lat: Double, lon: Double)
 }

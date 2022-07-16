@@ -30,7 +30,7 @@ class MyApp : Application() {
                     WeatherDatabase::class.java,
                     ROOM_DB_NAME_WEATHER
                 )
-                    .allowMainThreadQueries()//delete!!
+                    .allowMainThreadQueries()// - возможность запросов в главном потоке
                     .build()
             }
             return db!!

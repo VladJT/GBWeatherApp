@@ -31,7 +31,7 @@ class RepositoryCityListImpl : RepositoryCityList {
     }
 
     private fun updateDataWithInternet(cityList: List<Weather>): List<Weather> {
-        val result = mutableListOf<Weather>()
+        var result = mutableListOf<Weather>()
         val repository = RepositoryOkHttpImpl()
         var totalCounter = 0
         for (city in cityList) {
@@ -55,6 +55,7 @@ class RepositoryCityListImpl : RepositoryCityList {
         Thread {
             while (true) {
                 if (totalCounter == cityList.size) {
+                    result.sortBy { it.city.name }
                     allCitiesLoadedCallback.onResponse()
                     break
                 }
