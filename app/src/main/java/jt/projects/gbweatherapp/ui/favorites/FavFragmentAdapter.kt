@@ -64,9 +64,7 @@ internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemVie
                 val cityList = MyApp.getWeatherDbMainThreadMode().weatherDao()
                     .getWeatherByLocation(weather.city.lat, weather.city.lon)
 
-                if (cityList.isNotEmpty()) {
-                    favButton.isChecked = true
-                }else favButton.isChecked = false
+                favButton.isChecked = cityList.isNotEmpty()
 
                 favButton.setOnClickListener {
                     if(!favButton.isChecked ) {

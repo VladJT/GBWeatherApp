@@ -80,9 +80,7 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
                 val favButton = findViewById<ToggleButton>(R.id.favButton)
                 val cityList = MyApp.getWeatherDbMainThreadMode().weatherDao()
                     .getWeatherByLocation(weather.city.lat, weather.city.lon)
-                if (cityList.isNotEmpty()) {
-                    favButton.isChecked = true
-                }else favButton.isChecked = false
+                favButton.isChecked = cityList.isNotEmpty()
 
                 favButton.setOnClickListener {
                     if(!favButton.isChecked ) {

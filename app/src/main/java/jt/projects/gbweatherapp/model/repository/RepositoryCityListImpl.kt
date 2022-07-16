@@ -36,9 +36,9 @@ class RepositoryCityListImpl : RepositoryCityList {
         var totalCounter = 0
         for (city in cityList) {
             val callbackOneCityWeather = object : WeatherLoadCallback {
-                override fun onResponse(weather: Weather) {
+                override fun onResponse(weather: Weather?) {
                     synchronized(lock) {
-                        result.add(weather)
+                        weather?.let{result.add(it)}
                         totalCounter++
                     }
                 }
