@@ -5,7 +5,7 @@ import java.io.IOException
 
 
 interface WeatherLoadCallback {
-    fun onResponse(weather: Weather)
+    fun onResponse(weather: Weather?)
     fun onFailure(e: IOException)
 }
 

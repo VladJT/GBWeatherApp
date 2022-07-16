@@ -8,25 +8,33 @@ import jt.projects.gbweatherapp.utils.convertWeatherToEntity
 
 class RepositoryRoomImpl : RepositoryWeather, RepositoryAllWeather, WeatherAppendable {
     override fun getWeather(city: City, callback: WeatherLoadCallback) {
-        callback.onResponse(
-            convertToWeather(
-                MyApp.getWeatherDatabase().weatherDao().getWeatherByLocation(city.lat, city.lon)
-            ).last()
-        )
+        Thread {
+            val responce =  MyApp.getWeatherDbAsyncMode().weatherDao().getWeatherByLocation(city.lat, city.lon)
+            if(responce.isNotEmpty())  callback.onResponse(convertToWeather(responce).last())
+            else callback.onResponse(null)
+        }.start()
     }
 
     override fun getWeatherAll(callback: WeatherListLoadCallback) {
-        callback.onResponse(
-            convertToWeather(
-                MyApp.getWeatherDatabase().weatherDao().getWeatherAll()
+        Thread {
+            val responce = convertToWeather(
+                MyApp.getWeatherDbAsyncMode().weatherDao().getWeatherAll()
             )
-        )
+            callback.onResponse(responce)
+        }.start()
     }
 
     override fun addWeather(weather: Weather) {
-        MyApp.getWeatherDatabase().weatherDao().insert(convertWeatherToEntity(weather))
+        Thread {
+            MyApp.getWeatherDbAsyncMode().weatherDao().insert(convertWeatherToEntity(weather))
+        }.start()
     }
 
+    override fun deleteAll() {
+        Thread {
+            MyApp.getWeatherDbAsyncMode().weatherDao().deleteAll()
+        }.start()
+    }
 
     private fun convertToWeather(entityList: List<WeatherEntity>): List<Weather> {
         return entityList.map {

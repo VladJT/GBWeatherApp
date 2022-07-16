@@ -12,8 +12,9 @@ interface RepositoryAllWeather {
     fun getWeatherAll(callback: WeatherListLoadCallback)
 }
 
-fun interface WeatherAppendable {
+interface WeatherAppendable {
     fun addWeather(weather: Weather)
+    fun deleteAll()
 }
 
 interface RepositoryCityList {

@@ -21,11 +21,23 @@ class MyApp : Application() {
         private var appInstance: MyApp? = null
         fun getApp() = appInstance!!
 
-        private var db: WeatherDatabase? = null
+        private var dbInAsyncMode: WeatherDatabase? = null
+        private var dbInUiThread: WeatherDatabase? = null
 
-        fun getWeatherDatabase(): WeatherDatabase {
-            if (db == null) {
-                db = Room.databaseBuilder(
+        fun getWeatherDbAsyncMode(): WeatherDatabase {
+            if (dbInAsyncMode == null) {
+                dbInAsyncMode = Room.databaseBuilder(
+                    getApp().applicationContext,
+                    WeatherDatabase::class.java,
+                    ROOM_DB_NAME_WEATHER
+                ).build()
+            }
+            return dbInAsyncMode!!
+        }
+
+        fun getWeatherDbMainThreadMode(): WeatherDatabase {
+            if (dbInUiThread == null) {
+                dbInUiThread = Room.databaseBuilder(
                     getApp().applicationContext,
                     WeatherDatabase::class.java,
                     ROOM_DB_NAME_WEATHER
@@ -33,7 +45,7 @@ class MyApp : Application() {
                     .allowMainThreadQueries()// - возможность запросов в главном потоке
                     .build()
             }
-            return db!!
+            return dbInUiThread!!
         }
     }
 }

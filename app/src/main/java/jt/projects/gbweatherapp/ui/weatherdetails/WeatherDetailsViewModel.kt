@@ -9,11 +9,11 @@ import jt.projects.gbweatherapp.model.repository.*
 import jt.projects.gbweatherapp.utils.NetworkChangeReceiver
 import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
+import java.lang.Exception
 
 class WeatherDetailsViewModel : ViewModel() {
     val liveData: MutableLiveData<AppState<WeatherDTO>> = MutableLiveData()
     lateinit var repository: RepositoryWeather
-    lateinit var repositoryAppendable: WeatherAppendable
 
     fun getDetailsLiveData(): MutableLiveData<AppState<WeatherDTO>> {
         choiceRepository()
@@ -39,8 +39,6 @@ class WeatherDetailsViewModel : ViewModel() {
                 }
             }
         }
-
-        repositoryAppendable = RepositoryRoomImpl()
     }
 
     fun getWeather(city: City) {
@@ -49,9 +47,9 @@ class WeatherDetailsViewModel : ViewModel() {
     }
 
     private val callback = object : WeatherLoadCallback {
-        override fun onResponse(weather: Weather) {
-            liveData.postValue(AppState.Success(weather))
-            //if (isConnection()) repositoryAppendable.addWeather(weather)// сохраняем историю
+        override fun onResponse(weather: Weather?) {
+            if(weather!=null) liveData.postValue(AppState.Success(weather))
+            else throw Exception("weather==null for WeatherDetailsFragment")
         }
 
         override fun onFailure(e: IOException) {

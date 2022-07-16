@@ -11,7 +11,10 @@ import coil.load
 import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
+import jt.projects.gbweatherapp.model.repository.WeatherLoadCallback
 import jt.projects.gbweatherapp.utils.*
+import java.io.IOException
 
 internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
     RecyclerView.Adapter<HomeFragmentAdapter.HomeViewHolder>() {
@@ -49,6 +52,7 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
 
     inner class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+
         fun bind(weather: Weather) {
             with(itemView) {
                 findViewById<TextView>(R.id.temperatureValueBigSmallCard).text =
@@ -74,19 +78,19 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
                 // Picasso.get().load(iconWeatherUrl).into(imageWeather)
 
                 val favButton = findViewById<ToggleButton>(R.id.favButton)
-                val isCityExistsInRoom = MyApp.getWeatherDatabase().weatherDao()
+                val cityList = MyApp.getWeatherDbMainThreadMode().weatherDao()
                     .getWeatherByLocation(weather.city.lat, weather.city.lon)
-                if (isCityExistsInRoom.isNotEmpty()) {
+                if (cityList.isNotEmpty()) {
                     favButton.isChecked = true
-                }
+                }else favButton.isChecked = false
 
-                favButton.setOnCheckedChangeListener { _, isChecked ->
-                    if(!isChecked) {
-                        MyApp.getWeatherDatabase().weatherDao()
+                favButton.setOnClickListener {
+                    if(!favButton.isChecked ) {
+                        MyApp.getWeatherDbMainThreadMode().weatherDao()
                             .deleteByLocation(weather.city.lat, weather.city.lon)
                         showSnackBarShort(weather.city.name.plus(" удален из Избранного"))
                     }else {
-                        MyApp.getWeatherDatabase().weatherDao()
+                        MyApp.getWeatherDbMainThreadMode().weatherDao()
                             .insert(convertWeatherToEntity(weather))
                         showSnackBarShort(weather.city.name.plus(" добавлен в Избранное"))
                     }

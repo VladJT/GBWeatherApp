@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
@@ -38,7 +39,8 @@ class MainActivity : BaseActivity() {
                 showAllRunningServices()
             }
             R.id.action_clean_room -> {
-                MyApp.getWeatherDatabase().weatherDao().deleteAll()
+                val repRoom = RepositoryRoomImpl()
+                repRoom.deleteAll()
                 binding.root.showSnackBarShort("Список избранного очищен")
             }
         }

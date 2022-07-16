@@ -3,6 +3,7 @@ package jt.projects.gbweatherapp.ui.favorites
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.repository.RepositoryAllWeather
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl

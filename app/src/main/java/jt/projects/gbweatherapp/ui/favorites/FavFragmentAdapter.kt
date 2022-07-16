@@ -4,15 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.utils.ICON_URL
-import jt.projects.gbweatherapp.utils.WeatherCondition
-import jt.projects.gbweatherapp.utils.getDateFromUnixTime
-import jt.projects.gbweatherapp.utils.toTemperature
+import jt.projects.gbweatherapp.utils.*
 
 internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
     RecyclerView.Adapter<FavFragmentAdapter.HomeViewHolder>() {
@@ -61,6 +60,25 @@ internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemVie
                 val imageWeather = findViewById<AppCompatImageView>(R.id.weatherIconSmallCard)
                 imageWeather.load(String.format(ICON_URL, weather.icon)) {}
 
+                val favButton = findViewById<ToggleButton>(R.id.favButton)
+                val cityList = MyApp.getWeatherDbMainThreadMode().weatherDao()
+                    .getWeatherByLocation(weather.city.lat, weather.city.lon)
+
+                if (cityList.isNotEmpty()) {
+                    favButton.isChecked = true
+                }else favButton.isChecked = false
+
+                favButton.setOnClickListener {
+                    if(!favButton.isChecked ) {
+                        MyApp.getWeatherDbMainThreadMode().weatherDao()
+                            .deleteByLocation(weather.city.lat, weather.city.lon)
+                        showSnackBarShort(weather.city.name.plus(" удален из Избранного"))
+                    }else {
+                        MyApp.getWeatherDbMainThreadMode().weatherDao()
+                            .insert(convertWeatherToEntity(weather))
+                        showSnackBarShort(weather.city.name.plus(" добавлен в Избранное"))
+                    }
+                }
 
                 setOnClickListener {
                     onItemViewClickListener?.onItemViewClick(weather)
