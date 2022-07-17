@@ -9,8 +9,9 @@ import jt.projects.gbweatherapp.utils.convertWeatherToEntity
 class RepositoryRoomImpl : RepositoryWeather, RepositoryAllWeather, WeatherEditable {
     override fun getWeather(city: City, callback: WeatherLoadCallback) {
         Thread {
-            val responce =  MyApp.getWeatherDbAsyncMode().weatherDao().getWeatherByLocation(city.lat, city.lon)
-            if(responce.isNotEmpty())  callback.onResponse(convertToWeather(responce).last())
+            val responce =
+                MyApp.getWeatherDbAsyncMode().weatherDao().getWeatherByLocation(city.lat, city.lon)
+            if (responce.isNotEmpty()) callback.onResponse(convertToWeather(responce).last())
             else callback.onResponse(null)
         }.start()
     }

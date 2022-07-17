@@ -7,13 +7,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import coil.load
-import jt.projects.gbweatherapp.BaseActivity
-import jt.projects.gbweatherapp.databinding.WeatherDetailsFragmentBinding
+import jt.projects.gbweatherapp.R
+import jt.projects.gbweatherapp.databinding.FragmentWeatherDetailsBinding
+
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.utils.*
@@ -26,7 +29,7 @@ const val DETAILS_DTO_EXTRA = "DETAILS_DTO_EXTRA"
 
 class WeatherDetailsFragment : Fragment() {
 
-    private var _binding: WeatherDetailsFragmentBinding? = null
+    private var _binding: FragmentWeatherDetailsBinding? = null
     private val binding get() = _binding!!
     private lateinit var weatherBundle: Weather
     private lateinit var viewModel: WeatherDetailsViewModel
@@ -96,7 +99,7 @@ class WeatherDetailsFragment : Fragment() {
         (activity as? AppCompatActivity)?.let {
             it.supportActionBar?.subtitle = "Сведения о городе"
         }
-        _binding = WeatherDetailsFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -158,7 +161,18 @@ class WeatherDetailsFragment : Fragment() {
                 .append(weather.temperature.toString().toTemperature())
                 .append("\n")
         }
-        (activity as? BaseActivity)?.showMsgDialog("История изменения погоды: ", sb.toString())
+        //(activity as? BaseActivity)?.showMsgDialog("История изменения погоды: ", sb.toString())
+        val customDialogView = layoutInflater.inflate(R.layout.dialog_history, null)
+        val c = requireContext()
+        val dialog = AlertDialog.Builder(c)
+            .setTitle("История изменения погоды")
+            .setView(customDialogView)
+            .setIcon(android.R.drawable.ic_menu_recent_history)
+            .setNeutralButton(c.getText(android.R.string.no), null)
+            .setPositiveButton(c.getText(android.R.string.yes)) { dialog, which -> }
+        val textViewHistory = customDialogView.findViewById<TextView>(R.id.textViewHistory)
+        textViewHistory.text = sb.toString()
+        dialog.show()
     }
 
     private fun renderDataVM(appState: AppState<Weather>) {

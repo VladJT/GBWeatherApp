@@ -20,7 +20,7 @@ class NetworkChangeReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        var connInfo = getConnectionInfo(context)
+        val connInfo = getConnectionInfo(context)
         Toast.makeText(context, connInfo, Toast.LENGTH_LONG).show()
     }
 

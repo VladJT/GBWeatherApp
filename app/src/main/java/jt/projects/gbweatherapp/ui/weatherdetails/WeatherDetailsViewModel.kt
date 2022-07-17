@@ -4,12 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.repository.*
 import jt.projects.gbweatherapp.utils.NetworkChangeReceiver
 import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
-import java.lang.Exception
 
 class WeatherDetailsViewModel : ViewModel() {
     val liveData: MutableLiveData<AppState<Weather>> = MutableLiveData()
@@ -49,7 +47,7 @@ class WeatherDetailsViewModel : ViewModel() {
 
     private val callback = object : WeatherLoadCallback {
         override fun onResponse(weather: Weather?) {
-            if(weather!=null) liveData.postValue(AppState.Success(weather))
+            if (weather != null) liveData.postValue(AppState.Success(weather))
             else throw Exception("weather==null for WeatherDetailsFragment")
         }
 

@@ -11,10 +11,7 @@ import coil.load
 import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
-import jt.projects.gbweatherapp.model.repository.WeatherLoadCallback
 import jt.projects.gbweatherapp.utils.*
-import java.io.IOException
 
 internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
     RecyclerView.Adapter<HomeFragmentAdapter.HomeViewHolder>() {
@@ -83,11 +80,11 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
                 favButton.isChecked = cityList.isNotEmpty()
 
                 favButton.setOnClickListener {
-                    if(!favButton.isChecked ) {
+                    if (!favButton.isChecked) {
                         MyApp.getWeatherDbMainThreadMode().weatherDao()
                             .deleteByLocation(weather.city.lat, weather.city.lon)
                         showSnackBarShort(weather.city.name.plus(" удален из Избранного"))
-                    }else {
+                    } else {
                         MyApp.getWeatherDbMainThreadMode().weatherDao()
                             .insert(convertWeatherToEntity(weather))
                         showSnackBarShort(weather.city.name.plus(" добавлен в Избранное"))

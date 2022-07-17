@@ -67,11 +67,11 @@ internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemVie
                 favButton.isChecked = cityList.isNotEmpty()
 
                 favButton.setOnClickListener {
-                    if(!favButton.isChecked ) {
+                    if (!favButton.isChecked) {
                         MyApp.getWeatherDbMainThreadMode().weatherDao()
                             .deleteByLocation(weather.city.lat, weather.city.lon)
                         showSnackBarShort(weather.city.name.plus(" удален из Избранного"))
-                    }else {
+                    } else {
                         MyApp.getWeatherDbMainThreadMode().weatherDao()
                             .insert(convertWeatherToEntity(weather))
                         showSnackBarShort(weather.city.name.plus(" добавлен в Избранное"))
