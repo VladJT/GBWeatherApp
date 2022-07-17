@@ -67,7 +67,6 @@ fun convertWeatherToHistory(weather: Weather): WeatherHistoryEntity {
     )
 }
 
-
 // принимает текст для вывода или как строку, или как id Resources (String)
 fun <T> View.showSnackBarShort(text: T) {
     Snackbar.make(this, this.getUniString(text), Snackbar.LENGTH_SHORT).show()

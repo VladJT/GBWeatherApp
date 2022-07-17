@@ -2,6 +2,7 @@ package jt.projects.gbweatherapp.model.room
 
 import androidx.room.*
 
+
 @Dao
 interface WeatherDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

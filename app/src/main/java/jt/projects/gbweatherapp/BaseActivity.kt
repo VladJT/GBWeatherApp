@@ -103,6 +103,7 @@ open class BaseActivity : AppCompatActivity() {
             .commit()
     }
 
+
     @Suppress("DEPRECATION")
     fun showExitDialog() {
         AlertDialog.Builder(this)

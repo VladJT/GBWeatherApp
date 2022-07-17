@@ -30,5 +30,3 @@ const val NOTIFICATION_CHANNEL_NAME = "vlad"
 
 // ROOM
 const val ROOM_DB_NAME_WEATHER = "weather.db"
-
-

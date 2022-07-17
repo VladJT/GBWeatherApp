@@ -81,6 +81,7 @@ class HomeFragment : Fragment() {
         super.onDestroy()
     }
 
+
     private fun initRecyclerView() {
         binding.mainFragmentRecyclerView.adapter = adapter
         //  разделитель карточек

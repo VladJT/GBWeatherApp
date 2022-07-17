@@ -19,6 +19,7 @@ class WeatherDetailsViewModel : ViewModel() {
         return liveData
     }
 
+
     private fun choiceRepository() {
         if (!isConnection()) {
             repository = RepositoryRoomImpl()

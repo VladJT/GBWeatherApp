@@ -20,6 +20,7 @@ class HistoryDetailsViewModel : ViewModel() {
         return liveData
     }
 
+
     fun addHistory(weather: Weather) {
         repository.addWeather(weather)
     }

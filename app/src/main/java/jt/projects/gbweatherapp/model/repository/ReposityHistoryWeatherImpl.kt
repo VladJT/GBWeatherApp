@@ -6,6 +6,7 @@ import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.room.WeatherHistoryEntity
 import jt.projects.gbweatherapp.utils.convertWeatherToHistory
 
+
 class ReposityHistoryWeatherImpl : RepositoryHistoryWeather {
 
     override fun addWeather(weather: Weather) {

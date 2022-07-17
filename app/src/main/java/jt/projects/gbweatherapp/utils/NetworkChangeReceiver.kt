@@ -11,8 +11,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 
 
-//  registerReceiver(networkChangeReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-
 // BroadcastReceiver для отслеживания состояния СЕТИ
 class NetworkChangeReceiver : BroadcastReceiver() {
     companion object {

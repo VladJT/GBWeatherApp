@@ -191,6 +191,7 @@ class WeatherDetailsFragment : Fragment() {
         }
     }
 
+
     private fun showLoadLayout(isLoading: Boolean) {
         if (isLoading) {
             binding.includeWeatherCard.root.visibility = View.GONE

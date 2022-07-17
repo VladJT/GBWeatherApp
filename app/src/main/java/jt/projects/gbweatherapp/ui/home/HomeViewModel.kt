@@ -18,7 +18,6 @@ class HomeViewModel : ViewModel() {
     fun getLiveData(): LiveData<AppState<List<Weather>>> = liveData
     lateinit var cities: List<Weather>
 
-
     fun getCityList(isRussian: Boolean) {
         liveData.value = AppState.Loading
         cities = if (isRussian)

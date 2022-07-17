@@ -6,6 +6,7 @@ import jt.projects.gbweatherapp.model.getRussianCities
 import jt.projects.gbweatherapp.model.getWorldCities
 import java.io.IOException
 
+
 class RepositoryCityListImpl : RepositoryCityList {
 
     private val lock = Any()

@@ -22,6 +22,7 @@ internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemVie
 
     var weatherData: List<Weather> = listOf()
 
+
     fun setWeather(data: List<Weather>) {
         weatherData = data
         notifyDataSetChanged()

@@ -13,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 
+
 class RepositoryRetrofitImpl : RepositoryWeather {
     override fun getWeather(city: City, callback: WeatherLoadCallback) {
         val retrofitImpl = Retrofit.Builder()

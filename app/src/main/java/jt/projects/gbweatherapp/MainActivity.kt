@@ -26,6 +26,7 @@ class MainActivity : BaseActivity() {
         initAppBarThemeSwitch()
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // мы получаем Меню приложения и с помощью специального MenuInflater’а (по
         //аналогии с LayoutInflater’ом) надуваем кнопки в получаемом меню.

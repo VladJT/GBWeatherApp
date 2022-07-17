@@ -18,18 +18,6 @@ class SharedPref {
             sharedPref = context.getSharedPreferences(SP_DB_NAME, Context.MODE_PRIVATE)
         }
 
-//        fun saveAppTheme(theme: Int) {
-//            val editor: SharedPreferences.Editor = sharedPref.edit().putInt(
-//                THEME_KEY,
-//                theme
-//            )
-//            editor.apply()
-//        }
-//
-//        fun getAppTheme(): Int {
-//            return sharedPref.getInt(THEME_KEY, R.style.Theme_LightTheme)
-//        }
-
         fun getData(): Settings {
             val jsonNotes = sharedPref.getString(SP_DB_KEY, null)
             val type = object : TypeToken<Settings>() {}.type

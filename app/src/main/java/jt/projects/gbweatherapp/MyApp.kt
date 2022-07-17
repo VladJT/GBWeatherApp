@@ -17,6 +17,7 @@ class MyApp : Application() {
         appInstance = this
     }
 
+
     companion object {
         private var appInstance: MyApp? = null
         fun getApp() = appInstance!!

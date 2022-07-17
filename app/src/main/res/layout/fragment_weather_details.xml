@@ -72,6 +72,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="518dp" />
 
+
     <FrameLayout
         android:id="@+id/loadingLayout"
         android:layout_width="match_parent"
