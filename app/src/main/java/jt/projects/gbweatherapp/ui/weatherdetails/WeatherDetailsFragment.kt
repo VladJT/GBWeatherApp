@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import coil.load
+import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.databinding.WeatherDetailsFragmentBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
@@ -29,6 +30,7 @@ class WeatherDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var weatherBundle: Weather
     private lateinit var viewModel: WeatherDetailsViewModel
+    private lateinit var viewModelHistory: HistoryDetailsViewModel
 
     companion object {
         fun newInstance(bundle: Bundle): WeatherDetailsFragment =
@@ -100,20 +102,28 @@ class WeatherDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        weatherBundle = arguments?.getParcelable<Weather>(BUNDLE_EXTRA)!!
+        weatherBundle = arguments?.getParcelable(BUNDLE_EXTRA)!!
         binding.buttonBack.setOnClickListener { activity?.supportFragmentManager?.popBackStack() }
-
-        // старый способ
-//        WeatherLoader(
-//            weatherLoadListener,
-//            weatherBundle.city.lat,
-//            weatherBundle.city.lon
-//        )?.loadWeather()
 
         viewModel = ViewModelProvider(this)[WeatherDetailsViewModel::class.java].also { it ->
             it.getDetailsLiveData().observe(viewLifecycleOwner, Observer { renderDataVM(it) })
             it.getWeather(weatherBundle.city)
             //    it.getWeatherFromRemoteSource("https://api.weather.yandex.ru/v2/forecast?lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}")
+        }
+
+        viewModelHistory = ViewModelProvider(this)[HistoryDetailsViewModel::class.java].also { it ->
+            it.getDetailsLiveData().observe(viewLifecycleOwner, Observer { renderDataHistory(it) })
+            //    it.getWeatherFromRemoteSource("https://api.weather.yandex.ru/v2/forecast?lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}")
+        }
+
+        binding.buttonShowHistory.setOnClickListener() {
+            viewModelHistory.getHistoryByLocation(
+                weatherBundle.city
+            )
+        }
+
+        binding.buttonAddToHistory.setOnClickListener() {
+            viewModelHistory.addHistory(weatherBundle)
         }
 
         // загружаем данные через сервис
@@ -124,7 +134,34 @@ class WeatherDetailsFragment : Fragment() {
 //        }
     }
 
-    private fun renderDataVM(appState: AppState<WeatherDTO>) {
+    private fun renderDataHistory(appState: AppState<List<Weather>>) {
+        when (appState) {
+            is AppState.Success<*> -> {
+                showLoadLayout(false)
+                showHistory(appState.data as List<Weather>)
+            }
+            is AppState.Loading -> {
+                showLoadLayout(true)
+            }
+            is AppState.Error -> {
+                showLoadLayout(false)
+                binding.root.showSnackBarShort("Ошибка загрузки детализации истории")
+            }
+        }
+    }
+
+    private fun showHistory(weatherList: List<Weather>) {
+        val sb = StringBuilder()
+        for (weather in weatherList) {
+            sb.append(getDateFromUnixTime(weather.now))
+                .append(" ")
+                .append(weather.temperature.toString().toTemperature())
+                .append("\n")
+        }
+        (activity as? BaseActivity)?.showMsgDialog("История изменения погоды: ", sb.toString())
+    }
+
+    private fun renderDataVM(appState: AppState<Weather>) {
         when (appState) {
             is AppState.Success<*> -> {
                 showLoadLayout(false)

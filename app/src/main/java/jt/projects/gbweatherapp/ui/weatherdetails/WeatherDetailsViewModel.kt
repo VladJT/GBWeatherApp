@@ -12,10 +12,11 @@ import java.io.IOException
 import java.lang.Exception
 
 class WeatherDetailsViewModel : ViewModel() {
-    val liveData: MutableLiveData<AppState<WeatherDTO>> = MutableLiveData()
+    val liveData: MutableLiveData<AppState<Weather>> = MutableLiveData()
+
     lateinit var repository: RepositoryWeather
 
-    fun getDetailsLiveData(): MutableLiveData<AppState<WeatherDTO>> {
+    fun getDetailsLiveData(): MutableLiveData<AppState<Weather>> {
         choiceRepository()
         return liveData
     }

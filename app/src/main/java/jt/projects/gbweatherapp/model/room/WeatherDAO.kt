@@ -7,6 +7,9 @@ interface WeatherDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(weatherEntity: WeatherEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertHistory(weatherHistoryEntity: WeatherHistoryEntity)
+
 //    @Query(
 //        "Insert into weather_entity_table(name,lat,lon,temperature,feelsLike,condition,icon) " +
 //                "values (:name,:lat,:lon,:temperature,:feelsLike,:condition,:icon)"
@@ -26,6 +29,9 @@ interface WeatherDAO {
 
     @Query("SELECT * FROM weather_entity_table where lat=:lat and lon=:lon")
     fun getWeatherByLocation(lat: Double, lon: Double): List<WeatherEntity>
+
+    @Query("SELECT * FROM weather_history_table where lat=:lat and lon=:lon")
+    fun getHistoryByLocation(lat: Double, lon: Double): List<WeatherHistoryEntity>
 
     @Update
     fun update(entity: WeatherEntity)

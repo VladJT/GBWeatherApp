@@ -117,7 +117,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     @Suppress("DEPRECATION")
-    fun showMsgDialog(title: String, message: String) {
+    public fun showMsgDialog(title: String, message: String) {
         AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)

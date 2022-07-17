@@ -11,6 +11,7 @@ import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.dto.Fact
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.room.WeatherEntity
+import jt.projects.gbweatherapp.model.room.WeatherHistoryEntity
 import java.io.BufferedReader
 import java.util.stream.Collectors
 
@@ -55,6 +56,17 @@ fun convertWeatherToEntity(weather: Weather): WeatherEntity {
         weather.temperature, weather.feelsLike, weather.condition, weather.icon, weather.now
     )
 }
+
+fun convertWeatherToHistory(weather: Weather): WeatherHistoryEntity {
+    return WeatherHistoryEntity(
+        0,
+        weather.city.lat,
+        weather.city.lon,
+        weather.temperature,
+        weather.now
+    )
+}
+
 
 // принимает текст для вывода или как строку, или как id Resources (String)
 fun <T> View.showSnackBarShort(text: T) {

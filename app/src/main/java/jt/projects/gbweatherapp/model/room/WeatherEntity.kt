@@ -16,3 +16,13 @@ data class WeatherEntity(
     var icon: String,
     val now: Long
 )
+
+@Entity(tableName = "weather_history_table")
+data class WeatherHistoryEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long,
+    val lat: Double,
+    val lon: Double,
+    var temperature: Int,
+    val now: Long
+)

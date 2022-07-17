@@ -6,7 +6,7 @@ import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.room.WeatherEntity
 import jt.projects.gbweatherapp.utils.convertWeatherToEntity
 
-class RepositoryRoomImpl : RepositoryWeather, RepositoryAllWeather, WeatherAppendable {
+class RepositoryRoomImpl : RepositoryWeather, RepositoryAllWeather, WeatherEditable {
     override fun getWeather(city: City, callback: WeatherLoadCallback) {
         Thread {
             val responce =  MyApp.getWeatherDbAsyncMode().weatherDao().getWeatherByLocation(city.lat, city.lon)
