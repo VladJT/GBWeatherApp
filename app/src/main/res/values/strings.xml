@@ -28,7 +28,7 @@
     <string name="service_broadcast">Service + Broadcast</string>
     <string name="phenom_condition">Погодные условия</string>
     <string name="prec_type">Тип осадков</string>
-    <string name="clean_room">Очистить Room</string>
+    <string name="clean_room">Очистить Избранное</string>
     <string name="add_history">Сохранить History</string>
     <string name="show_history">Показать History</string>
 

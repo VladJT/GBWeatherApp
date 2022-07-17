@@ -38,6 +38,9 @@ class MainActivity : BaseActivity() {
             R.id.action_service_info -> {
                 showAllRunningServices()
             }
+            R.id.action_settings -> {
+                binding.root.showSnackBarShort("Settings (TODO)")
+            }
             R.id.action_clean_room -> {
                 val repRoom = RepositoryRoomImpl()
                 repRoom.deleteAll()

@@ -156,7 +156,7 @@ class WeatherDetailsFragment : Fragment() {
     private fun showHistory(weatherList: List<Weather>) {
         val sb = StringBuilder()
         for (weather in weatherList) {
-            sb.append(getDateFromUnixTime(weather.now))
+            sb.append(weather.now.toDateTime())
                 .append(" ")
                 .append(weather.temperature.toString().toTemperature())
                 .append("\n")
@@ -220,7 +220,7 @@ class WeatherDetailsFragment : Fragment() {
             pressureValue.text = weather.pressureMm.toString()
             windSpeedValue.text = weather.windSpeed.toString()
             conditionValue.text = WeatherCondition.getRusName(weather.condition)
-            textViewDateOfWeather.text = getDateFromUnixTime(weather.now)
+            textViewDateOfWeather.text = weather.now.toDateTime()
             precTypeValue.text = getPrecType(weather.precType)
 
         }

@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="Настройки"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_service_info"
         android:icon="@android:drawable/ic_menu_manage"
-        android:title="Сервисы"
-        app:showAsAction="always" />
+        android:title="Активные сервисы"
+        app:showAsAction="withText" />
 
     <item
         android:id="@+id/action_clean_room"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/clean_room"
-        app:showAsAction="withText" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:title="Настройки"
         app:showAsAction="withText" />
 
     <item

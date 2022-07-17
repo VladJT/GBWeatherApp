@@ -24,6 +24,7 @@ class MyApp : Application() {
         private var dbInAsyncMode: WeatherDatabase? = null
         private var dbInUiThread: WeatherDatabase? = null
 
+        // для работы с Room в асинхронном режиме
         fun getWeatherDbAsyncMode(): WeatherDatabase {
             if (dbInAsyncMode == null) {
                 dbInAsyncMode = Room.databaseBuilder(
@@ -35,6 +36,7 @@ class MyApp : Application() {
             return dbInAsyncMode!!
         }
 
+        // для работы с Room в главном потоке
         fun getWeatherDbMainThreadMode(): WeatherDatabase {
             if (dbInUiThread == null) {
                 dbInUiThread = Room.databaseBuilder(

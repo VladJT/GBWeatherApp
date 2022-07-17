@@ -30,7 +30,7 @@ interface WeatherDAO {
     @Query("SELECT * FROM weather_entity_table where lat=:lat and lon=:lon")
     fun getWeatherByLocation(lat: Double, lon: Double): List<WeatherEntity>
 
-    @Query("SELECT * FROM weather_history_table where lat=:lat and lon=:lon")
+    @Query("SELECT * FROM weather_history_table where lat=:lat and lon=:lon order by id asc")
     fun getHistoryByLocation(lat: Double, lon: Double): List<WeatherHistoryEntity>
 
     @Update

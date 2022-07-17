@@ -15,59 +15,6 @@ import jt.projects.gbweatherapp.model.room.WeatherHistoryEntity
 import java.io.BufferedReader
 import java.util.stream.Collectors
 
-// конвертеры
-fun convertDTOtoModel(weatherDTO: WeatherDTO, city: City): Weather {
-    val fact = weatherDTO.fact
-    return Weather(
-        city,
-        fact.temp,
-        fact.feelsLike,
-        fact.condition,
-        fact.icon,
-        fact.pressureMm,
-        fact.humidity,
-        fact.precType,
-        fact.windSpeed,
-        weatherDTO.now,
-        weatherDTO.nowDt
-    )
-}
-
-fun convertModelToDto(weather: Weather): WeatherDTO {
-    return WeatherDTO(
-        Fact(
-            temp = weather.temperature,
-            feelsLike = weather.feelsLike,
-            icon = weather.icon,
-            condition = weather.condition,
-            pressureMm = weather.pressureMm,
-            humidity = weather.humidity,
-            precType = weather.precType,
-            windSpeed = weather.windSpeed
-        ),
-        now = weather.now,
-        nowDt = weather.nowDt
-    )
-}
-
-fun convertWeatherToEntity(weather: Weather): WeatherEntity {
-    return WeatherEntity(
-        0, weather.city.name, weather.city.lat, weather.city.lon,
-        weather.temperature, weather.feelsLike, weather.condition, weather.icon, weather.now
-    )
-}
-
-fun convertWeatherToHistory(weather: Weather): WeatherHistoryEntity {
-    return WeatherHistoryEntity(
-        0,
-        weather.city.lat,
-        weather.city.lon,
-        weather.temperature,
-        weather.now
-    )
-}
-
-
 // принимает текст для вывода или как строку, или как id Resources (String)
 fun <T> View.showSnackBarShort(text: T) {
     Snackbar.make(this, this.getUniString(text), Snackbar.LENGTH_SHORT).show()
@@ -111,13 +58,4 @@ fun View.hideKeyboard(): Boolean {
 @RequiresApi(Build.VERSION_CODES.N)
 fun getLines(reader: BufferedReader): String {
     return reader.lines().collect(Collectors.joining("\n"))
-}
-
-fun String.toTemperature(): String {
-    val i: Int = this.toInt()
-    return if (i > 0) "+${this}\u2103" else "${this}\u2103"
-}
-
-fun getDateFromUnixTime(date: Long): String {
-    return java.text.SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(java.util.Date(date * 1000))
 }

@@ -56,7 +56,7 @@ internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemVie
                 findViewById<TextView>(R.id.conditionValueSmallCard).text =
                     WeatherCondition.getRusName(weather.condition)
                 findViewById<TextView>(R.id.dateOfWeatherSmallCard).text =
-                    getDateFromUnixTime(weather.now)
+                    weather.now.toDateTime()
                 val imageWeather = findViewById<AppCompatImageView>(R.id.weatherIconSmallCard)
                 imageWeather.load(String.format(ICON_URL, weather.icon)) {}
 
