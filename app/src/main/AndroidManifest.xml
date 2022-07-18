@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="jt.projects.gbweatherapp">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:name=".MyApp"
@@ -19,23 +19,26 @@
         android:theme="@style/Theme.DarkTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <provider
+            android:name=".ui.contacts.GBContentProvider"
+            android:authorities="jt.projects.contentprovider"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity> <!-- > Сервисы д.б. в манифесте < -->
         <service android:name="jt.projects.gbweatherapp.memo.ExService" />
         <service android:name="jt.projects.gbweatherapp.memo.ExIntentService" />
-        <service android:name="jt.projects.gbweatherapp.utils.WeatherLoaderService" />
-        <service android:name="jt.projects.gbweatherapp.utils.NetworkStatusService" />
-
-
-        <!-- > BroadcastReceiver для приема сообщений извне д.б. в манифесте < -->
+        <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" />
+        <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" /> <!-- > BroadcastReceiver для приема сообщений извне д.б. в манифесте < -->
         <receiver
             android:name="jt.projects.gbweatherapp.memo.ExBroadcastReceiver"
             android:exported="false">
