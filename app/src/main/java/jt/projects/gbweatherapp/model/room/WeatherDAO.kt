@@ -1,5 +1,6 @@
 package jt.projects.gbweatherapp.model.room
 
+import android.database.Cursor
 import androidx.room.*
 
 @Dao
@@ -41,4 +42,13 @@ interface WeatherDAO {
 
     @Query("DELETE FROM weather_entity_table where lat=:lat and lon=:lon")
     fun deleteByLocation(lat: Double, lon: Double)
+
+    @Query("DELETE FROM weather_entity_table WHERE id = :id")
+    fun deleteById(id: Long)
+
+    @Query("SELECT id, lat, lon, temperature FROM weather_entity_table")
+    fun getHistoryCursor(): Cursor
+
+    @Query("SELECT id, lat, lon, temperature FROM weather_entity_table WHERE id = :id")
+    fun getHistoryCursor(id: Long): Cursor
 }

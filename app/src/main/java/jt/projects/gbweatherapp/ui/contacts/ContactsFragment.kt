@@ -20,7 +20,6 @@ const val REQUEST_CODE = 42
 
 class ContactsFragment : Fragment() {
 
-
     private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
 
@@ -128,6 +127,5 @@ class ContactsFragment : Fragment() {
         _binding = null
         super.onDestroy()
     }
-
 
 }

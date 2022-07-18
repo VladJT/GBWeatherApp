@@ -18,7 +18,6 @@ import jt.projects.gbweatherapp.utils.DURATION_ITEM_ANIMATOR
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
 
-
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!

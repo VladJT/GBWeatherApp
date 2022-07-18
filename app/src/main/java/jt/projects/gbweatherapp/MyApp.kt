@@ -9,8 +9,7 @@ import jt.projects.gbweatherapp.utils.ROOM_DB_NAME_WEATHER
 //практика. В нём создаётся не только БД, но и классы для логирования событий, аналитики, внедрения
 //зависимостей и т. д. Это те классы, которые надо создавать единожды, но использовать везде
 
-// !! обязательно добавляем в манифест
-// android:name=".MyApp"
+// !! обязательно добавляем в манифест android:name=".MyApp"
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()

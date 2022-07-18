@@ -128,7 +128,6 @@ class WeatherDetailsFragment : Fragment() {
         binding.buttonAddToHistory.setOnClickListener() {
             viewModelHistory.addHistory(weatherBundle)
         }
-
         // загружаем данные через сервис
 //        context?.let {
 //            it.startService(Intent(it, WeatherLoaderService::class.java).apply {

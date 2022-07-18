@@ -1,5 +1,6 @@
 package jt.projects.gbweatherapp.utils
 
+
 // для HTTP-запросов
 const val REQUEST_GET = "GET"
 const val REQUEST_TIMEOUT = 2000

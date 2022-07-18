@@ -7,6 +7,7 @@ import jt.projects.gbweatherapp.model.dto.WeatherDTO
 import jt.projects.gbweatherapp.model.room.WeatherEntity
 import jt.projects.gbweatherapp.model.room.WeatherHistoryEntity
 
+
 fun String.toTemperature(): String {
     val i: Int = this.toInt()
     return if (i > 0) "+${this}\u2103" else "${this}\u2103"

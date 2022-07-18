@@ -22,6 +22,7 @@ import jt.projects.gbweatherapp.viewmodel.SharedPref
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var viewModel: HomeViewModel
 
     companion object {

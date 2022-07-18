@@ -11,7 +11,6 @@ import java.io.IOException
 
 class WeatherDetailsViewModel : ViewModel() {
     val liveData: MutableLiveData<AppState<Weather>> = MutableLiveData()
-
     lateinit var repository: RepositoryWeather
 
     fun getDetailsLiveData(): MutableLiveData<AppState<Weather>> {

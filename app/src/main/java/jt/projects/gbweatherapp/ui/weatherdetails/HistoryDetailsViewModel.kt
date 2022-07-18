@@ -12,7 +12,6 @@ import java.io.IOException
 
 class HistoryDetailsViewModel : ViewModel() {
     val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
-
     lateinit var repository: RepositoryHistoryWeather
 
     fun getDetailsLiveData(): MutableLiveData<AppState<List<Weather>>> {

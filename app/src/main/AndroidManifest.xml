@@ -19,11 +19,11 @@
         android:theme="@style/Theme.DarkTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <provider
+        <!--provider
             android:name=".ui.contacts.GBContentProvider"
             android:authorities="jt.projects.contentprovider"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true" /-->
 
         <activity
             android:name=".MainActivity"
@@ -34,7 +34,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- > Сервисы д.б. в манифесте < -->
+        </activity>
+
+        <!-- > Сервисы д.б. в манифесте < -->
         <service android:name="jt.projects.gbweatherapp.memo.ExService" />
         <service android:name="jt.projects.gbweatherapp.memo.ExIntentService" />
         <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" />

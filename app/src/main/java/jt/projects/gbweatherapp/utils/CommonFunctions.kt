@@ -6,12 +6,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import com.google.android.material.snackbar.Snackbar
-import jt.projects.gbweatherapp.model.City
-import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.model.dto.Fact
-import jt.projects.gbweatherapp.model.dto.WeatherDTO
-import jt.projects.gbweatherapp.model.room.WeatherEntity
-import jt.projects.gbweatherapp.model.room.WeatherHistoryEntity
 import java.io.BufferedReader
 import java.util.stream.Collectors
 

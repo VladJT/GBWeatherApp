@@ -15,6 +15,12 @@
         app:showAsAction="withText" />
 
     <item
+        android:id="@+id/action_contacts"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Список контактов"
+        app:showAsAction="withText" />
+
+    <item
         android:id="@+id/action_clean_room"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/clean_room"

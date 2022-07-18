@@ -49,7 +49,6 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
 
     inner class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-
         fun bind(weather: Weather) {
             with(itemView) {
                 findViewById<TextView>(R.id.temperatureValueBigSmallCard).text =

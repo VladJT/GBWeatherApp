@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
+import jt.projects.gbweatherapp.ui.contacts.ContactsFragment
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
@@ -37,6 +38,9 @@ class MainActivity : BaseActivity() {
         when (item.itemId) {
             R.id.action_service_info -> {
                 showAllRunningServices()
+            }
+            R.id.action_contacts -> {
+                showFragment(ContactsFragment.newInstance())
             }
             R.id.action_settings -> {
                 binding.root.showSnackBarShort("Settings (TODO)")
