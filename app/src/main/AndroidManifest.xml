@@ -19,11 +19,6 @@
         android:theme="@style/Theme.DarkTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <!--provider
-            android:name=".ui.contacts.GBContentProvider"
-            android:authorities="jt.projects.contentprovider"
-            android:enabled="true"
-            android:exported="true" /-->
 
         <activity
             android:name=".MainActivity"
@@ -41,6 +36,15 @@
         <service android:name="jt.projects.gbweatherapp.memo.ExIntentService" />
         <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" />
         <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" /> <!-- > BroadcastReceiver для приема сообщений извне д.б. в манифесте < -->
+
+        <!-- > Контент-провайдер д.б. в манифесте < -->
+        <provider
+            android:name=".ui.contacts.GBContentProvider"
+            android:authorities="jt.projects.contentprovider"
+            android:enabled="true"
+            android:exported="true" />
+
+        <!-- > Broadcast Reciever д.б. в манифесте < -->
         <receiver
             android:name="jt.projects.gbweatherapp.memo.ExBroadcastReceiver"
             android:exported="false">
