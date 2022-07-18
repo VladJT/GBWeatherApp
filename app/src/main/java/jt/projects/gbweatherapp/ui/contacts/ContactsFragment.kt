@@ -16,11 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import jt.projects.gbweatherapp.databinding.FragmentContactsBinding
 
-
 const val REQUEST_CODE = 42
 
 class ContactsFragment : Fragment() {
-
     private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
 
@@ -100,7 +98,7 @@ class ContactsFragment : Fragment() {
             //Чтобы получить список контактов на телефоне, надо передать URI
             //content://com.android.contacts/contacts или воспользоваться константой
             //ContactsContract.Contacts.CONTENT_URI.
-            val contentResolver: ContentResolver = it.contentResolver
+            val contentResolver = it.contentResolver
             // Отправляем запрос на получение контактов и получаем ответ в виде Cursor
             val cursorWithContacts: Cursor? = contentResolver.query(
                 ContactsContract.Contacts.CONTENT_URI,
@@ -119,6 +117,7 @@ class ContactsFragment : Fragment() {
 
                         binding.containerForContacts.addView(AppCompatTextView(it).apply {
                             text = name
+                            textSize = 12f
                         })
                     }
                 }
@@ -132,5 +131,4 @@ class ContactsFragment : Fragment() {
         _binding = null
         super.onDestroy()
     }
-
 }
