@@ -50,11 +50,10 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true) // эта строчка говорит о том, что у фрагмента должен быть доступ к меню Активити
         (activity as? AppCompatActivity)?.let {
             it.supportActionBar?.subtitle = "Список городов"
         }
-        setHasOptionsMenu(true) // эта строчка говорит о том, что у фрагмента должен быть доступ к меню Активити
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
