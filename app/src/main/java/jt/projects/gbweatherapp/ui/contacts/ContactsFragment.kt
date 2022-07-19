@@ -2,7 +2,6 @@ package jt.projects.gbweatherapp.ui.contacts
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -11,10 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentContactsBinding
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 
@@ -23,10 +20,17 @@ const val REQUEST_CODE = 42
 class ContactsFragment : Fragment() {
     private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
+    private var contacts: List<Contact> = listOf()
 
     companion object {
         fun newInstance() = ContactsFragment()
     }
+
+    private val adapter = ContactsAdapter(object : ContactsAdapter.OnItemViewClickListener {
+        override fun onItemViewClick(contact: Contact) {
+            binding.root.showSnackBarShort(contact.name)
+        }
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +52,7 @@ class ContactsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkPermission()
+        binding.contactsRecyclerView.adapter = adapter
     }
 
     private fun checkPermission() {
@@ -121,6 +126,7 @@ class ContactsFragment : Fragment() {
                 ContactsContract.Contacts.DISPLAY_NAME + " ASC"
             )
             cursorWithContacts?.let { cursor ->
+                val contacts: MutableList<Contact> = mutableListOf()
                 for (i in 0 until cursor.count) {
                     // Переходим на позицию в Cursor
                     if (cursor.moveToPosition(i)) {
@@ -128,19 +134,21 @@ class ContactsFragment : Fragment() {
                         val name =
                             cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
 
-                        val contactView = binding.containerForContacts.addView(AppCompatTextView(it).apply {
-                            text = name
-                            textSize = 16f
-                            setOnClickListener { binding.root.showSnackBarShort(name) }
-                        })
-
-                        // divider
-                        binding.containerForContacts.addView(AppCompatTextView(it).apply {
-                           height = 2
-                           setBackgroundColor(R.color.black)
-                        })
+                        contacts.add(Contact(name = name))
+//                        val contactView = binding.containerForContacts.addView(AppCompatTextView(it).apply {
+//                            text = name
+//                            textSize = 16f
+//                            setOnClickListener { binding.root.showSnackBarShort(name) }
+//                        })
+//
+//                        // divider
+//                        binding.containerForContacts.addView(AppCompatTextView(it).apply {
+//                           height = 2
+//                           setBackgroundColor(R.color.black)
+//                        })
                     }
                 }
+                adapter.setContacts(contacts.toList())
             }
             cursorWithContacts?.close()
         }
@@ -148,6 +156,7 @@ class ContactsFragment : Fragment() {
 
 
     override fun onDestroy() {
+        adapter.removeListener()//чтобы не возникало утечек памяти
         _binding = null
         super.onDestroy()
     }

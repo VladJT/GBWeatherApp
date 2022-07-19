@@ -28,7 +28,6 @@ interface WeatherDAO {
     fun getWeatherByLocation(lat: Double, lon: Double): List<WeatherEntity>
 
 
-
     // ** WeatherHistoryEntity **
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertHistory(weatherHistoryEntity: WeatherHistoryEntity)
