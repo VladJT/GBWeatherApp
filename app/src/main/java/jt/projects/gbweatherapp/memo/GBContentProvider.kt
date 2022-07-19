@@ -1,4 +1,4 @@
-package jt.projects.gbweatherapp.ui.contacts
+package jt.projects.gbweatherapp.memo
 
 import android.content.ContentProvider
 import android.content.ContentUris

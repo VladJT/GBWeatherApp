@@ -30,7 +30,6 @@ interface WeatherDAO {
 
 
     // ** WeatherHistoryEntity **
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertHistory(weatherHistoryEntity: WeatherHistoryEntity)
 
