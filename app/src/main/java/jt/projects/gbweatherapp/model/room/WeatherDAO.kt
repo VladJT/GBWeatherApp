@@ -9,12 +9,6 @@ interface WeatherDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(weatherEntity: WeatherEntity)
 
-    @Query("SELECT * FROM weather_entity_table")
-    fun getWeatherAll(): List<WeatherEntity>
-
-    @Query("SELECT * FROM weather_entity_table where lat=:lat and lon=:lon")
-    fun getWeatherByLocation(lat: Double, lon: Double): List<WeatherEntity>
-
     @Update
     fun update(entity: WeatherEntity)
 
@@ -27,6 +21,13 @@ interface WeatherDAO {
     @Query("DELETE FROM weather_entity_table WHERE id = :id")
     fun deleteById(id: Long)
 
+    @Query("SELECT * FROM weather_entity_table")
+    fun getWeatherAll(): List<WeatherEntity>
+
+    @Query("SELECT * FROM weather_entity_table where lat=:lat and lon=:lon")
+    fun getWeatherByLocation(lat: Double, lon: Double): List<WeatherEntity>
+
+
 
     // ** WeatherHistoryEntity **
 
@@ -36,11 +37,14 @@ interface WeatherDAO {
     @Update
     fun updateHistory(entity: WeatherHistoryEntity)
 
+    @Query("DELETE FROM weather_entity_table WHERE id = :id")
+    fun deleteHistoryById(id: Long)
+
     @Query("SELECT id, lat, lon, temperature FROM weather_entity_table")
     fun getHistoryCursor(): Cursor
 
     @Query("SELECT id, lat, lon, temperature FROM weather_entity_table WHERE id = :id")
-    fun getHistoryCursor(id: Long): Cursor
+    fun getHistoryCursorById(id: Long): Cursor
 
     @Query("SELECT * FROM weather_history_table where lat=:lat and lon=:lon order by id asc")
     fun getHistoryByLocation(lat: Double, lon: Double): List<WeatherHistoryEntity>

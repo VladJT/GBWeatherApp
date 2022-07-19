@@ -40,7 +40,7 @@
         <!-- > Контент-провайдер д.б. в манифесте < -->
         <provider
             android:name=".ui.contacts.GBContentProvider"
-            android:authorities="jt.projects.contentprovider"
+            android:authorities="@string/authorities"
             android:enabled="true"
             android:exported="true" />
 
