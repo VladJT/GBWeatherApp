@@ -21,7 +21,7 @@ class MainActivity : BaseActivity() {
         // Нам нужно создать фрагмент со списком всего лишь один раз — при первом запуске. Задачу по
         // пересозданию фрагментов после поворота экрана берет на себя FragmentManager.
         if (savedInstanceState == null) {
-            showFragment(HomeFragment.newInstance())
+            showFragment(ContactsFragment.newInstance())
         }
         initBottomMenu()
         initAppBarThemeSwitch()
