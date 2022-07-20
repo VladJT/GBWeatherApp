@@ -7,6 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
+
 interface WeatherAPI {
     @GET("v2/forecast")//указывается endpoint ссылки (v2/forecast)
 

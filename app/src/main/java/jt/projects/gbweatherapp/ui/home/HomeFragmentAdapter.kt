@@ -58,20 +58,6 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
                 val imageWeather = findViewById<AppCompatImageView>(R.id.weatherIconSmallCard)
                 imageWeather.load(String.format(ICON_URL, weather.icon)) {}
 
-                //val imageUrl =
-                //    "https://thumbs.dreamstime.com/b/%D0%B4%D0%B8%D0%B7%D0%B0%D0%B9%D0%BD-%D0%BE%D0%B1-%D0%B0%D0%BA%D0%B0-%D0%B8-%D0%BE%D0%B6-%D1%8F-%D1%81%D0%BE-%D0%BD%D1%86%D1%8F-80915204.jpg"
-
-                // GLIDE
-                // Glide.with(this).load(imageUrl).into(imageWeather)
-
-                // PICASSO
-                //Picasso.get().load(imageUrl).transform(CircleTransformation()).into(imageWeather)
-
-                // Coil
-                //imageWeather.load(imageUrl)
-
-                // Picasso.get().load(iconWeatherUrl).into(imageWeather)
-
                 findViewById<ToggleButton>(R.id.favButton).apply {
                     isChecked = weather.isExistInRoom
 

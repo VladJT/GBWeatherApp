@@ -95,6 +95,7 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+
     fun showFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()

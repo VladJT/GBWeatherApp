@@ -17,6 +17,7 @@ import jt.projects.gbweatherapp.utils.WeatherCondition
 import jt.projects.gbweatherapp.utils.toDateTime
 import jt.projects.gbweatherapp.utils.toTemperature
 
+
 internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
     RecyclerView.Adapter<FavFragmentAdapter.HomeViewHolder>() {
 

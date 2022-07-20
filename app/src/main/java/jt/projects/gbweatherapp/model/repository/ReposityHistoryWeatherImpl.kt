@@ -15,6 +15,7 @@ class ReposityHistoryWeatherImpl : RepositoryHistoryWeather, WeatherEditable {
         }.start()
     }
 
+
     override fun getHistoryByLocation(city: City, callback: WeatherListLoadCallback) {
         Thread {
             val responce = convertToWeather(

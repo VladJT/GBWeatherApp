@@ -16,6 +16,7 @@ class RepositoryRoomImpl : RepositoryWeather, RepositoryWeatherList, WeatherEdit
         }.start()
     }
 
+
     override fun getWeatherList(callback: WeatherListLoadCallback) {
         Thread {
             val responce = convertToWeather(

@@ -40,6 +40,7 @@ class WeatherDetailsViewModel : ViewModel() {
         }
     }
 
+
     fun getWeather(city: City) {
         liveData.value = AppState.Loading
         repository.getWeather(city, callback)

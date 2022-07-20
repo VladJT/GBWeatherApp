@@ -14,7 +14,6 @@ class HomeViewModel : ViewModel() {
     private val repositoryCityList: RepositoryCityList = RepositoryCityListImpl()
     private val repositoryWeatherEdit: WeatherEditable = RepositoryRoomImpl()
 
-
     fun getLiveData(): LiveData<AppState<List<Weather>>> = liveData
     lateinit var cities: List<Weather>
 

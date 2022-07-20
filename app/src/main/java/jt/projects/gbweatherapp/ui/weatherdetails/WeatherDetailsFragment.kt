@@ -204,6 +204,7 @@ class WeatherDetailsFragment : Fragment() {
         }
     }
 
+
     private fun renderData(weather: Weather) {
         with(binding.includeWeatherCard) {
             cityIcon.load("https://img4.goodfon.com/original/1680x1050/7/28/skyscraper-sunset-new-york.jpg")
