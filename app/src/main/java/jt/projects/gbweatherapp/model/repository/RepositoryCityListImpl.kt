@@ -1,9 +1,12 @@
 package jt.projects.gbweatherapp.model.repository
 
 import android.util.Log
+import jt.projects.gbweatherapp.MyApp
+import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.getRussianCities
 import jt.projects.gbweatherapp.model.getWorldCities
+import jt.projects.gbweatherapp.model.room.WeatherEntity
 import java.io.IOException
 
 class RepositoryCityListImpl : RepositoryCityList {
@@ -19,6 +22,31 @@ class RepositoryCityListImpl : RepositoryCityList {
             else -> {
                 getCityListFromLocalStorageRus()
             }
+        }
+    }
+
+    override fun getWeatherByLocation(
+        city: City,
+        callback: WeatherListLoadCallback
+    ) {
+        Thread {
+            val responce = convertToWeather(
+                MyApp.getWeatherDbAsyncMode().weatherDao().getWeatherByLocation(city.lat, city.lon)
+            )
+            callback.onResponse(responce)
+        }.start()
+    }
+
+    private fun convertToWeather(entityList: List<WeatherEntity>): List<Weather> {
+        return entityList.map {
+            Weather(
+                City(it.name, it.lat, it.lon),
+                temperature = it.temperature,
+                feelsLike = it.feelsLike,
+                condition = it.condition,
+                icon = it.icon,
+                now = it.now
+            )
         }
     }
 

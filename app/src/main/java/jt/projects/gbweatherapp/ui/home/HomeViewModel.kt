@@ -27,6 +27,21 @@ class HomeViewModel : ViewModel() {
         repositoryWeatherEdit.addWeather(weather)
     }
 
+    fun getWeatherByLocation(city: City){
+        repositoryCityList.getWeatherByLocation(city, favoritesCallback)
+    }
+
+    private val favoritesCallback = object : WeatherListLoadCallback{
+        override fun onResponse(weather: List<Weather>) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onFailure(e: IOException) {
+            TODO("Not yet implemented")
+        }
+
+    }
+
     fun getCityList(isRussian: Boolean) {
         liveData.value = AppState.Loading
         cities = if (isRussian)

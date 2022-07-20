@@ -23,4 +23,5 @@ interface RepositoryHistoryWeather {
 
 interface RepositoryCityList {
     fun getCityList(choose: Location, callback: CommonCallback): List<Weather>
+    fun getWeatherByLocation(city: City, callback: WeatherListLoadCallback)
 }

@@ -8,12 +8,14 @@ import android.widget.ToggleButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.repository.OperationType
 import jt.projects.gbweatherapp.ui.OnItemViewClickListener
-import jt.projects.gbweatherapp.utils.*
+import jt.projects.gbweatherapp.utils.ICON_URL
+import jt.projects.gbweatherapp.utils.WeatherCondition
+import jt.projects.gbweatherapp.utils.toDateTime
+import jt.projects.gbweatherapp.utils.toTemperature
 
 internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
     RecyclerView.Adapter<FavFragmentAdapter.HomeViewHolder>() {
@@ -59,23 +61,21 @@ internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemVie
                 val imageWeather = findViewById<AppCompatImageView>(R.id.weatherIconSmallCard)
                 imageWeather.load(String.format(ICON_URL, weather.icon)) {}
 
-                val favButton = findViewById<ToggleButton>(R.id.favButton)
-                val cityList = MyApp.getWeatherDbMainThreadMode().weatherDao()
-                    .getWeatherByLocation(weather.city.lat, weather.city.lon)
+                findViewById<ToggleButton>(R.id.favButton).apply {
+                    isChecked = true
 
-                favButton.isChecked = cityList.isNotEmpty()
-
-                favButton.setOnClickListener {
-                    if (!favButton.isChecked) {
-                        onItemViewClickListener?.onButtonFavoritesClick(
-                            weather,
-                            OperationType.DELETE
-                        )
-                    } else {
-                        onItemViewClickListener?.onButtonFavoritesClick(
-                            weather,
-                            OperationType.ADD
-                        )
+                    setOnClickListener {
+                        if (!isChecked) {
+                            onItemViewClickListener?.onButtonFavoritesClick(
+                                weather,
+                                OperationType.DELETE
+                            )
+                        } else {
+                            onItemViewClickListener?.onButtonFavoritesClick(
+                                weather,
+                                OperationType.ADD
+                            )
+                        }
                     }
                 }
 

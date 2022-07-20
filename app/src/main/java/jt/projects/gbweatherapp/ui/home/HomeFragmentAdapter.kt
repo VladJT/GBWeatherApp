@@ -72,23 +72,25 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
                 //imageWeather.load(imageUrl)
 
                 // Picasso.get().load(iconWeatherUrl).into(imageWeather)
+//                val cityList = MyApp.getWeatherDbMainThreadMode().weatherDao()
+//                    .getWeatherByLocation(weather.city.lat, weather.city.lon)
+//                favButton.isChecked = cityList.isNotEmpty()
 
-                val favButton = findViewById<ToggleButton>(R.id.favButton)
-                val cityList = MyApp.getWeatherDbMainThreadMode().weatherDao()
-                    .getWeatherByLocation(weather.city.lat, weather.city.lon)
-                favButton.isChecked = cityList.isNotEmpty()
+                findViewById<ToggleButton>(R.id.favButton).apply {
+                    isChecked = false
 
-                favButton.setOnClickListener {
-                    if (!favButton.isChecked) {
-                        onItemViewClickListener?.onButtonFavoritesClick(
-                            weather,
-                            OperationType.DELETE
-                        )
-                    } else {
-                        onItemViewClickListener?.onButtonFavoritesClick(
-                            weather,
-                            OperationType.ADD
-                        )
+                    setOnClickListener {
+                        if (!isChecked) {
+                            onItemViewClickListener?.onButtonFavoritesClick(
+                                weather,
+                                OperationType.DELETE
+                            )
+                        } else {
+                            onItemViewClickListener?.onButtonFavoritesClick(
+                                weather,
+                                OperationType.ADD
+                            )
+                        }
                     }
                 }
 
