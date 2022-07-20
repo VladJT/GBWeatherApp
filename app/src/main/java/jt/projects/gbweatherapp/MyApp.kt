@@ -45,7 +45,7 @@ class MyApp : Application() {
                     ROOM_DB_NAME_WEATHER
                 )
                     .allowMainThreadQueries()// - возможность запросов в главном потоке
-                    //                   .fallbackToDestructiveMigration()
+                    //.fallbackToDestructiveMigration()
                     .build()
             }
             return dbInUiThread!!

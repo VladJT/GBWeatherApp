@@ -8,7 +8,6 @@ import android.widget.ToggleButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.repository.OperationType
@@ -72,12 +71,9 @@ internal class HomeFragmentAdapter(private var onItemViewClickListener: OnItemVi
                 //imageWeather.load(imageUrl)
 
                 // Picasso.get().load(iconWeatherUrl).into(imageWeather)
-//                val cityList = MyApp.getWeatherDbMainThreadMode().weatherDao()
-//                    .getWeatherByLocation(weather.city.lat, weather.city.lon)
-//                favButton.isChecked = cityList.isNotEmpty()
 
                 findViewById<ToggleButton>(R.id.favButton).apply {
-                    isChecked = false
+                    isChecked = weather.isExistInRoom
 
                     setOnClickListener {
                         if (!isChecked) {

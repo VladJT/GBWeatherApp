@@ -47,11 +47,10 @@ class WeatherDetailsViewModel : ViewModel() {
 
     private val callback = object : WeatherLoadCallback {
         override fun onResponse(weather: Weather?) {
-            if (weather != null){
+            if (weather != null) {
                 liveData.postValue(AppState.Success(weather))
                 currentDate = weather.now
-            }
-            else throw Exception("weather==null for WeatherDetailsFragment")
+            } else throw Exception("weather==null for WeatherDetailsFragment")
         }
 
         override fun onFailure(e: IOException) {

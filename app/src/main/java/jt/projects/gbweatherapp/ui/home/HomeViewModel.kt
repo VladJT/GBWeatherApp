@@ -3,7 +3,6 @@ package jt.projects.gbweatherapp.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.repository.*
 import jt.projects.gbweatherapp.viewmodel.AppState
@@ -25,21 +24,6 @@ class HomeViewModel : ViewModel() {
 
     fun addToFavorites(weather: Weather) {
         repositoryWeatherEdit.addWeather(weather)
-    }
-
-    fun getWeatherByLocation(city: City){
-        repositoryCityList.getWeatherByLocation(city, favoritesCallback)
-    }
-
-    private val favoritesCallback = object : WeatherListLoadCallback{
-        override fun onResponse(weather: List<Weather>) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onFailure(e: IOException) {
-            TODO("Not yet implemented")
-        }
-
     }
 
     fun getCityList(isRussian: Boolean) {

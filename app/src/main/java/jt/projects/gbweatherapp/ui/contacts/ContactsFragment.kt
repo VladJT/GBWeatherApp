@@ -33,7 +33,6 @@ const val REQUEST_CODE = 42
 class ContactsFragment : Fragment() {
     private var _binding: FragmentContactsBinding? = null
     private val binding get() = _binding!!
-    private var contacts: List<Contact> = listOf()
 
     companion object {
         fun newInstance() = ContactsFragment()

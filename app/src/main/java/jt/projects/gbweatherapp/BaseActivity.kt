@@ -102,6 +102,14 @@ open class BaseActivity : AppCompatActivity() {
             .commit()
     }
 
+    fun showFragmentWithBS(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(binding.fragmentContainer.id, fragment)
+            .addToBackStack("")
+            .commit()
+    }
+
     @Suppress("DEPRECATION")
     fun showExitDialog() {
         AlertDialog.Builder(this)

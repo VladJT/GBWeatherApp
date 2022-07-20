@@ -7,8 +7,8 @@ fun interface RepositoryWeather {
     fun getWeather(city: City, callback: WeatherLoadCallback)
 }
 
-interface RepositoryAllWeather {
-    fun getWeatherAll(callback: WeatherListLoadCallback)
+interface RepositoryWeatherList {
+    fun getWeatherList(callback: WeatherListLoadCallback)
 }
 
 interface WeatherEditable {
@@ -23,5 +23,4 @@ interface RepositoryHistoryWeather {
 
 interface RepositoryCityList {
     fun getCityList(choose: Location, callback: CommonCallback): List<Weather>
-    fun getWeatherByLocation(city: City, callback: WeatherListLoadCallback)
 }

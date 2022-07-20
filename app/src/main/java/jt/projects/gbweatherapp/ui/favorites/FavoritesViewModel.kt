@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.model.repository.RepositoryAllWeather
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
 import jt.projects.gbweatherapp.model.repository.WeatherListLoadCallback
 import jt.projects.gbweatherapp.viewmodel.AppState
@@ -19,7 +18,7 @@ class FavoritesViewModel : ViewModel() {
 
     fun getWeather() {
         liveData.value = AppState.Loading
-        repository.getWeatherAll(callback)
+        repository.getWeatherList(callback)
     }
 
     fun deleteFromFavorites(weather: Weather) {

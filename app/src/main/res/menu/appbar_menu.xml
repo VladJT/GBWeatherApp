@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="Настройки"
+        android:id="@+id/action_contacts"
+        android:icon="@android:drawable/sym_call_outgoing"
+        android:title="Список контактов"
         app:showAsAction="always" />
 
     <item
@@ -15,10 +15,10 @@
         app:showAsAction="withText" />
 
     <item
-        android:id="@+id/action_contacts"
-        android:icon="@android:drawable/sym_call_outgoing"
-        android:title="Список контактов"
-        app:showAsAction="always" />
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="Настройки"
+        app:showAsAction="withText" />
 
     <item
         android:id="@+id/action_clean_room"

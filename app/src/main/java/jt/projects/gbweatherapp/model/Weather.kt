@@ -15,7 +15,8 @@ data class Weather(
     val precType: Int = 0,
     val windSpeed: Double = 0.0,
     var now: Long = 0,
-    val nowDt: String = ""
+    val nowDt: String = "",
+    var isExistInRoom: Boolean = false
 ) : Parcelable
 
 

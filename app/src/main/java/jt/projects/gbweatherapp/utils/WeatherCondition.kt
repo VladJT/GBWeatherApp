@@ -7,8 +7,6 @@ enum class WeatherCondition(var enName: String, var rusName: String) {
     RAIN("rain", "дождь"),
     LIGHT_RAIN("light-rain", "небольшой дождь"),
     OVERCAST("overcast", "облачно");
-
-
     companion object {
         fun getRusName(name: String): String {
             for (condition in values()) {

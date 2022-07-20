@@ -40,10 +40,10 @@ class MainActivity : BaseActivity() {
                 showAllRunningServices()
             }
             R.id.action_contacts -> {
-                showFragment(ContactsFragment.newInstance())
+                showFragmentWithBS(ContactsFragment.newInstance())
             }
             R.id.action_settings -> {
-                binding.root.showSnackBarShort("Settings (TODO)")
+                showMsgDialog("Настройки", "...позже..")
             }
             R.id.action_clean_room -> {
                 val repRoom = RepositoryRoomImpl()
@@ -90,14 +90,19 @@ class MainActivity : BaseActivity() {
             for (f in supportFragmentManager.fragments) {
                 if (f.isVisible) visibleFragment = f
             }
-            if (visibleFragment is WeatherDetailsFragment) {
-                supportFragmentManager.popBackStack()
-            } else {
-                showExitDialog()
+            when (visibleFragment) {
+                is WeatherDetailsFragment -> {
+                    supportFragmentManager.popBackStack()
+                }
+                is ContactsFragment -> {
+                    supportFragmentManager.popBackStack()
+                }
+                else -> {
+                    showExitDialog()
+                }
             }
         }
     }
-
 
     private fun initBottomMenu() {
         binding.buttonHome.setOnClickListener {

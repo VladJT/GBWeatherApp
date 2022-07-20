@@ -84,7 +84,6 @@ class SearchFragment : Fragment() {
         val observer = Observer<Int> { binding.textCounter.text = it.toString() }
         //    viewModel.counter.observe(viewLifecycleOwner, observer)
 
-
         // UI THREAD
         with(binding) {
             buttonThreadsUi.setOnClickListener {
