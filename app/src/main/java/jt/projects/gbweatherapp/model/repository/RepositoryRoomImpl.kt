@@ -31,6 +31,12 @@ class RepositoryRoomImpl : RepositoryWeather, RepositoryAllWeather, WeatherEdita
         }.start()
     }
 
+    override fun deleteAllWeatherByLocation(city: City) {
+        Thread {
+            MyApp.getWeatherDbAsyncMode().weatherDao().deleteByLocation(city.lat, city.lon)
+        }.start()
+    }
+
     override fun deleteAll() {
         Thread {
             MyApp.getWeatherDbAsyncMode().weatherDao().deleteAll()

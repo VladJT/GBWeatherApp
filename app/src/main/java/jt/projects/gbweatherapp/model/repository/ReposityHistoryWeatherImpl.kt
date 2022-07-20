@@ -6,17 +6,13 @@ import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.room.WeatherHistoryEntity
 import jt.projects.gbweatherapp.utils.convertWeatherToHistory
 
-class ReposityHistoryWeatherImpl : RepositoryHistoryWeather {
+class ReposityHistoryWeatherImpl : RepositoryHistoryWeather, WeatherEditable {
 
     override fun addWeather(weather: Weather) {
         Thread {
             MyApp.getWeatherDbAsyncMode().weatherDao()
                 .insertHistory(convertWeatherToHistory(weather))
         }.start()
-    }
-
-    override fun deleteAll() {
-        TODO("Not yet implemented")
     }
 
     override fun getHistoryByLocation(city: City, callback: WeatherListLoadCallback) {

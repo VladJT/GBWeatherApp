@@ -11,14 +11,12 @@ import coil.load
 import jt.projects.gbweatherapp.MyApp
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.model.repository.OperationType
+import jt.projects.gbweatherapp.ui.OnItemViewClickListener
 import jt.projects.gbweatherapp.utils.*
 
 internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemViewClickListener?) :
     RecyclerView.Adapter<FavFragmentAdapter.HomeViewHolder>() {
-
-    interface OnItemViewClickListener {
-        fun onItemViewClick(weather: Weather)
-    }
 
     var weatherData: List<Weather> = listOf()
 
@@ -69,13 +67,15 @@ internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemVie
 
                 favButton.setOnClickListener {
                     if (!favButton.isChecked) {
-                        MyApp.getWeatherDbMainThreadMode().weatherDao()
-                            .deleteByLocation(weather.city.lat, weather.city.lon)
-                        showSnackBarShort(weather.city.name.plus(" удален из Избранного"))
+                        onItemViewClickListener?.onButtonFavoritesClick(
+                            weather,
+                            OperationType.DELETE
+                        )
                     } else {
-                        MyApp.getWeatherDbMainThreadMode().weatherDao()
-                            .insert(convertWeatherToEntity(weather))
-                        showSnackBarShort(weather.city.name.plus(" добавлен в Избранное"))
+                        onItemViewClickListener?.onButtonFavoritesClick(
+                            weather,
+                            OperationType.ADD
+                        )
                     }
                 }
 

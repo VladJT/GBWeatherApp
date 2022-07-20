@@ -13,13 +13,21 @@ import java.io.IOException
 
 class FavoritesViewModel : ViewModel() {
     private val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
-    private val repository: RepositoryAllWeather = RepositoryRoomImpl()
+    private val repository = RepositoryRoomImpl()
 
     fun getLiveData(): LiveData<AppState<List<Weather>>> = liveData
 
     fun getWeather() {
         liveData.value = AppState.Loading
         repository.getWeatherAll(callback)
+    }
+
+    fun deleteFromFavorites(weather: Weather) {
+        repository.deleteAllWeatherByLocation(weather.city)
+    }
+
+    fun addToFavorites(weather: Weather) {
+        repository.addWeather(weather)
     }
 
     private val callback = object : WeatherListLoadCallback {

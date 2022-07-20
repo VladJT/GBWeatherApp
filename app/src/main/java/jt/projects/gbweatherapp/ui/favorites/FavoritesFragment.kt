@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentFavoritesBinding
 import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.model.repository.OperationType
+import jt.projects.gbweatherapp.ui.OnItemViewClickListener
 import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.DURATION_ITEM_ANIMATOR
+import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
 
@@ -27,7 +30,7 @@ class FavoritesFragment : Fragment() {
         fun newInstance() = FavoritesFragment()
     }
 
-    private val adapter = FavFragmentAdapter(object : FavFragmentAdapter.OnItemViewClickListener {
+    private val adapter = FavFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
             activity?.supportFragmentManager?.also { manager ->
                 val bundle = Bundle()
@@ -35,6 +38,22 @@ class FavoritesFragment : Fragment() {
                 manager.beginTransaction()
                     .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
                     .addToBackStack("").commit()
+            }
+        }
+
+        override fun onButtonFavoritesClick(
+            weather: Weather,
+            operation: OperationType
+        ) {
+            when (operation) {
+                OperationType.ADD -> {
+                    viewModel.addToFavorites(weather)
+                    binding.root.showSnackBarShort(weather.city.name.plus(" добавлен в Избранное"))
+                }
+                OperationType.DELETE -> {
+                    viewModel.deleteFromFavorites(weather)
+                    binding.root.showSnackBarShort(weather.city.name.plus(" удален из Избранного"))
+                }
             }
         }
     })
