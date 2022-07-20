@@ -127,6 +127,7 @@ class WeatherDetailsFragment : Fragment() {
 
         binding.buttonAddToHistory.setOnClickListener() {
             weatherBundle.also {
+                it.now = viewModel.currentDate
                 viewModelHistory.addHistory(it)
                 binding.root.showSnackBarShort("Сохранены сведения о погоде в ${it.city.name} на ${it.now.toDateTime()}")
             }

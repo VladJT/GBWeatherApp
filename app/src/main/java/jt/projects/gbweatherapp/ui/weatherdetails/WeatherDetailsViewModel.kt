@@ -12,6 +12,7 @@ import java.io.IOException
 class WeatherDetailsViewModel : ViewModel() {
     val liveData: MutableLiveData<AppState<Weather>> = MutableLiveData()
     lateinit var repository: RepositoryWeather
+    var currentDate: Long = 0
 
     fun getDetailsLiveData(): MutableLiveData<AppState<Weather>> {
         choiceRepository()
@@ -46,7 +47,10 @@ class WeatherDetailsViewModel : ViewModel() {
 
     private val callback = object : WeatherLoadCallback {
         override fun onResponse(weather: Weather?) {
-            if (weather != null) liveData.postValue(AppState.Success(weather))
+            if (weather != null){
+                liveData.postValue(AppState.Success(weather))
+                currentDate = weather.now
+            }
             else throw Exception("weather==null for WeatherDetailsFragment")
         }
 
