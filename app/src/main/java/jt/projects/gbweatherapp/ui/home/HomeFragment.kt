@@ -1,11 +1,20 @@
 package jt.projects.gbweatherapp.ui.home
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
-import android.view.*
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -26,10 +35,17 @@ import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
 import jt.projects.gbweatherapp.viewmodel.SharedPref
+import java.io.IOException
+import kotlin.system.measureTimeMillis
 
-const val REQUEST_CODE = 42
+const val REQUEST_CODE_LOCATION = 45
+
+private const val REFRESH_PERIOD =
+    2000L//Запрашивать местоположение будем с периодичностью
+private const val MINIMAL_DISTANCE = 0f//ли при перемещении телефона на 100 метров
 
 class HomeFragment : Fragment() {
+    private val TAG = "@@@"
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -67,10 +83,6 @@ class HomeFragment : Fragment() {
         }
     })
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        //    menu.findItem(R.id.action_clean_room).isVisible = false
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -98,7 +110,9 @@ class HomeFragment : Fragment() {
             it.getCityList(SharedPref.getData().isDataSetRus)
         }
         renderDataSetButton()
-        initButtonLocation()
+        binding.buttonLocation.setOnClickListener {
+            checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
     }
 
     private fun initRecyclerView() {
@@ -161,95 +175,115 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun initButtonLocation() {
-        binding.buttonLocation.setOnClickListener { checkPermission() }
+    override fun onDestroy() {
+        adapter.removeListener()//чтобы не возникало утечек памяти
+        _binding = null//чтобы не возникало утечек памяти
+        super.onDestroy()
     }
 
-    private fun checkPermission() {
-        activity?.let {
-            when {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) ==
-                        PackageManager.PERMISSION_GRANTED -> {
-                    getLocation()
-                }
-                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
-                -> {
-                    showRationaleDialog()
-                }
-                else -> {
-                    requestPermission()
-                }
+
+
+    private fun getLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED) {
+            val locationManager =
+                requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                //val provider = locationManager.getProvider(LocationManager.GPS_PROVIDER)
+
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    REFRESH_PERIOD,
+                    MINIMAL_DISTANCE,
+                    LocationListener)
             }
         }
-
     }
 
-    private fun showRationaleDialog() {
-        activity?.let {
-            AlertDialog.Builder(it)
-                .setTitle(getString(R.string.dialog_rationale_title))
-                .setMessage(getString(R.string.dialog_rationale_message))
-                .setPositiveButton(getString(R.string.dialog_rationale_give_access))
-                { _, _ ->
-                    requestPermission()
+    private fun checkPermission(permission: String) {
+        val permResult =
+            ContextCompat.checkSelfPermission(requireContext(), permission)
+        PackageManager.PERMISSION_GRANTED
+        if (permResult == PackageManager.PERMISSION_GRANTED) {
+            getLocation()
+        } else if (shouldShowRequestPermissionRationale(permission)) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Доступ к локации")
+                .setMessage("Объяснение Объяснение Объяснение Объяснение")
+                .setPositiveButton("Предоставить доступ") { _, _ ->
+                    permissionRequest(permission)
                 }
-                .setNegativeButton(getString(R.string.dialog_rationale_decline)) { dialog, _ -> dialog.dismiss() }
+                .setNegativeButton("Не надо") { dialog, _ -> dialog.dismiss() }
                 .create()
                 .show()
+        } else {
+            permissionRequest(permission)
         }
     }
 
-    fun getLocation() {
-        (activity as BaseActivity).showMsgDialog(
-            "11",
-            "22"
-        )
+
+    private fun permissionRequest(permission: String) {
+        requestPermissions(arrayOf(permission), REQUEST_CODE_LOCATION)
     }
 
-    fun requestPermission() {
-        requestPermissions(
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            REQUEST_CODE
-        )
-    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (requestCode == REQUEST_CODE) {
-            var grantedPermissions = 0
-            if (grantResults.isNotEmpty()) {
-                for (i in grantResults) {
-                    if (i == PackageManager.PERMISSION_GRANTED) {
-                        grantedPermissions++
-                    }
-                }
-                if (grantResults.size == grantedPermissions) {
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            for (pIndex in permissions.indices) {
+                if (permissions[pIndex] == Manifest.permission.ACCESS_FINE_LOCATION
+                    && grantResults[pIndex] == PackageManager.PERMISSION_GRANTED
+                ) {
                     getLocation()
-                } else {
-                    (activity as BaseActivity).showMsgDialog(
-                        getString(R.string.dialog_title_no_gps),
-                        getString(R.string.dialog_message_no_gps)
-                    )
+                    Log.d(TAG, "Доступ получен")
                 }
-            } else {
-                (activity as BaseActivity).showMsgDialog(
-                    getString(R.string.dialog_title_no_gps),
-                    getString(R.string.dialog_message_no_gps)
-                )
             }
         }
     }
 
-
-    override fun onDestroy() {
-        adapter.removeListener()//чтобы не возникало утечек памяти
-        _binding = null//чтобы не возникало утечек памяти
-        super.onDestroy()
+    private val LocationListener = object : LocationListener {
+        //вызывается, когда приходят новые данные о местоположении.
+        override fun onLocationChanged(location: Location) {
+            context?.let {
+                getAddress(it, location)
+                Log.d(TAG, "${location.latitude} - ${location.longitude}")
+            }
+        }
+        //вызывается при изменении статуса: Available или Unavailable. На Android Q и выше он всегда будет возвращать Available.
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle){}
+        //вызывается, если пользователь включил GPS.
+        override fun onProviderEnabled(provider: String) {
+            Log.d(TAG, "пользователь включил GPS")
+        }
+        //вызывается, если пользователь выключил GPS или сразу, если GPS был отключён изначально.
+        override fun onProviderDisabled(provider: String) {
+            Log.d(TAG, "пользователь выключил GPS!")
+        }
     }
+
+    private fun getAddress(
+        context: Context,
+        location: Location
+    ) {
+        val geoCoder = Geocoder(context)
+        Thread {
+            try {
+                val time = measureTimeMillis {
+                    geoCoder.getFromLocation(
+                        location.latitude,
+                        location.longitude,
+                        100000)
+                }
+                Log.d(TAG, "$time")
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }.start()
+    }
+
 }
