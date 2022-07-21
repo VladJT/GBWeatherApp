@@ -1,14 +1,19 @@
 package jt.projects.gbweatherapp.ui.home
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.Weather
@@ -21,6 +26,8 @@ import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
 import jt.projects.gbweatherapp.viewmodel.SharedPref
+
+const val REQUEST_CODE = 42
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -91,13 +98,7 @@ class HomeFragment : Fragment() {
             it.getCityList(SharedPref.getData().isDataSetRus)
         }
         renderDataSetButton()
-    }
-
-
-    override fun onDestroy() {
-        adapter.removeListener()//чтобы не возникало утечек памяти
-        _binding = null//чтобы не возникало утечек памяти
-        super.onDestroy()
+        initButtonLocation()
     }
 
     private fun initRecyclerView() {
@@ -160,4 +161,95 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun initButtonLocation() {
+        binding.buttonLocation.setOnClickListener { checkPermission() }
+    }
+
+    private fun checkPermission() {
+        activity?.let {
+            when {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) ==
+                        PackageManager.PERMISSION_GRANTED -> {
+                    getLocation()
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+                -> {
+                    showRationaleDialog()
+                }
+                else -> {
+                    requestPermission()
+                }
+            }
+        }
+
+    }
+
+    private fun showRationaleDialog() {
+        activity?.let {
+            AlertDialog.Builder(it)
+                .setTitle(getString(R.string.dialog_rationale_title))
+                .setMessage(getString(R.string.dialog_rationale_message))
+                .setPositiveButton(getString(R.string.dialog_rationale_give_access))
+                { _, _ ->
+                    requestPermission()
+                }
+                .setNegativeButton(getString(R.string.dialog_rationale_decline)) { dialog, _ -> dialog.dismiss() }
+                .create()
+                .show()
+        }
+    }
+
+    fun getLocation() {
+        (activity as BaseActivity).showMsgDialog(
+            "11",
+            "22"
+        )
+    }
+
+    fun requestPermission() {
+        requestPermissions(
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            REQUEST_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_CODE) {
+            var grantedPermissions = 0
+            if (grantResults.isNotEmpty()) {
+                for (i in grantResults) {
+                    if (i == PackageManager.PERMISSION_GRANTED) {
+                        grantedPermissions++
+                    }
+                }
+                if (grantResults.size == grantedPermissions) {
+                    getLocation()
+                } else {
+                    (activity as BaseActivity).showMsgDialog(
+                        getString(R.string.dialog_title_no_gps),
+                        getString(R.string.dialog_message_no_gps)
+                    )
+                }
+            } else {
+                (activity as BaseActivity).showMsgDialog(
+                    getString(R.string.dialog_title_no_gps),
+                    getString(R.string.dialog_message_no_gps)
+                )
+            }
+        }
+    }
+
+
+    override fun onDestroy() {
+        adapter.removeListener()//чтобы не возникало утечек памяти
+        _binding = null//чтобы не возникало утечек памяти
+        super.onDestroy()
+    }
 }
