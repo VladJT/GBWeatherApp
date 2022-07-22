@@ -19,6 +19,9 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import jt.projects.gbweatherapp.databinding.ActivityMainBinding
+import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
+import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.NOTIFICATION_CHANNEL_ID
 import jt.projects.gbweatherapp.utils.NOTIFICATION_CHANNEL_NAME
 import jt.projects.gbweatherapp.utils.NetworkChangeReceiver
@@ -108,6 +111,16 @@ open class BaseActivity : AppCompatActivity() {
             .replace(binding.fragmentContainer.id, fragment)
             .addToBackStack("")
             .commit()
+    }
+
+    fun showWeatherDetails(weather: Weather) {
+        supportFragmentManager?.also { manager ->
+            val bundle = Bundle()
+            bundle.putParcelable(BUNDLE_EXTRA, weather)
+            manager.beginTransaction()
+                .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
+                .addToBackStack("").commit()
+        }
     }
 
     @Suppress("DEPRECATION")

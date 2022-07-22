@@ -8,8 +8,8 @@ import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
 import jt.projects.gbweatherapp.ui.contacts.ContactsFragment
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
+import jt.projects.gbweatherapp.ui.map.MapsFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
-import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 
@@ -38,6 +38,9 @@ class MainActivity : BaseActivity() {
         when (item.itemId) {
             R.id.action_service_info -> {
                 showAllRunningServices()
+            }
+            R.id.action_maps -> {
+                showFragmentWithBS(MapsFragment.newInstance())
             }
             R.id.action_contacts -> {
                 showFragmentWithBS(ContactsFragment.newInstance())
@@ -90,16 +93,10 @@ class MainActivity : BaseActivity() {
             for (f in supportFragmentManager.fragments) {
                 if (f.isVisible) visibleFragment = f
             }
-            when (visibleFragment) {
-                is WeatherDetailsFragment -> {
-                    supportFragmentManager.popBackStack()
-                }
-                is ContactsFragment -> {
-                    supportFragmentManager.popBackStack()
-                }
-                else -> {
-                    showExitDialog()
-                }
+            if (!(visibleFragment is HomeFragment || visibleFragment is SearchFragment || visibleFragment is FavoritesFragment)) {
+                supportFragmentManager.popBackStack()
+            } else {
+                showExitDialog()
             }
         }
     }

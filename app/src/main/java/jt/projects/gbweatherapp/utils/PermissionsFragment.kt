@@ -1,19 +1,20 @@
 package jt.projects.gbweatherapp.utils
 
-import android.Manifest
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
-open class PermissionsFragment : Fragment()  {
+open class PermissionsFragment : Fragment() {
     private val REQUEST_CODE = 999
-    lateinit var function : () -> Unit
+    lateinit var function: () -> Unit
+    lateinit var permission: String
 
     // permission like Manifest.permission.ACCESS_FINE_LOCATION
-    fun tryJob(permission: String, function: () -> Unit, rDlgTitle: String, rDlgMessage:String) {
+    fun tryJob(permission: String, function: () -> Unit, rDlgTitle: String, rDlgMessage: String) {
         this.function = function
+        this.permission = permission
         val permResult =
             ContextCompat.checkSelfPermission(requireContext(), permission)
         if (permResult == PackageManager.PERMISSION_GRANTED) {
@@ -44,7 +45,7 @@ open class PermissionsFragment : Fragment()  {
     ) {
         if (requestCode == REQUEST_CODE) {
             for (pIndex in permissions.indices) {
-                if (permissions[pIndex] == Manifest.permission.ACCESS_FINE_LOCATION
+                if (permissions[pIndex] == permission
                     && grantResults[pIndex] == PackageManager.PERMISSION_GRANTED
                 ) {
                     Log.d("@@@", "Доступ получен")

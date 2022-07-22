@@ -16,14 +16,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
 import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.repository.OperationType
 import jt.projects.gbweatherapp.ui.OnItemViewClickListener
-import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
-import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.DURATION_ITEM_ANIMATOR
 import jt.projects.gbweatherapp.utils.PermissionsFragment
 import jt.projects.gbweatherapp.utils.showSnackBarShort
@@ -51,20 +50,10 @@ class HomeFragment : PermissionsFragment() {
         fun newInstance() = HomeFragment()
     }
 
-    fun onItemClick(weather: Weather) {
-        locationManager?.removeUpdates(locationListener)
-        activity?.supportFragmentManager?.also { manager ->
-            val bundle = Bundle()
-            bundle.putParcelable(BUNDLE_EXTRA, weather)
-            manager.beginTransaction()
-                .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
-                .addToBackStack("").commit()
-        }
-    }
 
     private val adapter = HomeFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
-            onItemClick(weather)
+            (activity as BaseActivity).showWeatherDetails(weather)
         }
 
         override fun onButtonFavoritesClick(
@@ -207,12 +196,12 @@ class HomeFragment : PermissionsFragment() {
             if (provider == null) binding.root.showSnackBarShort("Включите службы местоположения!")
             provider?.let {
                 // подключаеся к 2 провайдерам, ждем - кто быстрее отработает
-                locationManager?.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    REFRESH_PERIOD_NETWORK,
-                    MINIMAL_DISTANCE,
-                    locationListener
-                )
+//                locationManager?.requestLocationUpdates(
+//                    LocationManager.NETWORK_PROVIDER,
+//                    REFRESH_PERIOD_NETWORK,
+//                    MINIMAL_DISTANCE,
+//                    locationListener
+//                )
                 locationManager?.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     REFRESH_PERIOD_GPS,
@@ -255,12 +244,10 @@ class HomeFragment : PermissionsFragment() {
             try {
                 val time = measureTimeMillis {
                     //Передаём широту, долготу и желаемое количество адресов по заданным координатам
-                    val address = geoCoder.getFromLocation(
-                        location.latitude,
-                        location.longitude,
-                        100
-                    )
-                    onItemClick(
+                    val address =
+                        geoCoder.getFromLocation(location.latitude, location.longitude, 100)
+                    locationManager?.removeUpdates(locationListener)
+                    (activity as BaseActivity).showWeatherDetails(
                         Weather(
                             City(
                                 address[0].locality,

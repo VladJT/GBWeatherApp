@@ -9,8 +9,8 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /><!-- GPS -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /><!-- вышки -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- GPS -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".MyApp"
@@ -25,6 +25,22 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA5TR_w2YguV0jQXbk9fQttQTkhSNbtfLA" />
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -34,22 +50,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- > Сервисы д.б. в манифесте < -->
+        </activity> <!-- > Сервисы д.б. в манифесте < -->
         <service android:name="jt.projects.gbweatherapp.memo.ExService" />
         <service android:name="jt.projects.gbweatherapp.memo.ExIntentService" />
         <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" />
         <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" /> <!-- > BroadcastReceiver для приема сообщений извне д.б. в манифесте < -->
-
         <!-- > Контент-провайдер д.б. в манифесте < -->
         <provider
             android:name="jt.projects.gbweatherapp.memo.GBContentProvider"
             android:authorities="@string/authorities"
             android:enabled="true"
-            android:exported="true" />
-
-        <!-- > Broadcast Reciever д.б. в манифесте < -->
+            android:exported="true" /> <!-- > Broadcast Reciever д.б. в манифесте < -->
         <receiver
             android:name="jt.projects.gbweatherapp.memo.ExBroadcastReceiver"
             android:exported="false">

@@ -9,13 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentFavoritesBinding
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.repository.OperationType
 import jt.projects.gbweatherapp.ui.OnItemViewClickListener
-import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
-import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.DURATION_ITEM_ANIMATOR
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
@@ -32,13 +31,7 @@ class FavoritesFragment : Fragment() {
 
     private val adapter = FavFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
-            activity?.supportFragmentManager?.also { manager ->
-                val bundle = Bundle()
-                bundle.putParcelable(BUNDLE_EXTRA, weather)
-                manager.beginTransaction()
-                    .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
-                    .addToBackStack("").commit()
-            }
+            (activity as BaseActivity).showWeatherDetails(weather)
         }
 
         override fun onButtonFavoritesClick(

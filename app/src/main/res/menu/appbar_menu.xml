@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_maps"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="Карты Google"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_contacts"
         android:icon="@android:drawable/sym_call_outgoing"
         android:title="Список контактов"
-        app:showAsAction="always" />
+        app:showAsAction="withText" />
 
     <item
         android:id="@+id/action_service_info"
