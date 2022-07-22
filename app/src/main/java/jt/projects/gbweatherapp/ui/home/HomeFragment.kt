@@ -3,10 +3,7 @@ package jt.projects.gbweatherapp.ui.home
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Geocoder
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
+import android.location.*
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,9 +19,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentHomeBinding
+import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.repository.OperationType
 import jt.projects.gbweatherapp.ui.OnItemViewClickListener
@@ -36,13 +33,13 @@ import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 import java.io.IOException
+import java.util.*
 import kotlin.system.measureTimeMillis
 
 const val REQUEST_CODE_LOCATION = 45
 
-private const val REFRESH_PERIOD =
-    2000L//Запрашивать местоположение будем с периодичностью
-private const val MINIMAL_DISTANCE = 0f//ли при перемещении телефона на 100 метров
+private const val REFRESH_PERIOD = 2000L//периодичность запроса местоположения
+private const val MINIMAL_DISTANCE = 0f//ли при перемещении телефона на __ метров
 
 class HomeFragment : Fragment() {
     private val TAG = "@@@"
@@ -50,20 +47,26 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: HomeViewModel
+    private var locationManager: LocationManager? = null
 
     companion object {
         fun newInstance() = HomeFragment()
     }
 
+    fun onItemClick(weather: Weather) {
+        locationManager?.removeUpdates(locationListener)
+        activity?.supportFragmentManager?.also { manager ->
+            val bundle = Bundle()
+            bundle.putParcelable(BUNDLE_EXTRA, weather)
+            manager.beginTransaction()
+                .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
+                .addToBackStack("").commit()
+        }
+    }
+
     private val adapter = HomeFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
-            activity?.supportFragmentManager?.also { manager ->
-                val bundle = Bundle()
-                bundle.putParcelable(BUNDLE_EXTRA, weather)
-                manager.beginTransaction()
-                    .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
-                    .addToBackStack("").commit()
-            }
+            onItemClick(weather)
         }
 
         override fun onButtonFavoritesClick(
@@ -182,22 +185,34 @@ class HomeFragment : Fragment() {
     }
 
 
-
     private fun getLocation() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED) {
-            val locationManager =
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            //Затем мы получаем наиболее подходящий провайдер
+            //геолокации по критериям.
+            //Система сама определит, какой провайдер сейчас доступен, и через него будет передавать
+            //координаты. Если будет доступен GPS, то координаты будут точнее. Если будут доступны координаты
+            //только по сотовым вышкам, позиционирование будет приблизительным.
+            locationManager =
                 requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                //val provider = locationManager.getProvider(LocationManager.GPS_PROVIDER)
-
-                locationManager.requestLocationUpdates(
+            val criteria = Criteria().apply { accuracy = Criteria.ACCURACY_COARSE }
+            val provider = locationManager?.getBestProvider(criteria, true)
+            provider?.let {
+                locationManager?.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    REFRESH_PERIOD,
+                    MINIMAL_DISTANCE,
+                    locationListener
+                )
+                locationManager?.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     REFRESH_PERIOD,
                     MINIMAL_DISTANCE,
-                    LocationListener)
+                    locationListener
+                )
             }
         }
     }
@@ -246,7 +261,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private val LocationListener = object : LocationListener {
+    private val locationListener = object : LocationListener {
         //вызывается, когда приходят новые данные о местоположении.
         override fun onLocationChanged(location: Location) {
             context?.let {
@@ -254,12 +269,15 @@ class HomeFragment : Fragment() {
                 Log.d(TAG, "${location.latitude} - ${location.longitude}")
             }
         }
+
         //вызывается при изменении статуса: Available или Unavailable. На Android Q и выше он всегда будет возвращать Available.
-        override fun onStatusChanged(provider: String, status: Int, extras: Bundle){}
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+
         //вызывается, если пользователь включил GPS.
         override fun onProviderEnabled(provider: String) {
             Log.d(TAG, "пользователь включил GPS")
         }
+
         //вызывается, если пользователь выключил GPS или сразу, если GPS был отключён изначально.
         override fun onProviderDisabled(provider: String) {
             Log.d(TAG, "пользователь выключил GPS!")
@@ -270,14 +288,25 @@ class HomeFragment : Fragment() {
         context: Context,
         location: Location
     ) {
-        val geoCoder = Geocoder(context)
+        val geoCoder = Geocoder(context, Locale("ru_RU"))
         Thread {
             try {
                 val time = measureTimeMillis {
-                    geoCoder.getFromLocation(
+                    //Передаём широту, долготу и желаемое количество адресов по заданным координатам
+                    val address = geoCoder.getFromLocation(
                         location.latitude,
                         location.longitude,
-                        100000)
+                        100
+                    )
+                    onItemClick(
+                        Weather(
+                            City(
+                                address[0].locality,
+                                location.latitude,
+                                location.longitude
+                            )
+                        )
+                    )
                 }
                 Log.d(TAG, "$time")
             } catch (e: IOException) {
