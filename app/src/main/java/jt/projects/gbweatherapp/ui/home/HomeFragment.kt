@@ -9,11 +9,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -28,6 +25,7 @@ import jt.projects.gbweatherapp.ui.OnItemViewClickListener
 import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.DURATION_ITEM_ANIMATOR
+import jt.projects.gbweatherapp.utils.PermissionsFragment
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.viewmodel.AppState
@@ -36,12 +34,12 @@ import java.io.IOException
 import java.util.*
 import kotlin.system.measureTimeMillis
 
-const val REQUEST_CODE_LOCATION = 45
 
-private const val REFRESH_PERIOD = 2000L//периодичность запроса местоположения
+private const val REFRESH_PERIOD_GPS = 1000L//периодичность запроса местоположения
+private const val REFRESH_PERIOD_NETWORK = 5000L//периодичность запроса местоположения
 private const val MINIMAL_DISTANCE = 0f//ли при перемещении телефона на __ метров
 
-class HomeFragment : Fragment() {
+class HomeFragment : PermissionsFragment() {
     private val TAG = "@@@"
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -114,7 +112,13 @@ class HomeFragment : Fragment() {
         }
         renderDataSetButton()
         binding.buttonLocation.setOnClickListener {
-            checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+            //checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+            tryJob(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                { getLocation() },
+                "Запрос местоположения",
+                "Требуется для отображения погоды в Вашем городе"
+            )
         }
     }
 
@@ -159,7 +163,6 @@ class HomeFragment : Fragment() {
             is AppState.Success<*> -> {
                 binding.loadingLayout.visibility = View.GONE
                 adapter.setWeather(appState.data as List<Weather>)
-                //    binding.root.showSnackBarShort(R.string.load_completed)
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
@@ -186,6 +189,7 @@ class HomeFragment : Fragment() {
 
 
     private fun getLocation() {
+        binding.root.showSnackBarShort("Идет запрос текущего местоположения...")
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -200,63 +204,21 @@ class HomeFragment : Fragment() {
                 requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val criteria = Criteria().apply { accuracy = Criteria.ACCURACY_COARSE }
             val provider = locationManager?.getBestProvider(criteria, true)
+            if (provider == null) binding.root.showSnackBarShort("Включите службы местоположения!")
             provider?.let {
+                // подключаеся к 2 провайдерам, ждем - кто быстрее отработает
                 locationManager?.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER,
-                    REFRESH_PERIOD,
+                    REFRESH_PERIOD_NETWORK,
                     MINIMAL_DISTANCE,
                     locationListener
                 )
                 locationManager?.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
-                    REFRESH_PERIOD,
+                    REFRESH_PERIOD_GPS,
                     MINIMAL_DISTANCE,
                     locationListener
                 )
-            }
-        }
-    }
-
-    private fun checkPermission(permission: String) {
-        val permResult =
-            ContextCompat.checkSelfPermission(requireContext(), permission)
-        PackageManager.PERMISSION_GRANTED
-        if (permResult == PackageManager.PERMISSION_GRANTED) {
-            getLocation()
-        } else if (shouldShowRequestPermissionRationale(permission)) {
-            AlertDialog.Builder(requireContext())
-                .setTitle("Доступ к локации")
-                .setMessage("Объяснение Объяснение Объяснение Объяснение")
-                .setPositiveButton("Предоставить доступ") { _, _ ->
-                    permissionRequest(permission)
-                }
-                .setNegativeButton("Не надо") { dialog, _ -> dialog.dismiss() }
-                .create()
-                .show()
-        } else {
-            permissionRequest(permission)
-        }
-    }
-
-
-    private fun permissionRequest(permission: String) {
-        requestPermissions(arrayOf(permission), REQUEST_CODE_LOCATION)
-    }
-
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_CODE_LOCATION) {
-            for (pIndex in permissions.indices) {
-                if (permissions[pIndex] == Manifest.permission.ACCESS_FINE_LOCATION
-                    && grantResults[pIndex] == PackageManager.PERMISSION_GRANTED
-                ) {
-                    getLocation()
-                    Log.d(TAG, "Доступ получен")
-                }
             }
         }
     }
