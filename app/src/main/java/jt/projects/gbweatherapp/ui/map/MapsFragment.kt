@@ -1,5 +1,6 @@
 package jt.projects.gbweatherapp.ui.map
 
+import android.graphics.Color
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,23 +11,20 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentMapsBinding
-import jt.projects.gbweatherapp.model.City
-import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
+import jt.projects.gbweatherapp.utils.showWeatherDetailsFragment
 import java.util.*
 
 class MapsFragment : Fragment() {
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
     lateinit var map: GoogleMap
+    private val markers = mutableListOf<Marker>()
 
     companion object {
         fun newInstance() = MapsFragment()
@@ -42,10 +40,36 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
+        val location = LatLng(68.9792, 33.0925)
+        googleMap.apply {
+            uiSettings.isZoomControlsEnabled = true // добавить кнопки zoom[+][-]
+            isMyLocationEnabled = true
+            uiSettings.isMyLocationButtonEnabled = true
+            addMarker(MarkerOptions().position(location).title("Marker in Murmansk"))
+            moveCamera(CameraUpdateFactory.newLatLng(location))
+
+            setOnMapLongClickListener {
+                addMarkerToArray(it)
+                drawLine()
+            }
+
+            setOnMarkerClickListener {
+                val location = it.position
+                requireActivity().showWeatherDetailsFragment(location)
+                true
+            }
+        }
+
         map = googleMap
-        val city = LatLng(68.9792, 33.0925)
-        googleMap.addMarker(MarkerOptions().position(city).title("Marker in Murmansk"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(city))
+
+        view?.showSnackBarWithAction("Показать подсказку?", "Да") {
+            (requireActivity() as BaseActivity).showMsgDialog(
+                "Подсказка",
+                """Длинное нажатие - установить 🚩,
+                    |нажать 🚩 - погода в данной локации.
+                """.trimMargin()
+            )
+        }
     }
 
     override fun onCreateView(
@@ -62,44 +86,25 @@ class MapsFragment : Fragment() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
 
-        binding.buttonSearchAddress.setOnClickListener() {
+        binding.buttonSearchAddress.setOnClickListener {
             binding.editTextAddress.text.toString().let {
                 val geocoder = Geocoder(context, Locale("ru_RU"))
                 val result = geocoder.getFromLocationName(it, 1)
 
                 if (result != null) {
                     val location = LatLng(result.first().latitude, result.first().longitude)
-                    setMarker(
-                        location,
-                        it,
-                        R.drawable.ic_map_marker
-                    )
-                    map.moveCamera(CameraUpdateFactory.newLatLng(location))
+                    setMarker(location, it, R.drawable.ic_map_marker)
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 6f))
                     view.showSnackBarWithAction("Показать погоду?", "Да") {
-                        showWeather(
-                            location,
-                            result[0].locality
-                        )
+                        requireActivity().showWeatherDetailsFragment(location)
                     }
                 } else {
                     view.showSnackBarShort("Адрес не найден")
                 }
             }
-
         }
     }
 
-    private fun showWeather(location: LatLng, name: String) {
-        (activity as BaseActivity).showWeatherDetails(
-            Weather(
-                City(
-                    name,
-                    location.latitude,
-                    location.longitude
-                )
-            )
-        )
-    }
 
     private fun setMarker(location: LatLng, searchText: String, resId: Int): Marker {
         return map.addMarker(
@@ -107,6 +112,25 @@ class MapsFragment : Fragment() {
                 BitmapDescriptorFactory.fromResource(resId)
             )
         )!!
+    }
+
+    private fun addMarkerToArray(location: LatLng) {
+        val marker = setMarker(location, markers.size.toString(), R.drawable.ic_map_pin)
+        markers.add(marker)
+    }
+
+    private fun drawLine() {
+        val last: Int = markers.size - 1
+        if (last >= 1) {
+            val previous: LatLng = markers[last - 1].position
+            val current: LatLng = markers[last].position
+            map.addPolyline(
+                PolylineOptions()
+                    .add(previous, current)
+                    .color(Color.RED)
+                    .width(15f)
+            )
+        }
     }
 
     override fun onDestroy() {

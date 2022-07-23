@@ -23,10 +23,7 @@ import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.repository.OperationType
 import jt.projects.gbweatherapp.ui.OnItemViewClickListener
-import jt.projects.gbweatherapp.utils.DURATION_ITEM_ANIMATOR
-import jt.projects.gbweatherapp.utils.PermissionsFragment
-import jt.projects.gbweatherapp.utils.showSnackBarShort
-import jt.projects.gbweatherapp.utils.showSnackBarWithAction
+import jt.projects.gbweatherapp.utils.*
 import jt.projects.gbweatherapp.viewmodel.AppState
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 import java.io.IOException
@@ -53,7 +50,7 @@ class HomeFragment : PermissionsFragment() {
 
     private val adapter = HomeFragmentAdapter(object : OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
-            (activity as BaseActivity).showWeatherDetails(weather)
+            requireActivity().showWeatherDetailsFragment(weather)
         }
 
         override fun onButtonFavoritesClick(

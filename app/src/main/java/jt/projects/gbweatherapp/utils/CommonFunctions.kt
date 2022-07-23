@@ -5,9 +5,23 @@ import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentActivity
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
+import jt.projects.gbweatherapp.BaseActivity
+import jt.projects.gbweatherapp.model.Weather
 import java.io.BufferedReader
 import java.util.stream.Collectors
+
+fun FragmentActivity.showWeatherDetailsFragment(weather: Weather){
+    (this as? BaseActivity)?.showWeatherDetails(weather)
+}
+
+fun FragmentActivity.showWeatherDetailsFragment(location: LatLng){
+    (this as? BaseActivity)?.showWeatherDetails(location)
+}
 
 // принимает текст для вывода или как строку, или как id Resources (String)
 fun <T> View.showSnackBarShort(text: T) {

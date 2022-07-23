@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toTopOf="@+id/mainFragmentFAB"
         app:layout_constraintEnd_toEndOf="@+id/mainFragmentFAB"
         app:maxImageSize="56dp"
-        app:tint="@null" />
+         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/mainFragmentFAB"

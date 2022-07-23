@@ -2,6 +2,8 @@ package jt.projects.gbweatherapp
 
 import android.app.Application
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import jt.projects.gbweatherapp.model.room.WeatherDatabase
 import jt.projects.gbweatherapp.utils.ROOM_DB_NAME_WEATHER
 
@@ -30,7 +32,9 @@ class MyApp : Application() {
                     getApp().applicationContext,
                     WeatherDatabase::class.java,
                     ROOM_DB_NAME_WEATHER
-                )//.fallbackToDestructiveMigration()
+                )
+                    //.fallbackToDestructiveMigration()
+                    // .addMigrations(MIGRATION_3_4)
                     .build()
             }
             return dbInAsyncMode!!
@@ -46,9 +50,17 @@ class MyApp : Application() {
                 )
                     .allowMainThreadQueries()// - возможность запросов в главном потоке
                     //.fallbackToDestructiveMigration()
+                    // .addMigrations(MIGRATION_3_4)
                     .build()
             }
             return dbInUiThread!!
+        }
+
+        // образец миграции
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE weather_entity_table ADD COLUMN icon_new INTEGER NOT NULL DEFAULT ${R.drawable.ic_russia}")
+            }
         }
     }
 }

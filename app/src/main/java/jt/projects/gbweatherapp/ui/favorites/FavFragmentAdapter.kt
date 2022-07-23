@@ -51,8 +51,9 @@ internal class FavFragmentAdapter(private var onItemViewClickListener: OnItemVie
 
         fun bind(weather: Weather) {
             with(itemView) {
-                findViewById<TextView>(R.id.temperatureValueBigSmallCard).text =
-                    weather.temperature.toString().toTemperature()
+                findViewById<TextView>(R.id.temperatureValueBigSmallCard).text = ""
+                //   weather.temperature.toString().toTemperature()
+
                 findViewById<TextView>(R.id.cityNameSmallCard).text = weather.city.name
                 findViewById<TextView>(R.id.conditionValueSmallCard).text =
                     WeatherCondition.getRusName(weather.condition)

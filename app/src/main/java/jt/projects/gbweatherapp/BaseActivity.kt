@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
@@ -18,7 +19,9 @@ import coil.ImageLoader
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
+import com.google.android.gms.maps.model.LatLng
 import jt.projects.gbweatherapp.databinding.ActivityMainBinding
+import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
@@ -28,6 +31,7 @@ import jt.projects.gbweatherapp.utils.NetworkChangeReceiver
 import jt.projects.gbweatherapp.utils.old.NetworkStatusExtra
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.viewmodel.SharedPref
+import java.util.*
 
 open class BaseActivity : AppCompatActivity() {
     private val networkChangeReceiver = NetworkChangeReceiver()
@@ -121,6 +125,18 @@ open class BaseActivity : AppCompatActivity() {
                 .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
                 .addToBackStack("").commit()
         }
+    }
+
+    fun showWeatherDetails(location: LatLng) {
+        val geocoder = Geocoder(this, Locale("ru_RU"))
+        val city = geocoder.getFromLocation(location.latitude, location.longitude, 10)
+        var cityName = "no city found"
+        city?.let {
+            if (city.size > 0 && city[0].locality != null) {
+                cityName = city[0].locality
+            }
+        }
+        showWeatherDetails(Weather(City(cityName, location.latitude, location.longitude)))
     }
 
     @Suppress("DEPRECATION")
