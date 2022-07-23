@@ -1,5 +1,6 @@
 package jt.projects.gbweatherapp
 
+import android.Manifest
 import android.app.ActivityManager
 import android.os.Bundle
 import android.view.Menu
@@ -40,7 +41,13 @@ class MainActivity : BaseActivity() {
                 showAllRunningServices()
             }
             R.id.action_maps -> {
-                showFragmentWithBS(MapsFragment.newInstance())
+                tryJob(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    { showFragmentWithBS(MapsFragment.newInstance())},
+                    "Запрос местоположения",
+                    "Требуется для отображения погоды в Вашем городе",
+                    {this.showMsgDialog("Важно!", "Без получения разрешений работа с картой невозможна")}
+                )
             }
             R.id.action_contacts -> {
                 showFragmentWithBS(ContactsFragment.newInstance())

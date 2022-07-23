@@ -83,6 +83,7 @@ class MapsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
 
@@ -104,6 +105,10 @@ class MapsFragment : Fragment() {
             }
         }
     }
+
+//    private fun checkPermission() {
+//        isHasPermission = true
+//    }
 
 
     private fun setMarker(location: LatLng, searchText: String, resId: Int): Marker {

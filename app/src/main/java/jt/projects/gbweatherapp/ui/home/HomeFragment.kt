@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -35,7 +36,7 @@ private const val REFRESH_PERIOD_GPS = 1000L//периодичность зап�
 private const val REFRESH_PERIOD_NETWORK = 5000L//периодичность запроса местоположения
 private const val MINIMAL_DISTANCE = 0f//ли при перемещении телефона на __ метров
 
-class HomeFragment : PermissionsFragment() {
+class HomeFragment : Fragment() {
     private val TAG = "@@@"
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -99,7 +100,7 @@ class HomeFragment : PermissionsFragment() {
         renderDataSetButton()
         binding.buttonLocation.setOnClickListener {
             //checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-            tryJob(
+            (requireActivity() as BaseActivity).tryJob(
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 { getLocation() },
                 "Запрос местоположения",

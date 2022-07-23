@@ -25,15 +25,12 @@ import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
-import jt.projects.gbweatherapp.utils.NOTIFICATION_CHANNEL_ID
-import jt.projects.gbweatherapp.utils.NOTIFICATION_CHANNEL_NAME
-import jt.projects.gbweatherapp.utils.NetworkChangeReceiver
+import jt.projects.gbweatherapp.utils.*
 import jt.projects.gbweatherapp.utils.old.NetworkStatusExtra
-import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 import java.util.*
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : PermissionActivity() {
     private val networkChangeReceiver = NetworkChangeReceiver()
     lateinit var binding: ActivityMainBinding
 
