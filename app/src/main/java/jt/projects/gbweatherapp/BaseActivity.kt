@@ -12,7 +12,6 @@ import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import coil.Coil
 import coil.ImageLoader
@@ -46,7 +45,7 @@ open class BaseActivity : PermissionActivity() {
             networkChangeReceiver,
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
-        applicationContext?.let {
+//        applicationContext?.let {
             // ресивер для отслеживания статуса сети
 //            LocalBroadcastManager.getInstance(it)
 //                .registerReceiver(
@@ -56,7 +55,7 @@ open class BaseActivity : PermissionActivity() {
 
             // сервис для рассылки сообщений об изменении состояния сети
             //    startService(Intent(it, NetworkStatusService::class.java))
-        }
+//        }
 
 
         SharedPref.initSharedPreferencesContext(applicationContext)

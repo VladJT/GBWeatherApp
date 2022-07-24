@@ -43,10 +43,15 @@ class MainActivity : BaseActivity() {
             R.id.action_maps -> {
                 tryJob(
                     Manifest.permission.ACCESS_FINE_LOCATION,
-                    { showFragmentWithBS(MapsFragment.newInstance())},
+                    { showFragmentWithBS(MapsFragment.newInstance()) },
                     "Запрос местоположения",
                     "Требуется для отображения погоды в Вашем городе",
-                    {this.showMsgDialog("Важно!", "Без получения разрешений работа с картой невозможна")}
+                    {
+                        this.showMsgDialog(
+                            "Важно!",
+                            "Без получения разрешений работа с картой невозможна"
+                        )
+                    }
                 )
             }
             R.id.action_contacts -> {

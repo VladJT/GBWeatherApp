@@ -164,7 +164,6 @@ class WeatherDetailsFragment : Fragment() {
                 .append(weather.temperature.toString().toTemperature())
                 .append("\n")
         }
-        //(activity as? BaseActivity)?.showMsgDialog("История изменения погоды: ", sb.toString())
         val customDialogView = layoutInflater.inflate(R.layout.dialog_history, null)
         val c = requireContext()
         val dialog = AlertDialog.Builder(c)
@@ -225,7 +224,6 @@ class WeatherDetailsFragment : Fragment() {
             conditionValue.text = WeatherCondition.getRusName(weather.condition)
             textViewDateOfWeather.text = weather.now.toDateTime()
             precTypeValue.text = getPrecType(weather.precType)
-
         }
     }
 }
