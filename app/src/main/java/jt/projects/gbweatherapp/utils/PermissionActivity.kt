@@ -48,7 +48,7 @@ open class PermissionActivity : AppCompatActivity() {
                 .create()
                 .show()
         } else {
-            showGoSettings()
+            permissionRequest(permission)
         }
     }
 
@@ -70,13 +70,18 @@ open class PermissionActivity : AppCompatActivity() {
     ) {
         if (requestCode == REQUEST_CODE) {
             for (pIndex in permissions.indices) {
-                if (permissions[pIndex] == permission
-                    && grantResults[pIndex] == PackageManager.PERMISSION_GRANTED
-                ) {
-                    Log.d("@@@", "Доступ получен")
-                    functionSuccess.invoke()
-                    return
+                if (permissions[pIndex] == permission) {
+                    if (grantResults[pIndex] == PackageManager.PERMISSION_GRANTED) {
+                        Log.d("@@@", "Доступ получен")
+                        functionSuccess.invoke()
+                        return
+                    } else {
+                        if (!shouldShowRequestPermissionRationale(permissions[pIndex])) {
+                            showGoSettings()
+                        }
+                    }
                 }
+
             }
         }
     }
