@@ -1,11 +1,16 @@
 package jt.projects.gbweatherapp.utils
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import jt.projects.gbweatherapp.BaseActivity
+import jt.projects.gbweatherapp.R
 
 open class PermissionActivity : AppCompatActivity() {
     private val REQUEST_CODE = 999
@@ -43,7 +48,7 @@ open class PermissionActivity : AppCompatActivity() {
                 .create()
                 .show()
         } else {
-            permissionRequest(permission)
+            showGoSettings()
         }
     }
 
@@ -73,7 +78,33 @@ open class PermissionActivity : AppCompatActivity() {
                     return
                 }
             }
-            functionFailed.invoke()
         }
     }
+
+    private fun showGoSettings() {
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.need_permission_header))
+            .setMessage("Необходимо выдать разрешения вручную")
+            .setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                openApplicationSettings()
+            }
+            .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    private fun openApplicationSettings() {
+        // запуск окна настроек приложения
+        val appSettingsIntent = Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.parse("package:${packageName}")
+        )
+        settingsLauncher.launch(appSettingsIntent)
+    }
+
+    private val settingsLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { permissionRequest(permission) }
 }
