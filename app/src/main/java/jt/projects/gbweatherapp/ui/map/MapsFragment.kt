@@ -20,6 +20,7 @@ import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.utils.showWeatherDetailsFragment
 import java.util.*
 
+
 class MapsFragment : Fragment() {
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
@@ -90,25 +91,25 @@ class MapsFragment : Fragment() {
         binding.buttonSearchAddress.setOnClickListener {
             binding.editTextAddress.text.toString().let {
                 val geocoder = Geocoder(context, Locale("ru_RU"))
-                val result = geocoder.getFromLocationName(it, 1)
+                try {
+                    val result = geocoder.getFromLocationName(it, 1)
 
-                if (result != null) {
-                    val location = LatLng(result.first().latitude, result.first().longitude)
-                    setMarker(location, it, R.drawable.ic_map_marker)
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 6f))
-                    view.showSnackBarWithAction("Показать погоду?", "Да") {
-                        requireActivity().showWeatherDetailsFragment(location)
+                    if (result != null && result.size > 0) {
+                        val location = LatLng(result.first().latitude, result.first().longitude)
+                        setMarker(location, it, R.drawable.ic_map_marker)
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 6f))
+                        view.showSnackBarWithAction("Показать погоду в ${result[0].locality}?", "Да") {
+                            requireActivity().showWeatherDetailsFragment(location)
+                        }
+                    } else {
+                        view.showSnackBarShort("Адрес не найден")
                     }
-                } else {
-                    view.showSnackBarShort("Адрес не найден")
+                } catch (e: Exception) {
+                    binding.root.showSnackBarShort("Адрес не найден. ".plus(e.message))
                 }
             }
         }
     }
-
-//    private fun checkPermission() {
-//        isHasPermission = true
-//    }
 
 
     private fun setMarker(location: LatLng, searchText: String, resId: Int): Marker {
