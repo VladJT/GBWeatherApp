@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import jt.projects.gbweatherapp.BaseActivity
 
+
 open class PermissionActivity : AppCompatActivity() {
     private val REQUEST_CODE = 999
     lateinit var functionSuccess: () -> Unit
