@@ -57,7 +57,6 @@ open class BaseActivity : PermissionActivity() {
             //    startService(Intent(it, NetworkStatusService::class.java))
 //        }
 
-
         SharedPref.initSharedPreferencesContext(applicationContext)
         setTheme(SharedPref.getData().theme)
 

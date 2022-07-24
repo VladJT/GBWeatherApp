@@ -13,6 +13,7 @@ import jt.projects.gbweatherapp.model.Weather
 import java.io.BufferedReader
 import java.util.stream.Collectors
 
+
 fun FragmentActivity.showWeatherDetailsFragment(weather: Weather) {
     (this as? BaseActivity)?.showWeatherDetails(weather)
 }

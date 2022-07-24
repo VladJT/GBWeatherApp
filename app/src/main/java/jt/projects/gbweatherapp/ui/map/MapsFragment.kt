@@ -1,5 +1,6 @@
 package jt.projects.gbweatherapp.ui.map
 
+
 import android.graphics.Color
 import android.location.Geocoder
 import android.os.Bundle
