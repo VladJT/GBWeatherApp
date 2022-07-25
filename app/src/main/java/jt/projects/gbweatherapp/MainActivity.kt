@@ -2,9 +2,17 @@ package jt.projects.gbweatherapp
 
 import android.Manifest
 import android.app.ActivityManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.app.NotificationCompat
+import jt.projects.gbweatherapp.memo.pushNotification
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
 import jt.projects.gbweatherapp.ui.contacts.ContactsFragment
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
@@ -24,8 +32,10 @@ class MainActivity : BaseActivity() {
         if (savedInstanceState == null) {
             showFragment(HomeFragment.newInstance())
         }
+        Context.NOTIFICATION_SERVICE
         initBottomMenu()
         initAppBarThemeSwitch()
+    //    this.pushNotification("vlad", "hello")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
