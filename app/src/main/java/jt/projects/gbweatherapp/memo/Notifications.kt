@@ -5,18 +5,14 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
 
 
-fun AppCompatActivity.pushNotification(title: String, text: String) {
+fun Context.pushNotification(title: String, text: String) {
     val CHANNEL_HIGH_ID = "channel_high"
     val CHANNEL_LOW_ID = "channel_low"
     val NOTIFICATION_ID = 1
     val NOTIFICATION_ID2 = 2
-
-    //  getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     val notification = NotificationCompat.Builder(this, CHANNEL_HIGH_ID).apply {
@@ -38,11 +34,11 @@ fun AppCompatActivity.pushNotification(title: String, text: String) {
     }
     notificationManager.notify(NOTIFICATION_ID, notification)
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val channelLow =
-            NotificationChannel(CHANNEL_LOW_ID, CHANNEL_LOW_ID, NotificationManager.IMPORTANCE_LOW)
-        channelLow.description = "Канал 2"
-        notificationManager.createNotificationChannel(channelLow)
-    }
-    notificationManager.notify(NOTIFICATION_ID2, notification)
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//        val channelLow =
+//            NotificationChannel(CHANNEL_LOW_ID, CHANNEL_LOW_ID, NotificationManager.IMPORTANCE_LOW)
+//        channelLow.description = "Канал 2"
+//        notificationManager.createNotificationChannel(channelLow)
+//    }
+//    notificationManager.notify(NOTIFICATION_ID2, notification)
 }

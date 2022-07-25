@@ -6,6 +6,9 @@ plugins {
     // ROOM плагин для работы с аннотациями в Kotlin
     id 'kotlin-kapt'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
+    // FOR FIREBASE
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -48,6 +51,8 @@ android {
 }
 
 dependencies {
+    // FOR FIREBASE
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.6'
 
     // google maps
     implementation 'com.google.android.gms:play-services-maps:18.1.0'

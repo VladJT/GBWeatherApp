@@ -46,15 +46,15 @@ open class BaseActivity : PermissionActivity() {
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
 //        applicationContext?.let {
-            // ресивер для отслеживания статуса сети
+        // ресивер для отслеживания статуса сети
 //            LocalBroadcastManager.getInstance(it)
 //                .registerReceiver(
 //                    networkChangeReceiverAlternative,
 //                    IntentFilter(NetworkStatusIntent)
 //                )
 
-            // сервис для рассылки сообщений об изменении состояния сети
-            //    startService(Intent(it, NetworkStatusService::class.java))
+        // сервис для рассылки сообщений об изменении состояния сети
+        //    startService(Intent(it, NetworkStatusService::class.java))
 //        }
 
 

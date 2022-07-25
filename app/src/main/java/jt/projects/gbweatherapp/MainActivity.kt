@@ -2,16 +2,12 @@ package jt.projects.gbweatherapp
 
 import android.Manifest
 import android.app.ActivityManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.app.NotificationCompat
+import com.google.firebase.messaging.FirebaseMessaging
 import jt.projects.gbweatherapp.memo.pushNotification
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
 import jt.projects.gbweatherapp.ui.contacts.ContactsFragment
@@ -35,8 +31,20 @@ class MainActivity : BaseActivity() {
         Context.NOTIFICATION_SERVICE
         initBottomMenu()
         initAppBarThemeSwitch()
-    //    this.pushNotification("vlad", "hello")
+        //    this.pushNotification("vlad", "hello")
+
+
+        // для отображения токена не 1 раз, а при каждом запуске
+        FirebaseMessaging.getInstance().token.addOnCompleteListener{
+            if(!it.isSuccessful){
+                Log.e("@@@", it.exception.toString())
+            }else{
+                val token = it.result
+                applicationContext.pushNotification("Получен token", token)
+            }
+        }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // мы получаем Меню приложения и с помощью специального MenuInflater’а (по

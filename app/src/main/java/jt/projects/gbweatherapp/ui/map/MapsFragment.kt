@@ -98,7 +98,10 @@ class MapsFragment : Fragment() {
                         val location = LatLng(result.first().latitude, result.first().longitude)
                         setMarker(location, it, R.drawable.ic_map_marker)
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 6f))
-                        view.showSnackBarWithAction("Показать погоду в ${result[0].locality}?", "Да") {
+                        view.showSnackBarWithAction(
+                            "Показать погоду в ${result[0].locality}?",
+                            "Да"
+                        ) {
                             requireActivity().showWeatherDetailsFragment(location)
                         }
                     } else {

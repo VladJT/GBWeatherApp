@@ -58,6 +58,17 @@
         <service android:name="jt.projects.gbweatherapp.memo.ExIntentService" />
         <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" />
         <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" /> <!-- > BroadcastReceiver для приема сообщений извне д.б. в манифесте < -->
+
+        <!-- > Сервис FOR FIREBASE < -->
+        <service
+            android:name="jt.projects.gbweatherapp.memo.MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
         <!-- > Контент-провайдер д.б. в манифесте < -->
         <provider
             android:name="jt.projects.gbweatherapp.memo.GBContentProvider"
