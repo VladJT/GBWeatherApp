@@ -38,6 +38,7 @@
              "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
              my - AIzaSyA5TR_w2YguV0jQXbk9fQttQTkhSNbtfLA
              GB - AIzaSyC4Q7OtEFPeHIh5GARicSvXNTMEJ7g0Dfk
+             FB - dQbwheiyS1KO8ZIj02FOGi:APA91bGXumO8-JIg2uZ74hUX8sLkCvt4fmuNeElaFPFBkQf8L_nxjX96A6mj4zYI0jwEtlOV9mJrmAJD5ZKPzhiiJ9-1WN9TRbpvJSlEHYCyPeuKtGQ5EI3LzU2zJGS7G0hn4xHfde7j
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"

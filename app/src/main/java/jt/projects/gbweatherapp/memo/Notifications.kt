@@ -2,24 +2,41 @@ package jt.projects.gbweatherapp.memo
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
 import android.os.Build
+import android.provider.MediaStore
 import androidx.core.app.NotificationCompat
+import jt.projects.gbweatherapp.MainActivity
+import jt.projects.gbweatherapp.utils.CHANNEL_HIGH_ID
+import jt.projects.gbweatherapp.utils.NOTIFICATION_ID
+import jt.projects.gbweatherapp.utils.NetworkChangeReceiver
 
 
 fun Context.pushNotification(title: String, text: String) {
-    val CHANNEL_HIGH_ID = "channel_high"
-    val CHANNEL_LOW_ID = "channel_low"
-    val NOTIFICATION_ID = 1
-    val NOTIFICATION_ID2 = 2
-
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    val notificationIntent =
+        Intent(applicationContext, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+    val contentIntent =
+        PendingIntent.getActivity(this, 1, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+    val actionIntent  = Intent(this, NetworkChangeReceiver::class.java).apply {
+    }
+    val snoozePendingIntent: PendingIntent =
+        PendingIntent.getBroadcast(this, 0, actionIntent, 0)
+
     val notification = NotificationCompat.Builder(this, CHANNEL_HIGH_ID).apply {
         setContentTitle(title)
         setContentText(text)
-        //    intent = PendingIntent(Intent)
+        setContentIntent(contentIntent)
         setSmallIcon(android.R.drawable.ic_menu_myplaces)
+        addAction(
+            android.R.drawable.ic_lock_idle_charging, "Click me!",
+            snoozePendingIntent)
         priority = NotificationCompat.PRIORITY_MAX
     }.build()
 

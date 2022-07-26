@@ -32,4 +32,12 @@ const val NOTIFICATION_CHANNEL_NAME = "vlad"
 // ROOM
 const val ROOM_DB_NAME_WEATHER = "weather.db"
 
+// FireStore Cloud Messaging
+const val NOTIFICATION_KEY_TITLE = "myTitle"
+const val NOTIFICATION_KEY_MESSAGE = "myBody"
 
+// NOTIFICATIONS
+val CHANNEL_HIGH_ID = "channel_high"
+val CHANNEL_LOW_ID = "channel_low"
+val NOTIFICATION_ID = 1
+val NOTIFICATION_ID2 = 2

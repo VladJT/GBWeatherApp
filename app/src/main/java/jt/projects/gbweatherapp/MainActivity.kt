@@ -3,6 +3,7 @@ package jt.projects.gbweatherapp
 import android.Manifest
 import android.app.ActivityManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -28,10 +29,9 @@ class MainActivity : BaseActivity() {
         if (savedInstanceState == null) {
             showFragment(HomeFragment.newInstance())
         }
-        Context.NOTIFICATION_SERVICE
         initBottomMenu()
         initAppBarThemeSwitch()
-        //    this.pushNotification("vlad", "hello")
+        this.pushNotification("test_title", "hello")
 
 
         // для отображения токена не 1 раз, а при каждом запуске
@@ -40,7 +40,8 @@ class MainActivity : BaseActivity() {
                 Log.e("@@@", it.exception.toString())
             }else{
                 val token = it.result
-                applicationContext.pushNotification("Получен token", token)
+           //     applicationContext.pushNotification("Получен token", token)
+                Log.d("@@@", token)
             }
         }
     }

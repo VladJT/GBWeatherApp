@@ -34,7 +34,7 @@ class MyApp : Application() {
                     ROOM_DB_NAME_WEATHER
                 )
                     //.fallbackToDestructiveMigration()
-                    // .addMigrations(MIGRATION_3_4)
+                    // .addMigrations(MIGRATION_1_3)
                     .build()
             }
             return dbInAsyncMode!!
@@ -50,14 +50,14 @@ class MyApp : Application() {
                 )
                     .allowMainThreadQueries()// - возможность запросов в главном потоке
                     //.fallbackToDestructiveMigration()
-                    // .addMigrations(MIGRATION_3_4)
+                    // .addMigrations(MIGRATION_1_3)
                     .build()
             }
             return dbInUiThread!!
         }
 
         // образец миграции
-        val MIGRATION_3_4 = object : Migration(3, 4) {
+        val MIGRATION_1_3 = object : Migration(1, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE weather_entity_table ADD COLUMN icon_new INTEGER NOT NULL DEFAULT ${R.drawable.ic_russia}")
             }
