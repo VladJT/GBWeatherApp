@@ -30,7 +30,7 @@ class MainActivity : BaseActivity() {
         initBottomMenu()
         initAppBarThemeSwitch()
 
-        this.pushNotification("My_title", "hello, GeekBrains!")
+        //this.pushNotification("My_title", "hello, GeekBrains!")
 
 
         // для отображения токена не 1 раз, а при каждом запуске

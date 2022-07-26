@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.*
 import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentMapsBinding
+import jt.projects.gbweatherapp.memo.pushNotification
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.utils.showWeatherDetailsFragment
@@ -104,6 +105,7 @@ class MapsFragment : Fragment() {
                         ) {
                             requireActivity().showWeatherDetailsFragment(location)
                         }
+                        requireActivity().pushNotification(result[0].locality)
                     } else {
                         view.showSnackBarShort("Адрес не найден")
                     }
