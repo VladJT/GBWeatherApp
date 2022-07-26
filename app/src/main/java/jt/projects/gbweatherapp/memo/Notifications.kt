@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.google.android.gms.maps.model.LatLng
 import jt.projects.gbweatherapp.MainActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.utils.CHANNEL_HIGH_ID
@@ -22,7 +23,6 @@ fun Context.pushNotification(title: String, text: String) {
         Intent(applicationContext, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
-
     val pendingFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     } else {
@@ -54,7 +54,7 @@ fun Context.pushNotification(title: String, text: String) {
 }
 
 
-fun Context.pushNotification(cityName: String) {
+fun Context.pushNotification(cityName: String, location: LatLng) {
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     val notificationIntent =
         Intent(applicationContext, MainActivity::class.java).apply {
@@ -74,6 +74,11 @@ fun Context.pushNotification(cityName: String) {
     val address: Uri = Uri.parse("https://goodmeteo.ru/poisk/?s=${cityName}")
     val intentBrowser = Intent(Intent.ACTION_VIEW, address)
     val pIntentBrowser = PendingIntent.getActivity(this, 2, intentBrowser, pendingFlags)
+
+    val intentDetails = Intent("show_weather_details")
+        //intentDetails.putExtra("location", location)
+    val pIntentDetails = PendingIntent.getBroadcast(this, 0, intentDetails, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
 
     val notification = NotificationCompat.Builder(this, CHANNEL_HIGH_ID).apply {
         setContentTitle(cityName)
@@ -100,12 +105,8 @@ fun Context.pushNotification(cityName: String) {
         setAutoCancel(true); // автоматически закрыть уведомление после нажатия
         setProgress(100, 50, false)
         addAction(R.drawable.ic_baseline_home_24, "Главное меню", contentIntent)
-        addAction(
-            android.R.drawable.ic_menu_mapmode,
-            "В браузере",
-            pIntentBrowser
-        )
-        addAction(R.drawable.ic_baseline_star_24, "Другой вариант", contentIntent)
+        addAction(android.R.drawable.ic_menu_mapmode, "В браузере", pIntentBrowser)
+        addAction(R.drawable.ic_baseline_star_24, "Details", pIntentDetails)
         priority = NotificationCompat.PRIORITY_MAX
     }
 

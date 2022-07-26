@@ -13,6 +13,7 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import coil.Coil
 import coil.ImageLoader
 import coil.decode.GifDecoder
@@ -39,6 +40,13 @@ open class BaseActivity : PermissionActivity() {
         }
     }
 
+    private val showWeatherDetailsReciever: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val location = intent.getParcelableExtra<LatLng>("location")
+            location?.let { showWeatherDetails(location) }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerReceiver(
@@ -52,6 +60,12 @@ open class BaseActivity : PermissionActivity() {
 //                    networkChangeReceiverAlternative,
 //                    IntentFilter(NetworkStatusIntent)
 //                )
+
+        LocalBroadcastManager.getInstance(applicationContext)
+            .registerReceiver(
+                showWeatherDetailsReciever,
+                IntentFilter("show_weather_details")
+            )
 
         // сервис для рассылки сообщений об изменении состояния сети
         //    startService(Intent(it, NetworkStatusService::class.java))
@@ -164,6 +178,10 @@ open class BaseActivity : PermissionActivity() {
 //            LocalBroadcastManager.getInstance(it)
 //                .unregisterReceiver(networkChangeReceiverAlternative)
 //        }
+        applicationContext?.let {
+            LocalBroadcastManager.getInstance(it)
+                .unregisterReceiver(showWeatherDetailsReciever)
+        }
         super.onDestroy()
     }
 }

@@ -105,7 +105,7 @@ class MapsFragment : Fragment() {
                         ) {
                             requireActivity().showWeatherDetailsFragment(location)
                         }
-                        requireActivity().pushNotification(result[0].locality)
+                        requireActivity().pushNotification(result[0].locality, location)
                     } else {
                         view.showSnackBarShort("Адрес не найден")
                     }
