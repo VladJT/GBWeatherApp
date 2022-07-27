@@ -1,13 +1,8 @@
 package jt.projects.gbweatherapp
 
-import android.app.NotificationChannel
-import android.app.NotificationChannelGroup
-import android.app.NotificationManager
-import android.content.Context
 import android.content.IntentFilter
 import android.location.Geocoder
 import android.net.ConnectivityManager
-import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -22,6 +17,9 @@ import jt.projects.gbweatherapp.databinding.ActivityMainBinding
 import jt.projects.gbweatherapp.memo.Notifications
 import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
+import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
+import jt.projects.gbweatherapp.ui.home.HomeFragment
+import jt.projects.gbweatherapp.ui.search.SearchFragment
 import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.*
@@ -33,6 +31,14 @@ open class BaseActivity : PermissionActivity() {
     private val networkChangeReceiver = NetworkChangeReceiver()
     private val weatherDetailsReciever = WeatherDetailsReceiver()
     lateinit var binding: ActivityMainBinding
+
+    private val notificationCallback: Notifications.NotificationSettingsCallback =
+        object : Notifications.NotificationSettingsCallback {
+            override fun onGoSettings(idChannel: String) {
+                binding.root.showSnackBarWithAction("Для корректной работы приложения требуется включение канала $idChannel для push-уведомлений", "Включить?"
+                ) { Notifications.showChannelSettings(idChannel) }
+            }
+        }
 
 //    private val networkChangeReceiverAlternative: BroadcastReceiver = object : BroadcastReceiver() {
 //        override fun onReceive(context: Context, intent: Intent) {
@@ -68,7 +74,7 @@ open class BaseActivity : PermissionActivity() {
         setSupportActionBar(binding.toolbar)
 
         // Для канала и нотификации через push-уведомления
-        Notifications.init(applicationContext)
+        Notifications.init(applicationContext, notificationCallback)
 
         // для возможности загрузки изображений SVG & GIF через библиотеку COIL
         val imageLoader = ImageLoader.Builder(applicationContext)
@@ -93,21 +99,31 @@ open class BaseActivity : PermissionActivity() {
             .commit()
     }
 
-    fun showFragmentWithBS(fragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(binding.fragmentContainer.id, fragment)
-            .addToBackStack("")
-            .commit()
+    fun showFragmentWithBS(fragment: Fragment, fragmentTag: String) {
+        val f = supportFragmentManager.findFragmentByTag(fragmentTag)
+        if (f==null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(binding.fragmentContainer.id, fragment, fragmentTag)
+                .addToBackStack("")
+                .commit()
+        }
     }
 
     fun showWeatherDetails(weather: Weather) {
-        supportFragmentManager?.also { manager ->
-            val bundle = Bundle()
-            bundle.putParcelable(BUNDLE_EXTRA, weather)
-            manager.beginTransaction()
-                .add(R.id.fragment_container, WeatherDetailsFragment.newInstance(bundle))
-                .addToBackStack("").commit()
+        val f = supportFragmentManager.findFragmentByTag(WEATHER_DETAILS_FRAGMENT_TAG)
+        if (f==null) {
+            supportFragmentManager?.also { manager ->
+                val bundle = Bundle()
+                bundle.putParcelable(BUNDLE_EXTRA, weather)
+                manager.beginTransaction()
+                    .add(
+                        R.id.fragment_container,
+                        WeatherDetailsFragment.newInstance(bundle),
+                        WEATHER_DETAILS_FRAGMENT_TAG
+                    )
+                    .addToBackStack("").commit()
+            }
         }
     }
 

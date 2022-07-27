@@ -18,10 +18,7 @@ import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
 import jt.projects.gbweatherapp.ui.map.MapsFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
-import jt.projects.gbweatherapp.utils.CHANNEL_HIGH_ID
-import jt.projects.gbweatherapp.utils.CHANNEL_LOW_ID
-import jt.projects.gbweatherapp.utils.TAG
-import jt.projects.gbweatherapp.utils.showSnackBarShort
+import jt.projects.gbweatherapp.utils.*
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 
 
@@ -36,7 +33,7 @@ class MainActivity : BaseActivity() {
         }
         initBottomMenu()
         initAppBarThemeSwitch()
-        Notifications.pushNotification("My_title", "hello, GeekBrains!", CHANNEL_LOW_ID)
+        //Notifications.pushNotification("My_title", "hello, GeekBrains!", CHANNEL_LOW_ID)
 
         // для отображения токена не 1 раз, а при каждом запуске
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
@@ -65,7 +62,7 @@ class MainActivity : BaseActivity() {
             R.id.action_maps -> {
                 tryJob(
                     Manifest.permission.ACCESS_FINE_LOCATION,
-                    { showFragmentWithBS(MapsFragment.newInstance()) },
+                    { showFragmentWithBS(MapsFragment.newInstance(), FRAGMENT_TAG_MAP) },
                     "Запрос местоположения",
                     "Требуется для отображения погоды в Вашем городе",
                     {
@@ -77,7 +74,7 @@ class MainActivity : BaseActivity() {
                 )
             }
             R.id.action_contacts -> {
-                showFragmentWithBS(ContactsFragment.newInstance())
+                showFragmentWithBS(ContactsFragment.newInstance(), CONTACTS_FRAGMENT_TAG)
             }
             R.id.action_settings -> {
                 showMsgDialog("Настройки", "...позже..")

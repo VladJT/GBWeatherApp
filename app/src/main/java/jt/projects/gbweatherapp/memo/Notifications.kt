@@ -11,20 +11,28 @@ import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.maps.model.LatLng
+import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.MainActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.utils.*
+import java.io.IOException
 
 // Если вы помните, при создании уведомления, мы можем в билдере указать приоритет.
 // Начиная с Android Oreo приоритеты уведомлений были объявлены устаревшими и заменены параметром канала - важность
 
 class Notifications {
+    interface NotificationSettingsCallback {
+        fun onGoSettings(idChannel: String)
+    }
+
     companion object {
         lateinit var context: Context
         lateinit var notificationManager: NotificationManager
+        lateinit var callback: NotificationSettingsCallback
 
-        fun init(context: Context) {
+        fun init(context: Context, callback: NotificationSettingsCallback) {
             this.context = context
+            this.callback = callback
             notificationManager =
                 context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             initNotificationChannels()
@@ -67,7 +75,7 @@ class Notifications {
             if (checkChannelReady(idChannel)) {
                 notificationManager.notify(idNotification, notification)
             }else{
-                showChannelDialog(idChannel)
+                callback.onGoSettings(idChannel)
                 if (checkChannelReady(idChannel)) {
                     notificationManager.notify(idNotification, notification)
                 }
@@ -79,22 +87,11 @@ class Notifications {
             return (channel.importance != NotificationManager.IMPORTANCE_NONE)
         }
 
-        private fun showChannelDialog(idChannel: String) {
-            AlertDialog.Builder(context)
-                .setTitle("Важно")
-                .setMessage("Для корректной работы приложения требуется включение каналов push-уведомлений")
-                .setPositiveButton(
-                    android.R.string.yes
-                ) { _, _ -> showChannelSettings(idChannel) } // A null listener allows the button to dismiss the dialog and take no further action.
-                .setNegativeButton(android.R.string.no, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show()
-        }
-
-        private fun showChannelSettings(idChannel: String) {
+        fun showChannelSettings(idChannel: String) {
             val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
             intent.putExtra(Settings.EXTRA_CHANNEL_ID, idChannel)
             intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.applicationInfo.packageName)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
             context.startActivity(intent)
         }
 
@@ -166,7 +163,6 @@ class Notifications {
                 //addAction(R.drawable.ic_baseline_home_24, "Главное меню", contentIntent)
                 priority = NotificationCompat.PRIORITY_MAX
             }
-
             tryToNotify(idChannel, NOTIFICATION_ID, notification.build())
         }
     }
