@@ -7,13 +7,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.messaging.FirebaseMessaging
-import jt.projects.gbweatherapp.memo.pushNotification
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
 import jt.projects.gbweatherapp.ui.contacts.ContactsFragment
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
 import jt.projects.gbweatherapp.ui.map.MapsFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
+import jt.projects.gbweatherapp.utils.TAG
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 
@@ -36,11 +36,11 @@ class MainActivity : BaseActivity() {
         // для отображения токена не 1 раз, а при каждом запуске
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
             if (!it.isSuccessful) {
-                Log.e("@@@", it.exception.toString())
+                Log.e(TAG, it.exception.toString())
             } else {
                 val token = it.result
                 //     applicationContext.pushNotification("Получен token", token)
-                Log.d("@@@", token)
+                Log.d(TAG, token)
             }
         }
     }

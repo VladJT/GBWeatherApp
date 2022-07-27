@@ -72,7 +72,7 @@ open class PermissionActivity : AppCompatActivity() {
             for (pIndex in permissions.indices) {
                 if (permissions[pIndex] == permission) {
                     if (grantResults[pIndex] == PackageManager.PERMISSION_GRANTED) {
-                        Log.d("@@@", "Доступ получен")
+                        Log.d(TAG, "Доступ получен")
                         functionSuccess.invoke()
                         return
                     } else {

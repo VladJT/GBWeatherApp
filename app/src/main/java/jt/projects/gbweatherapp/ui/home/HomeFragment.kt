@@ -24,10 +24,7 @@ import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.repository.OperationType
 import jt.projects.gbweatherapp.ui.OnItemViewClickListener
-import jt.projects.gbweatherapp.utils.DURATION_ITEM_ANIMATOR
-import jt.projects.gbweatherapp.utils.showSnackBarShort
-import jt.projects.gbweatherapp.utils.showSnackBarWithAction
-import jt.projects.gbweatherapp.utils.showWeatherDetailsFragment
+import jt.projects.gbweatherapp.utils.*
 import jt.projects.gbweatherapp.viewmodel.AppState
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 import java.io.IOException
@@ -40,7 +37,6 @@ private const val REFRESH_PERIOD_NETWORK = 5000L//периодичность з�
 private const val MINIMAL_DISTANCE = 0f//ли при перемещении телефона на __ метров
 
 class HomeFragment : Fragment() {
-    private val TAG = "@@@"
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 

@@ -1,10 +1,5 @@
 package jt.projects.gbweatherapp.memo
 
-import android.app.Service
-import android.content.Intent
-import android.os.Binder
-import android.os.IBinder
-
 
 //class ExService : Service() {
 //    // Для связывания Activity и сервиса

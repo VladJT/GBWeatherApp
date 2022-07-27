@@ -82,6 +82,13 @@
                 <action android:name="android.intent.action.AIRPLANE_MODE" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="jt.projects.gbweatherapp.utils.WeatherDetailsReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="SHOW_WEATHER_DETAILS_INTENT" />
+            </intent-filter>
+        </receiver>
 
 
     </application>

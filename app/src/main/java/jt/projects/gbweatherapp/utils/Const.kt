@@ -1,5 +1,7 @@
 package jt.projects.gbweatherapp.utils
 
+// LOGS
+const val TAG = "@@@"
 
 // для HTTP-запросов
 const val REQUEST_GET = "GET"
@@ -37,7 +39,9 @@ const val NOTIFICATION_KEY_TITLE = "myTitle"
 const val NOTIFICATION_KEY_MESSAGE = "myBody"
 
 // NOTIFICATIONS
-val CHANNEL_HIGH_ID = "channel_high"
-val CHANNEL_LOW_ID = "channel_low"
-val NOTIFICATION_ID = 1
-val NOTIFICATION_ID2 = 2
+const val CHANNEL_HIGH_ID = "channel_high"
+const val CHANNEL_LOW_ID = "channel_low"
+const val NOTIFICATION_ID = 1
+const val NOTIFICATION_ID2 = 2
+
+const val SHOW_WEATHER_DETAILS_INTENT = "SHOW_WEATHER_DETAILS_INTENT"

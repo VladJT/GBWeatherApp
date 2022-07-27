@@ -31,8 +31,8 @@ fun <T, R> View.showSnackBarWithAction(text: T, actionText: R, action: () -> Uni
     Snackbar.make(
         this,
         this.getUniString(text),
-        Snackbar.LENGTH_INDEFINITE
-    )// отображается неопределенное время
+        Snackbar.LENGTH_LONG
+    )// отображается неопределенное время Snackbar.LENGTH_INDEFINITE
         .setAction(this.getUniString(actionText)) { action.invoke() }
         .show()
 }

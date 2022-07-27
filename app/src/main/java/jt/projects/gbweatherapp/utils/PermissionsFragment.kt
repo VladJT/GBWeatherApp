@@ -49,7 +49,7 @@ open class PermissionsFragment : Fragment() {
                 if (permissions[pIndex] == permission
                     && grantResults[pIndex] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    Log.d("@@@", "Доступ получен")
+                    Log.d(TAG, "Доступ получен")
                     function.invoke()
                 }
             }
