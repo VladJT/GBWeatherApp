@@ -33,8 +33,8 @@ class MyApp : Application() {
                     WeatherDatabase::class.java,
                     ROOM_DB_NAME_WEATHER
                 )
-                    //.fallbackToDestructiveMigration()
-                    // .addMigrations(MIGRATION_1_3)
+                    .fallbackToDestructiveMigration()
+                    //.addMigrations(MIGRATION_1_3)
                     .build()
             }
             return dbInAsyncMode!!
@@ -49,8 +49,8 @@ class MyApp : Application() {
                     ROOM_DB_NAME_WEATHER
                 )
                     .allowMainThreadQueries()// - возможность запросов в главном потоке
-                    //.fallbackToDestructiveMigration()
-                    // .addMigrations(MIGRATION_1_3)
+                    .fallbackToDestructiveMigration()
+                    //.addMigrations(MIGRATION_1_3)
                     .build()
             }
             return dbInUiThread!!

@@ -1,6 +1,7 @@
 package jt.projects.gbweatherapp
 
 import android.app.NotificationChannel
+import android.app.NotificationChannelGroup
 import android.app.NotificationManager
 import android.content.Context
 import android.content.IntentFilter
@@ -25,6 +26,7 @@ import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.*
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 import java.util.*
+
 
 open class BaseActivity : PermissionActivity() {
     private val networkChangeReceiver = NetworkChangeReceiver()
@@ -84,18 +86,35 @@ open class BaseActivity : PermissionActivity() {
     }
 
 
-    // инициализация канала нотификаций
+    // инициализация каналов нотификаций
     private fun initNotificationChannel() {
-        if (SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val channel = NotificationChannel(
-                NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_LOW
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannelGroup(
+                NotificationChannelGroup(MY_GROUP_ID, MY_GROUP_ID)
             )
-            notificationManager.createNotificationChannel(channel)
+
+            NotificationChannel(
+                CHANNEL_HIGH_ID,
+                CHANNEL_HIGH_ID,
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Канал c IMPORTANCE_HIGH (push-уведомления из MAP-фрагмента)"
+                group = MY_GROUP_ID
+            }.also { notificationManager.createNotificationChannel(it) }
+
+            NotificationChannel(
+                CHANNEL_LOW_ID,
+                CHANNEL_LOW_ID,
+                NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                description = "Канал c IMPORTANCE_LOW (push-уведомления с FCM)"
+                group = MY_GROUP_ID
+            }.also { notificationManager.createNotificationChannel(it) }
         }
     }
+
 
     fun showFragment(fragment: Fragment) {
         supportFragmentManager
@@ -142,6 +161,19 @@ open class BaseActivity : PermissionActivity() {
             .setPositiveButton(
                 android.R.string.yes
             ) { _, _ -> finish() } // A null listener allows the button to dismiss the dialog and take no further action.
+            .setNegativeButton(android.R.string.no, null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
+    @Suppress("DEPRECATION")
+    fun showOkDialog(title: String, message: String, function: () -> Unit) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(
+                android.R.string.yes
+            ) { _, _ -> function.invoke() } // A null listener allows the button to dismiss the dialog and take no further action.
             .setNegativeButton(android.R.string.no, null)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .show()

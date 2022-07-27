@@ -2,17 +2,23 @@ package jt.projects.gbweatherapp
 
 import android.Manifest
 import android.app.ActivityManager
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.messaging.FirebaseMessaging
+import jt.projects.gbweatherapp.memo.checkChannelReady
+import jt.projects.gbweatherapp.memo.pushNotification
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
 import jt.projects.gbweatherapp.ui.contacts.ContactsFragment
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
 import jt.projects.gbweatherapp.ui.home.HomeFragment
 import jt.projects.gbweatherapp.ui.map.MapsFragment
 import jt.projects.gbweatherapp.ui.search.SearchFragment
+import jt.projects.gbweatherapp.utils.CHANNEL_HIGH_ID
+import jt.projects.gbweatherapp.utils.CHANNEL_LOW_ID
 import jt.projects.gbweatherapp.utils.TAG
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.viewmodel.SharedPref
@@ -30,8 +36,9 @@ class MainActivity : BaseActivity() {
         initBottomMenu()
         initAppBarThemeSwitch()
 
-        //this.pushNotification("My_title", "hello, GeekBrains!")
-
+        checkChannel(CHANNEL_LOW_ID)
+        checkChannel(CHANNEL_HIGH_ID)
+        this.pushNotification("My_title", "hello, GeekBrains!", CHANNEL_LOW_ID)
 
         // для отображения токена не 1 раз, а при каждом запуске
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
@@ -45,6 +52,21 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun checkChannel(idChannel: String) {
+        if (!checkChannelReady(idChannel)) {
+            this.showOkDialog(
+                "Важно!",
+                "Для корректной работы приложения требуется включение каналов push-уведомлений"
+            ) { showChannelSettings(idChannel) }
+        }
+    }
+
+    private fun showChannelSettings(idChannel: String) {
+        val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+        intent.putExtra(Settings.EXTRA_CHANNEL_ID, idChannel)
+        intent.putExtra(Settings.EXTRA_APP_PACKAGE, applicationInfo.packageName)
+        startActivity(intent)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // мы получаем Меню приложения и с помощью специального MenuInflater’а (по

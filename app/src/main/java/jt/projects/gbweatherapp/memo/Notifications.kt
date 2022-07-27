@@ -1,6 +1,5 @@
 package jt.projects.gbweatherapp.memo
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -19,7 +18,7 @@ import jt.projects.gbweatherapp.utils.NOTIFICATION_ID
 import jt.projects.gbweatherapp.utils.SHOW_WEATHER_DETAILS_INTENT
 
 
-fun Context.pushNotificationLocationFound(title: String, text: String) {
+fun Context.pushNotification(title: String, text: String, idChannel: String) {
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     val notificationIntent =
         Intent(applicationContext, MainActivity::class.java).apply {
@@ -34,31 +33,25 @@ fun Context.pushNotificationLocationFound(title: String, text: String) {
     val contentIntent =
         PendingIntent.getActivity(this, 1, notificationIntent, pendingFlags)
 
-    val notification = NotificationCompat.Builder(this, CHANNEL_HIGH_ID).apply {
+    val notification = NotificationCompat.Builder(this, idChannel).apply {
         setContentTitle(title)
         setContentText(text)
-        priority = NotificationCompat.PRIORITY_MAX
+        setLights(android.R.color.holo_blue_light, 3000,1000)
         setSmallIcon(android.R.drawable.ic_menu_myplaces)
         setContentIntent(contentIntent)
-        priority = NotificationCompat.PRIORITY_MAX
     }
 
-    notificationManager.notifyHigh(notification.build())
+        notificationManager.notify(NOTIFICATION_ID, notification.build())
 }
 
-fun NotificationManager.notifyHigh(notification: Notification) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val channelHigh = NotificationChannel(
-            CHANNEL_HIGH_ID,
-            CHANNEL_HIGH_ID,
-            NotificationManager.IMPORTANCE_HIGH
-        )
-        channelHigh.description = "Канал c IMPORTANCE_HIGH"
-        this.createNotificationChannel(channelHigh)
-    }
-    this.notify(NOTIFICATION_ID, notification)
+fun Context.checkChannelReady(idChannel: String): Boolean {
+    val notificationManager = this.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    val channel: NotificationChannel = notificationManager.getNotificationChannel(idChannel)
+    return (channel.importance != NotificationManager.IMPORTANCE_NONE)
 }
 
+// Если вы помните, при создании уведомления, мы можем в билдере указать приоритет.
+// Начиная с Android Oreo приоритеты уведомлений были объявлены устаревшими и заменены параметром канала - важность
 
 fun Context.pushNotificationLocationFound(cityName: String, location: LatLng) {
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -104,5 +97,5 @@ fun Context.pushNotificationLocationFound(cityName: String, location: LatLng) {
         priority = NotificationCompat.PRIORITY_MAX
     }
 
-    notificationManager.notifyHigh(notification.build())
+        notificationManager.notify(NOTIFICATION_ID, notification.build())
 }

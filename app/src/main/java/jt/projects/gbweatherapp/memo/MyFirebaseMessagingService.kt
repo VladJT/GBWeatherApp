@@ -3,6 +3,7 @@ package jt.projects.gbweatherapp.memo
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import jt.projects.gbweatherapp.utils.CHANNEL_LOW_ID
 import jt.projects.gbweatherapp.utils.NOTIFICATION_KEY_MESSAGE
 import jt.projects.gbweatherapp.utils.NOTIFICATION_KEY_TITLE
 import jt.projects.gbweatherapp.utils.TAG
@@ -11,7 +12,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
         // вызывается 1 раз !!
-        this.pushNotificationLocationFound("Получен token приложения", token)
+        this.pushNotification("Получен token приложения", token, CHANNEL_LOW_ID)
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
@@ -20,7 +21,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val title = data[NOTIFICATION_KEY_TITLE]
         val body = data[NOTIFICATION_KEY_MESSAGE]
         if (!title.isNullOrEmpty() && !body.isNullOrEmpty()) {
-            this.pushNotificationLocationFound(title, body)
+            this.pushNotification(title, body, CHANNEL_LOW_ID)
         }
         super.onMessageReceived(message)
     }

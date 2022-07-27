@@ -28,7 +28,7 @@ const val DETAILS_RESPONSE_SUCCESS_EXTRA = "Успешный ответ"
 const val DURATION_ITEM_ANIMATOR: Long = 300
 
 // настройки канала PUSH-уведомлений
-const val NOTIFICATION_CHANNEL_ID = "2"
+const val NOTIFICATION_CHANNEL_ID = "PUSH"
 const val NOTIFICATION_CHANNEL_NAME = "vlad"
 
 // ROOM
@@ -39,6 +39,7 @@ const val NOTIFICATION_KEY_TITLE = "myTitle"
 const val NOTIFICATION_KEY_MESSAGE = "myBody"
 
 // NOTIFICATIONS
+const val MY_GROUP_ID = "Каналы для GBWeatherApp"
 const val CHANNEL_HIGH_ID = "channel_high"
 const val CHANNEL_LOW_ID = "channel_low"
 const val NOTIFICATION_ID = 1
