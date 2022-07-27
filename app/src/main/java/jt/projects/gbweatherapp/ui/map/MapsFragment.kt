@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.*
 import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentMapsBinding
-import jt.projects.gbweatherapp.memo.pushNotificationLocationFound
+import jt.projects.gbweatherapp.memo.Notifications
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.utils.showWeatherDetailsFragment
@@ -90,7 +90,7 @@ class MapsFragment : Fragment() {
                         val location = LatLng(result.first().latitude, result.first().longitude)
                         setMarker(location, it, R.drawable.ic_map_marker)
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 6f))
-                        requireActivity().pushNotificationLocationFound(result[0].locality, location)
+                       Notifications.pushNotificationLocationFound(result[0].locality, location)
                     } else {
                         view.showSnackBarShort("Адрес не найден")
                     }

@@ -12,7 +12,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
         // вызывается 1 раз !!
-        this.pushNotification("Получен token приложения", token, CHANNEL_LOW_ID)
+        Notifications.pushNotification("Получен token приложения", token, CHANNEL_LOW_ID)
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
@@ -21,7 +21,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val title = data[NOTIFICATION_KEY_TITLE]
         val body = data[NOTIFICATION_KEY_MESSAGE]
         if (!title.isNullOrEmpty() && !body.isNullOrEmpty()) {
-            this.pushNotification(title, body, CHANNEL_LOW_ID)
+            Notifications.pushNotification(title, body, CHANNEL_LOW_ID)
         }
         super.onMessageReceived(message)
     }

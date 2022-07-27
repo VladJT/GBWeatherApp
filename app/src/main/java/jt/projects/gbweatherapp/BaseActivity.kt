@@ -19,6 +19,7 @@ import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import com.google.android.gms.maps.model.LatLng
 import jt.projects.gbweatherapp.databinding.ActivityMainBinding
+import jt.projects.gbweatherapp.memo.Notifications
 import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
@@ -67,7 +68,7 @@ open class BaseActivity : PermissionActivity() {
         setSupportActionBar(binding.toolbar)
 
         // Для канала и нотификации через push-уведомления
-        initNotificationChannel()
+        Notifications.init(applicationContext)
 
         // для возможности загрузки изображений SVG & GIF через библиотеку COIL
         val imageLoader = ImageLoader.Builder(applicationContext)
@@ -84,37 +85,6 @@ open class BaseActivity : PermissionActivity() {
             .build()
         Coil.setImageLoader(imageLoader)
     }
-
-
-    // инициализация каналов нотификаций
-    private fun initNotificationChannel() {
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationManager.createNotificationChannelGroup(
-                NotificationChannelGroup(MY_GROUP_ID, MY_GROUP_ID)
-            )
-
-            NotificationChannel(
-                CHANNEL_HIGH_ID,
-                CHANNEL_HIGH_ID,
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = "Канал c IMPORTANCE_HIGH (push-уведомления из MAP-фрагмента)"
-                group = MY_GROUP_ID
-            }.also { notificationManager.createNotificationChannel(it) }
-
-            NotificationChannel(
-                CHANNEL_LOW_ID,
-                CHANNEL_LOW_ID,
-                NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = "Канал c IMPORTANCE_LOW (push-уведомления с FCM)"
-                group = MY_GROUP_ID
-            }.also { notificationManager.createNotificationChannel(it) }
-        }
-    }
-
 
     fun showFragment(fragment: Fragment) {
         supportFragmentManager

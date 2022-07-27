@@ -1,101 +1,174 @@
 package jt.projects.gbweatherapp.memo
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.maps.model.LatLng
 import jt.projects.gbweatherapp.MainActivity
 import jt.projects.gbweatherapp.R
-import jt.projects.gbweatherapp.utils.CHANNEL_HIGH_ID
-import jt.projects.gbweatherapp.utils.NOTIFICATION_ID
-import jt.projects.gbweatherapp.utils.SHOW_WEATHER_DETAILS_INTENT
-
-
-fun Context.pushNotification(title: String, text: String, idChannel: String) {
-    val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-    val notificationIntent =
-        Intent(applicationContext, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-    val pendingFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-    } else {
-        PendingIntent.FLAG_UPDATE_CURRENT
-    }
-
-    val contentIntent =
-        PendingIntent.getActivity(this, 1, notificationIntent, pendingFlags)
-
-    val notification = NotificationCompat.Builder(this, idChannel).apply {
-        setContentTitle(title)
-        setContentText(text)
-        setLights(android.R.color.holo_blue_light, 3000,1000)
-        setSmallIcon(android.R.drawable.ic_menu_myplaces)
-        setContentIntent(contentIntent)
-    }
-
-        notificationManager.notify(NOTIFICATION_ID, notification.build())
-}
-
-fun Context.checkChannelReady(idChannel: String): Boolean {
-    val notificationManager = this.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-    val channel: NotificationChannel = notificationManager.getNotificationChannel(idChannel)
-    return (channel.importance != NotificationManager.IMPORTANCE_NONE)
-}
+import jt.projects.gbweatherapp.utils.*
 
 // Если вы помните, при создании уведомления, мы можем в билдере указать приоритет.
 // Начиная с Android Oreo приоритеты уведомлений были объявлены устаревшими и заменены параметром канала - важность
 
-fun Context.pushNotificationLocationFound(cityName: String, location: LatLng) {
-    val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+class Notifications {
+    companion object {
+        lateinit var context: Context
+        lateinit var notificationManager: NotificationManager
 
-    val pendingFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-    } else {
-        PendingIntent.FLAG_UPDATE_CURRENT
-    }
+        fun init(context: Context) {
+            this.context = context
+            notificationManager =
+                context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            initNotificationChannels()
+        }
 
-    val address: Uri = Uri.parse("https://goodmeteo.ru/poisk/?s=${cityName}")
-    val intentBrowser = Intent(Intent.ACTION_VIEW, address)
-    val pIntentBrowser = PendingIntent.getActivity(this, 2, intentBrowser, pendingFlags)
+        // инициализация каналов нотификаций
+        private fun initNotificationChannels() {
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationManager.createNotificationChannelGroup(
+                    NotificationChannelGroup(MY_GROUP_ID, MY_GROUP_ID)
+                )
 
-    val intentDetails = Intent(SHOW_WEATHER_DETAILS_INTENT)
-    intentDetails.putExtra("location", location)
-    val pIntentDetails = PendingIntent.getBroadcast(
-        this,
-        0,
-        intentDetails,
-        PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
-    )
+                NotificationChannel(
+                    CHANNEL_HIGH_ID,
+                    CHANNEL_HIGH_ID,
+                    NotificationManager.IMPORTANCE_HIGH
+                ).apply {
+                    description = "Канал c IMPORTANCE_HIGH (push-уведомления из MAP-фрагмента)"
+                    group = MY_GROUP_ID
+                }.also { notificationManager.createNotificationChannel(it) }
 
-    val notification = NotificationCompat.Builder(this, CHANNEL_HIGH_ID).apply {
-        setContentTitle(cityName)
-        setContentText("Выберите 1 из вариантов")
-        priority = NotificationCompat.PRIORITY_MAX
-        setSmallIcon(android.R.drawable.ic_dialog_email)
-        setLargeIcon(
-            BitmapFactory.decodeResource(
-                resources,
-                R.drawable.weather
+                NotificationChannel(
+                    CHANNEL_LOW_ID,
+                    CHANNEL_LOW_ID,
+                    NotificationManager.IMPORTANCE_LOW
+                ).apply {
+                    description = "Канал c IMPORTANCE_LOW (push-уведомления с FCM)"
+                    group = MY_GROUP_ID
+                }.also { notificationManager.createNotificationChannel(it) }
+            }
+        }
+
+        private fun tryToNotify(
+            idChannel: String,
+            idNotification: Int,
+            notification: Notification
+        ) {
+            if (checkChannelReady(idChannel)) {
+                notificationManager.notify(idNotification, notification)
+            }else{
+                showChannelDialog(idChannel)
+                if (checkChannelReady(idChannel)) {
+                    notificationManager.notify(idNotification, notification)
+                }
+            }
+        }
+
+        private fun checkChannelReady(idChannel: String): Boolean {
+            val channel = notificationManager.getNotificationChannel(idChannel)
+            return (channel.importance != NotificationManager.IMPORTANCE_NONE)
+        }
+
+        private fun showChannelDialog(idChannel: String) {
+            AlertDialog.Builder(context)
+                .setTitle("Важно")
+                .setMessage("Для корректной работы приложения требуется включение каналов push-уведомлений")
+                .setPositiveButton(
+                    android.R.string.yes
+                ) { _, _ -> showChannelSettings(idChannel) } // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show()
+        }
+
+        private fun showChannelSettings(idChannel: String) {
+            val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+            intent.putExtra(Settings.EXTRA_CHANNEL_ID, idChannel)
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.applicationInfo.packageName)
+            context.startActivity(intent)
+        }
+
+        fun pushNotification(title: String, text: String, idChannel: String) {
+            val notificationIntent =
+                Intent(context, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
+            val pendingFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+
+            val contentIntent =
+                PendingIntent.getActivity(context, 1, notificationIntent, pendingFlags)
+
+            val notification = NotificationCompat.Builder(context, idChannel).apply {
+                setContentTitle(title)
+                setContentText(text)
+                setLights(android.R.color.holo_blue_light, 3000, 1000)
+                setSmallIcon(android.R.drawable.ic_menu_myplaces)
+                setContentIntent(contentIntent)
+            }
+
+            tryToNotify(idChannel, NOTIFICATION_ID, notification.build())
+        }
+
+        fun pushNotificationLocationFound(cityName: String, location: LatLng) {
+            val idChannel = CHANNEL_HIGH_ID
+
+            val pendingFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+
+            val address: Uri = Uri.parse("https://goodmeteo.ru/poisk/?s=${cityName}")
+            val intentBrowser = Intent(Intent.ACTION_VIEW, address)
+            val pIntentBrowser = PendingIntent.getActivity(context, 2, intentBrowser, pendingFlags)
+
+            val intentDetails = Intent(SHOW_WEATHER_DETAILS_INTENT)
+            intentDetails.putExtra("location", location)
+            val pIntentDetails = PendingIntent.getBroadcast(
+                context,
+                0,
+                intentDetails,
+                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
             )
-        )
-        setAutoCancel(true)
-        setTimeoutAfter(5000)
-        //setOngoing(true)
-        setUsesChronometer(true)
-        //setProgress(100, 50, false)
-        addAction(R.drawable.ic_baseline_star_24, "Карточка детализации", pIntentDetails)
-        addAction(R.drawable.ic_baseline_search_24, "Открыть в браузере..", pIntentBrowser)
-        //addAction(R.drawable.ic_baseline_home_24, "Главное меню", contentIntent)
-        priority = NotificationCompat.PRIORITY_MAX
+
+            val notification = NotificationCompat.Builder(context, idChannel).apply {
+                setContentTitle(cityName)
+                setContentText("Выберите 1 из вариантов")
+                priority = NotificationCompat.PRIORITY_MAX
+                setSmallIcon(android.R.drawable.ic_dialog_email)
+                setLargeIcon(
+                    BitmapFactory.decodeResource(
+                        context.resources,
+                        R.drawable.weather
+                    )
+                )
+                setAutoCancel(true)
+                setTimeoutAfter(5000)
+                //setOngoing(true)
+                setUsesChronometer(true)
+                //setProgress(100, 50, false)
+                addAction(R.drawable.ic_baseline_star_24, "Карточка детализации", pIntentDetails)
+                addAction(R.drawable.ic_baseline_search_24, "Открыть в браузере..", pIntentBrowser)
+                //addAction(R.drawable.ic_baseline_home_24, "Главное меню", contentIntent)
+                priority = NotificationCompat.PRIORITY_MAX
+            }
+
+            tryToNotify(idChannel, NOTIFICATION_ID, notification.build())
+        }
     }
 
-        notificationManager.notify(NOTIFICATION_ID, notification.build())
 }

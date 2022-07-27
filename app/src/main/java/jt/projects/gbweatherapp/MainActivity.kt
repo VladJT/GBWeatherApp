@@ -2,15 +2,16 @@ package jt.projects.gbweatherapp
 
 import android.Manifest
 import android.app.ActivityManager
+import android.app.NotificationManager
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessaging
-import jt.projects.gbweatherapp.memo.checkChannelReady
-import jt.projects.gbweatherapp.memo.pushNotification
+import jt.projects.gbweatherapp.memo.Notifications
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
 import jt.projects.gbweatherapp.ui.contacts.ContactsFragment
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
@@ -35,10 +36,7 @@ class MainActivity : BaseActivity() {
         }
         initBottomMenu()
         initAppBarThemeSwitch()
-
-        checkChannel(CHANNEL_LOW_ID)
-        checkChannel(CHANNEL_HIGH_ID)
-        this.pushNotification("My_title", "hello, GeekBrains!", CHANNEL_LOW_ID)
+        Notifications.pushNotification("My_title", "hello, GeekBrains!", CHANNEL_LOW_ID)
 
         // для отображения токена не 1 раз, а при каждом запуске
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
@@ -50,22 +48,6 @@ class MainActivity : BaseActivity() {
                 Log.d(TAG, token)
             }
         }
-    }
-
-    private fun checkChannel(idChannel: String) {
-        if (!checkChannelReady(idChannel)) {
-            this.showOkDialog(
-                "Важно!",
-                "Для корректной работы приложения требуется включение каналов push-уведомлений"
-            ) { showChannelSettings(idChannel) }
-        }
-    }
-
-    private fun showChannelSettings(idChannel: String) {
-        val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-        intent.putExtra(Settings.EXTRA_CHANNEL_ID, idChannel)
-        intent.putExtra(Settings.EXTRA_APP_PACKAGE, applicationInfo.packageName)
-        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
