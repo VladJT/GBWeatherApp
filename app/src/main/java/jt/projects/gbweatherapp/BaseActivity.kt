@@ -110,6 +110,7 @@ open class BaseActivity : PermissionActivity() {
         }
     }
 
+
     fun showWeatherDetails(weather: Weather) {
         val f = supportFragmentManager.findFragmentByTag(WEATHER_DETAILS_FRAGMENT_TAG)
         if (f==null) {

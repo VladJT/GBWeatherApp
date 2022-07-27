@@ -24,6 +24,7 @@ const val DETAILS_REQUEST_ERROR_MESSAGE_EXTRA = "Детализация ошиб
 const val DETAILS_URL_MALFORMED_EXTRA = "Некорректный URL(URI)"
 const val DETAILS_RESPONSE_SUCCESS_EXTRA = "Успешный ответ"
 
+
 // анимации VIEW
 const val DURATION_ITEM_ANIMATOR: Long = 300
 

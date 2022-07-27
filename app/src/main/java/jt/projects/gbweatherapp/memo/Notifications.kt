@@ -19,7 +19,6 @@ import java.io.IOException
 
 // Если вы помните, при создании уведомления, мы можем в билдере указать приоритет.
 // Начиная с Android Oreo приоритеты уведомлений были объявлены устаревшими и заменены параметром канала - важность
-
 class Notifications {
     interface NotificationSettingsCallback {
         fun onGoSettings(idChannel: String)

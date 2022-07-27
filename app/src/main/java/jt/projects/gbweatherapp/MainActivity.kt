@@ -21,7 +21,6 @@ import jt.projects.gbweatherapp.ui.search.SearchFragment
 import jt.projects.gbweatherapp.utils.*
 import jt.projects.gbweatherapp.viewmodel.SharedPref
 
-
 class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

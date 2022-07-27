@@ -21,7 +21,6 @@ import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.utils.showWeatherDetailsFragment
 import java.util.*
 
-
 class MapsFragment : Fragment() {
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!

@@ -8,6 +8,7 @@ import jt.projects.gbweatherapp.utils.NOTIFICATION_KEY_MESSAGE
 import jt.projects.gbweatherapp.utils.NOTIFICATION_KEY_TITLE
 import jt.projects.gbweatherapp.utils.TAG
 
+
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
