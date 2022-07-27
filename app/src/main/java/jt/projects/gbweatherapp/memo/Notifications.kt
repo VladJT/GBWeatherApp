@@ -1,5 +1,6 @@
 package jt.projects.gbweatherapp.memo
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -18,7 +19,7 @@ import jt.projects.gbweatherapp.utils.NOTIFICATION_ID
 import jt.projects.gbweatherapp.utils.SHOW_WEATHER_DETAILS_INTENT
 
 
-fun Context.pushNotification(title: String, text: String) {
+fun Context.pushNotificationLocationFound(title: String, text: String) {
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     val notificationIntent =
         Intent(applicationContext, MainActivity::class.java).apply {
@@ -42,20 +43,24 @@ fun Context.pushNotification(title: String, text: String) {
         priority = NotificationCompat.PRIORITY_MAX
     }
 
+    notificationManager.notifyHigh(notification.build())
+}
+
+fun NotificationManager.notifyHigh(notification: Notification) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val channelHigh = NotificationChannel(
             CHANNEL_HIGH_ID,
             CHANNEL_HIGH_ID,
             NotificationManager.IMPORTANCE_HIGH
         )
-        channelHigh.description = "Канал 1"
-        notificationManager.createNotificationChannel(channelHigh)
+        channelHigh.description = "Канал c IMPORTANCE_HIGH"
+        this.createNotificationChannel(channelHigh)
     }
-    notificationManager.notify(NOTIFICATION_ID, notification.build())
+    this.notify(NOTIFICATION_ID, notification)
 }
 
 
-fun Context.pushNotification(cityName: String, location: LatLng) {
+fun Context.pushNotificationLocationFound(cityName: String, location: LatLng) {
     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
     val pendingFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -85,25 +90,19 @@ fun Context.pushNotification(cityName: String, location: LatLng) {
         setLargeIcon(
             BitmapFactory.decodeResource(
                 resources,
-                R.drawable.k
+                R.drawable.weather
             )
         )
-        setAutoCancel(true); // автоматически закрыть уведомление после нажатия
+        setAutoCancel(true)
+        setTimeoutAfter(5000)
+        //setOngoing(true)
+        setUsesChronometer(true)
         //setProgress(100, 50, false)
         addAction(R.drawable.ic_baseline_star_24, "Карточка детализации", pIntentDetails)
-        addAction(android.R.drawable.ic_menu_mapmode, "Открыть в браузере..", pIntentBrowser)
+        addAction(R.drawable.ic_baseline_search_24, "Открыть в браузере..", pIntentBrowser)
         //addAction(R.drawable.ic_baseline_home_24, "Главное меню", contentIntent)
         priority = NotificationCompat.PRIORITY_MAX
     }
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val channelHigh = NotificationChannel(
-            CHANNEL_HIGH_ID,
-            CHANNEL_HIGH_ID,
-            NotificationManager.IMPORTANCE_MAX
-        )
-        channelHigh.description = "Канал 1"
-        notificationManager.createNotificationChannel(channelHigh)
-    }
-    notificationManager.notify(NOTIFICATION_ID, notification.build())
+    notificationManager.notifyHigh(notification.build())
 }

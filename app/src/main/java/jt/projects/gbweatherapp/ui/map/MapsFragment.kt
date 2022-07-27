@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.*
 import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.databinding.FragmentMapsBinding
-import jt.projects.gbweatherapp.memo.pushNotification
+import jt.projects.gbweatherapp.memo.pushNotificationLocationFound
 import jt.projects.gbweatherapp.utils.showSnackBarShort
 import jt.projects.gbweatherapp.utils.showSnackBarWithAction
 import jt.projects.gbweatherapp.utils.showWeatherDetailsFragment
@@ -33,15 +33,6 @@ class MapsFragment : Fragment() {
     }
 
     private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
         val location = LatLng(68.9792, 33.0925)
         googleMap.apply {
             uiSettings.isZoomControlsEnabled = true // добавить кнопки zoom[+][-]
@@ -99,18 +90,12 @@ class MapsFragment : Fragment() {
                         val location = LatLng(result.first().latitude, result.first().longitude)
                         setMarker(location, it, R.drawable.ic_map_marker)
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 6f))
-//                        view.showSnackBarWithAction(
-//                            "Показать погоду в ${result[0].locality}?",
-//                            "Да"
-//                        ) {
-//                            requireActivity().showWeatherDetailsFragment(location)
-//                        }
-                        requireActivity().pushNotification(result[0].locality, location)
+                        requireActivity().pushNotificationLocationFound(result[0].locality, location)
                     } else {
                         view.showSnackBarShort("Адрес не найден")
                     }
                 } catch (e: Exception) {
-                    binding.root.showSnackBarShort("Адрес не найден. ".plus(e.message))
+                    binding.root.showSnackBarShort("Ошибка: ".plus(e.message))
                 }
             }
         }
