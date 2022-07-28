@@ -2,14 +2,10 @@ package jt.projects.gbweatherapp
 
 import android.Manifest
 import android.app.ActivityManager
-import android.app.NotificationManager
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessaging
 import jt.projects.gbweatherapp.memo.Notifications
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
@@ -33,7 +29,14 @@ class MainActivity : BaseActivity() {
         }
         initBottomMenu()
         initAppBarThemeSwitch()
-        //Notifications.pushNotification("My_title", "hello, GeekBrains!", CHANNEL_LOW_ID)
+
+        if (BuildConfig.PAID_VERSION == true) {
+            Notifications.pushNotification(
+                "My_title",
+                "Спасибо за приобретение PRO-версии",
+                CHANNEL_LOW_ID
+            )
+        }
 
         // для отображения токена не 1 раз, а при каждом запуске
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
