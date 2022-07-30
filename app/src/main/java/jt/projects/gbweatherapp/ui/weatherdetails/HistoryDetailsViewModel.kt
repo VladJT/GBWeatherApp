@@ -9,6 +9,7 @@ import jt.projects.gbweatherapp.model.repository.WeatherListLoadCallback
 import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
+
 class HistoryDetailsViewModel : ViewModel() {
     val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
     lateinit var repositoryHistory: ReposityHistoryWeatherImpl

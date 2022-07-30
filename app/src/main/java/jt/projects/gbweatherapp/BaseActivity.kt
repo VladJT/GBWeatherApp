@@ -156,6 +156,7 @@ open class BaseActivity : PermissionActivity() {
             .show()
     }
 
+
     @Suppress("DEPRECATION")
     fun showOkDialog(title: String, message: String, function: () -> Unit) {
         AlertDialog.Builder(this)

@@ -107,6 +107,7 @@ class MainActivity : BaseActivity() {
         showMsgDialog("Список запущенных процессов", sb.toString())
     }
 
+
     private fun initAppBarThemeSwitch() {
         binding.switchTheme.apply {
             if (SharedPref.getData().theme == R.style.Theme_DarkTheme) {

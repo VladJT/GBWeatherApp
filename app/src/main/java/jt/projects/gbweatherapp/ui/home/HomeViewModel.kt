@@ -8,7 +8,6 @@ import jt.projects.gbweatherapp.model.repository.*
 import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
-
 class HomeViewModel : ViewModel() {
     private val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
     private val repositoryCityList: RepositoryCityList = RepositoryCityListImpl()
