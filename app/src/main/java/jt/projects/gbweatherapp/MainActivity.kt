@@ -48,10 +48,11 @@ class MainActivity : BaseActivity() {
 
     private fun showThanksForBuy() {
         if (BuildConfig.PAID_VERSION == true) {
+            val appName = resources.getString(R.string.app_name).plus(" ")
             Notifications.pushNotification(
-                "My_title",
+                appName.plus(BuildConfig.VERSION_NAME),
                 "Спасибо за приобретение PRO-версии",
-                CHANNEL_LOW_ID
+                CHANNEL_HIGH_ID
             )
         }
     }
