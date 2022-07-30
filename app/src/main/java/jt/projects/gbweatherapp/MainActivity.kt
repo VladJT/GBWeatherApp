@@ -29,15 +29,11 @@ class MainActivity : BaseActivity() {
         }
         initBottomMenu()
         initAppBarThemeSwitch()
+        showFireBaseToken()
+        showThanksForBuy()
+    }
 
-        if (BuildConfig.PAID_VERSION == true) {
-            Notifications.pushNotification(
-                "My_title",
-                "Спасибо за приобретение PRO-версии",
-                CHANNEL_LOW_ID
-            )
-        }
-
+    private fun showFireBaseToken() {
         // для отображения токена не 1 раз, а при каждом запуске
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
             if (!it.isSuccessful) {
@@ -47,6 +43,16 @@ class MainActivity : BaseActivity() {
                 //     applicationContext.pushNotification("Получен token", token)
                 Log.d(TAG, token)
             }
+        }
+    }
+
+    private fun showThanksForBuy() {
+        if (BuildConfig.PAID_VERSION == true) {
+            Notifications.pushNotification(
+                "My_title",
+                "Спасибо за приобретение PRO-версии",
+                CHANNEL_LOW_ID
+            )
         }
     }
 
@@ -101,13 +107,11 @@ class MainActivity : BaseActivity() {
         showMsgDialog("Список запущенных процессов", sb.toString())
     }
 
-
     private fun initAppBarThemeSwitch() {
         binding.switchTheme.apply {
             if (SharedPref.getData().theme == R.style.Theme_DarkTheme) {
                 isChecked = true
             }
-
             setOnClickListener {
                 val appTheme = if (isChecked) {
                     R.style.Theme_DarkTheme
@@ -136,16 +140,21 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initBottomMenu() {
-        binding.buttonHome.setOnClickListener {
-            showFragment(HomeFragment.newInstance())
+        with(binding)
+        {
+            buttonHome.setOnClickListener {
+                showFragment(HomeFragment.newInstance())
+            }
+            buttonSearch.setOnClickListener {
+                showFragment(SearchFragment.newInstance())
+            }
+            buttonFavorites.setOnClickListener {
+                showFragment(FavoritesFragment.newInstance())
+            }
         }
+    }
 
-        binding.buttonSearch.setOnClickListener {
-            showFragment(SearchFragment.newInstance())
-        }
-
-        binding.buttonFavorites.setOnClickListener {
-            showFragment(FavoritesFragment.newInstance())
-        }
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

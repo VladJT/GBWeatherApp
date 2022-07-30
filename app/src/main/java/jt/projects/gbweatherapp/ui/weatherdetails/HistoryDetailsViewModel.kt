@@ -11,20 +11,20 @@ import java.io.IOException
 
 class HistoryDetailsViewModel : ViewModel() {
     val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
-    lateinit var repository: ReposityHistoryWeatherImpl
+    lateinit var repositoryHistory: ReposityHistoryWeatherImpl
 
     fun getDetailsLiveData(): MutableLiveData<AppState<List<Weather>>> {
-        repository = ReposityHistoryWeatherImpl()
+        repositoryHistory = ReposityHistoryWeatherImpl()
         return liveData
     }
 
     fun addHistory(weather: Weather) {
-        repository.addWeather(weather)
+        repositoryHistory.addWeather(weather)
     }
 
     fun getHistoryByLocation(city: City) {
         liveData.value = AppState.Loading
-        repository.getHistoryByLocation(city, callback)
+        repositoryHistory.getHistoryByLocation(city, callback)
     }
 
     private val callback = object : WeatherListLoadCallback {

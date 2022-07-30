@@ -48,14 +48,18 @@ open class BaseActivity : PermissionActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Receiver: отслеживание статуса сети
         registerReceiver(
             networkChangeReceiver,
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
+
+        //  Receiver: отслеживание поиска локаций в MapFragment
         WeatherDetailsReceiver.setAppContext(this)
         registerReceiver(weatherDetailsReciever, IntentFilter(SHOW_WEATHER_DETAILS_INTENT))
-//        applicationContext?.let {
-        // ресивер для отслеживания статуса сети
+
+//        applicationContext?.let { // ресивер для отслеживания статуса сети
 //            LocalBroadcastManager.getInstance(it)
 //                .registerReceiver(
 //                    networkChangeReceiverAlternative,
@@ -146,7 +150,7 @@ open class BaseActivity : PermissionActivity() {
             .setMessage("Вы уверены, что хотите выйти?")
             .setPositiveButton(
                 android.R.string.yes
-            ) { _, _ -> finish() } // A null listener allows the button to dismiss the dialog and take no further action.
+            ) { _, _ ->  finish() }//иначе Activity переходит в "спящий режим" и остается в стеке
             .setNegativeButton(android.R.string.no, null)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .show()
@@ -166,7 +170,7 @@ open class BaseActivity : PermissionActivity() {
     }
 
     @Suppress("DEPRECATION")
-    public fun showMsgDialog(title: String, message: String) {
+    fun showMsgDialog(title: String, message: String) {
         AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)

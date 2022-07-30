@@ -5,28 +5,31 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
+import jt.projects.gbweatherapp.model.repository.RepositoryWeatherList
+import jt.projects.gbweatherapp.model.repository.WeatherEditable
 import jt.projects.gbweatherapp.model.repository.WeatherListLoadCallback
 import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
 
-class FavoritesViewModel : ViewModel() {
+class  FavoritesViewModel : ViewModel() {
     private val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
-    private val repository = RepositoryRoomImpl()
+    private val repositoryWeatherEdit : WeatherEditable = RepositoryRoomImpl()
+    private val repositoryWeatherList : RepositoryWeatherList = RepositoryRoomImpl()
 
     fun getLiveData(): LiveData<AppState<List<Weather>>> = liveData
 
     fun getWeather() {
         liveData.value = AppState.Loading
-        repository.getWeatherList(callback)
+        repositoryWeatherList.getWeatherList(callback)
     }
 
     fun deleteFromFavorites(weather: Weather) {
-        repository.deleteAllWeatherByLocation(weather.city)
+        repositoryWeatherEdit.deleteAllWeatherByLocation(weather.city)
     }
 
     fun addToFavorites(weather: Weather) {
-        repository.addWeather(weather)
+        repositoryWeatherEdit.addWeather(weather)
     }
 
     private val callback = object : WeatherListLoadCallback {
