@@ -6,6 +6,7 @@ import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.model.getRussianCities
 import jt.projects.gbweatherapp.model.getWorldCities
+import jt.projects.gbweatherapp.utils.TAG
 import java.io.IOException
 import java.util.concurrent.CountDownLatch
 
@@ -30,16 +31,30 @@ class RepositoryCityListImpl : RepositoryCityList {
         return cityList.isNotEmpty()
     }
 
-    private fun getCityListFromLocalStorageRus(): List<Weather> =
-        updateDataWithInternet(getRussianCities())
+    private fun getCityListFromLocalStorageRus(): List<Weather> {
+        try {
+            return updateDataWithInternet(getRussianCities())
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+        }
+        allCitiesLoadedCallback.onResponse()
+        return getRussianCities()
+    }
 
-    private fun getCityListFromLocalStorageWorld(): List<Weather> =
-        updateDataWithInternet(getWorldCities())
+    private fun getCityListFromLocalStorageWorld(): List<Weather> {
+        try {
+            return updateDataWithInternet(getWorldCities())
+        } catch (e: Exception) {
+            Log.e(TAG, e.message.toString())
+        }
+        allCitiesLoadedCallback.onResponse()
+        return getWorldCities()
+    }
 
 
     private fun updateDataWithInternet(cityList: List<Weather>): List<Weather> {
         var result = mutableListOf<Weather>()
-        val repository = RepositoryOkHttpImpl()
+        val repository = RepositoryRetrofitImpl()
         // CountDownLatch позволяет потоку ожидать завершения операций, выполняющихся в других потоках.
         // Режим ожидания запускается методом await(). При создании объекта определяется количество
         // требуемых операций, после чего уменьшается при вызове метода countDown(). Как только счетчик
@@ -70,9 +85,10 @@ class RepositoryCityListImpl : RepositoryCityList {
         Thread {
             cdl.await()// ждем завершения всех запросов по списку городов
             result.sortBy { it.city.name }
-            allCitiesLoadedCallback.onResponse()
+            synchronized(lock) {
+                allCitiesLoadedCallback.onResponse()
+            }
         }.start()
-
         return result
     }
 }

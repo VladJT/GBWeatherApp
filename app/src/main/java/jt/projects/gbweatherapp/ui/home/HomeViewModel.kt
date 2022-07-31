@@ -16,7 +16,7 @@ class HomeViewModel : ViewModel() {
 
 
     fun getLiveData(): LiveData<AppState<List<Weather>>> = liveData
-    lateinit var cities: List<Weather>
+    private var cities: List<Weather> = listOf()
 
     fun deleteFromFavorites(weather: Weather) {
         repositoryWeatherEdit.deleteAllWeatherByLocation(weather.city)

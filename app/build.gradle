@@ -69,10 +69,10 @@ android {
         }
 
         secret{
-            minifyEnabled true
+            minifyEnabled false
             versionNameSuffix "-secret"
             signingConfig signingConfigs.secret
-            debuggable true
+            debuggable false
             multiDexEnabled true // подключить больше 65535 используемых методов
         }
     }
@@ -109,8 +109,8 @@ dependencies {
 
 
     //Room
-    implementation 'androidx.room:room-runtime:2.4.2'
-    kapt 'androidx.room:room-compiler:2.4.2'
+    implementation 'androidx.room:room-runtime:2.4.3'
+    kapt 'androidx.room:room-compiler:2.4.3'
 
     // GLIDE
     implementation 'com.github.bumptech.glide:glide:4.12.0'
