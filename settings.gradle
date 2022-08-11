@@ -1,3 +1,6 @@
+//Файл настроек модулей Gradle
+//Файл settings.gradle, расположенный в корневой директории проекта, сообщает Gradle, какие модули следует включать при создании приложения.
+
 pluginManagement {
     repositories {
         gradlePluginPortal()

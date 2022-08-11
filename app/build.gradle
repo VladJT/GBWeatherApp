@@ -23,7 +23,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs{
+    //система сборки позволяет указать параметры подписи в конфигурации сборки.
+    // Она может автоматически подписывать APK во время процесса сборки.
+    // Система сборки подписывает отладочную версию с ключом по умолчанию и сертификатом с использованием известных учетных данных, чтобы избежать запроса пароля во время сборки.
+    // Система сборки не подписывает релизную версию, если вы явно не определяете конфигурацию подписи для этой сборки.
+    signingConfigs {
         secret {
             Properties properties = new Properties()
             properties.load(rootProject.file("passwordSecret.properties").newDataInputStream())
@@ -56,6 +60,9 @@ android {
         viewBinding true
     }
 
+    // Build Types (типы сборки) определяют свойства, которые Gradle использует при создании и упаковке приложения.
+    // Обычно они настраиваются для разных этапов жизненного цикла разработки. Например, тип сборки отладки (debug) включает опции отладки и подписывает APK с помощью отладочного ключа.
+    // А тип сборки выпуска (release) может сжимать, обфусцировать и подписывать APK с ключом выпуска для распространения.
     buildTypes {
         release {
             minifyEnabled true
@@ -68,7 +75,7 @@ android {
             versionNameSuffix "-debug"
         }
 
-        secret{
+        secret {
             minifyEnabled false
             versionNameSuffix "-secret"
             signingConfig signingConfigs.secret
@@ -76,7 +83,9 @@ android {
             multiDexEnabled true // подключить больше 65535 используемых методов
         }
     }
+
     flavorDimensions 'version'
+    // Flavors представляют собой различные версии приложения, которые вы можете выпускать пользователям, например бесплатные и платные версии.
     productFlavors {
         PRO {
             dimension 'version'
@@ -99,6 +108,8 @@ android {
 
 }
 
+//система сборки управляет зависимостями проекта от вашей локальной файловой системы и от удаленных репозиториев.
+// Это не позволяет вам вручную искать, загружать и копировать двоичные пакеты ваших зависимостей в каталог проекта
 dependencies {
     // FOR FIREBASE
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.6'
@@ -149,7 +160,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
 
 
     testImplementation 'junit:junit:4.13.2'
