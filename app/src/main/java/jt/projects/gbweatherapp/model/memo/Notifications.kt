@@ -8,14 +8,11 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.maps.model.LatLng
-import jt.projects.gbweatherapp.BaseActivity
 import jt.projects.gbweatherapp.MainActivity
 import jt.projects.gbweatherapp.R
 import jt.projects.gbweatherapp.utils.*
-import java.io.IOException
 
 // Если вы помните, при создании уведомления, мы можем в билдере указать приоритет.
 // Начиная с Android Oreo приоритеты уведомлений были объявлены устаревшими и заменены параметром канала - важность
@@ -74,7 +71,7 @@ class Notifications {
         ) {
             if (checkChannelReady(idChannel)) {
                 notificationManager.notify(idNotification, notification)
-            }else{
+            } else {
                 callback.onGoSettings(idChannel)
                 if (checkChannelReady(idChannel)) {
                     notificationManager.notify(idNotification, notification)

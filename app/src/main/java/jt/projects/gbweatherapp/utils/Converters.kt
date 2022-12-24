@@ -20,7 +20,7 @@ fun Long.toDateTime(): String {
 fun convertDTOtoModel(weatherDTO: WeatherDTO, city: City): Weather {
     val fact = weatherDTO.fact
     return Weather(
-        city=city,
+        city = city,
         temperature = fact.temp,
         feelsLike = fact.feelsLike,
         condition = fact.condition,

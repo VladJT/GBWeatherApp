@@ -14,12 +14,9 @@ import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import com.google.android.gms.maps.model.LatLng
 import jt.projects.gbweatherapp.databinding.ActivityMainBinding
-import jt.projects.gbweatherapp.model.memo.Notifications
 import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
-import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment
-import jt.projects.gbweatherapp.ui.home.HomeFragment
-import jt.projects.gbweatherapp.ui.search.SearchFragment
+import jt.projects.gbweatherapp.model.memo.Notifications
 import jt.projects.gbweatherapp.ui.weatherdetails.BUNDLE_EXTRA
 import jt.projects.gbweatherapp.ui.weatherdetails.WeatherDetailsFragment
 import jt.projects.gbweatherapp.utils.*
@@ -35,7 +32,9 @@ open class BaseActivity : PermissionActivity() {
     private val notificationCallback: Notifications.NotificationSettingsCallback =
         object : Notifications.NotificationSettingsCallback {
             override fun onGoSettings(idChannel: String) {
-                binding.root.showSnackBarWithAction("Для корректной работы приложения требуется включение канала $idChannel для push-уведомлений", "Включить?"
+                binding.root.showSnackBarWithAction(
+                    "Для корректной работы приложения требуется включение канала $idChannel для push-уведомлений",
+                    "Включить?"
                 ) { Notifications.showChannelSettings(idChannel) }
             }
         }
@@ -105,7 +104,7 @@ open class BaseActivity : PermissionActivity() {
 
     fun showFragmentWithBS(fragment: Fragment, fragmentTag: String) {
         val f = supportFragmentManager.findFragmentByTag(fragmentTag)
-        if (f==null) {
+        if (f == null) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(binding.fragmentContainer.id, fragment, fragmentTag)
@@ -116,7 +115,7 @@ open class BaseActivity : PermissionActivity() {
 
     fun showWeatherDetails(weather: Weather) {
         val f = supportFragmentManager.findFragmentByTag(WEATHER_DETAILS_FRAGMENT_TAG)
-        if (f==null) {
+        if (f == null) {
             supportFragmentManager?.also { manager ->
                 val bundle = Bundle()
                 bundle.putParcelable(BUNDLE_EXTRA, weather)
@@ -150,7 +149,7 @@ open class BaseActivity : PermissionActivity() {
             .setMessage("Вы уверены, что хотите выйти?")
             .setPositiveButton(
                 android.R.string.yes
-            ) { _, _ ->  finish() }//иначе Activity переходит в "спящий режим" и остается в стеке
+            ) { _, _ -> finish() }//иначе Activity переходит в "спящий режим" и остается в стеке
             .setNegativeButton(android.R.string.no, null)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .show()

@@ -14,7 +14,6 @@
 .cxx
 local.properties
 .idea
-apikey.properties
 passwordSecret.properties
 passwordRelease.properties
 *.jks

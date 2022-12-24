@@ -46,8 +46,8 @@
             android:id="@+id/temperatureValueBig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="60sp"
             android:textColor="#1C2349"
+            android:textSize="60sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline7"
             app:layout_constraintTop_toTopOf="parent"
@@ -74,9 +74,9 @@
         <TextView
             android:id="@+id/textViewDateOfWeather"
             style="@style/text_style_labels"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_size_small"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/guideline6"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="2022/07/01" />

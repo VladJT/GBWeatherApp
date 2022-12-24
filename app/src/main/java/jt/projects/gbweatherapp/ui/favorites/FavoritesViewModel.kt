@@ -12,10 +12,10 @@ import jt.projects.gbweatherapp.viewmodel.AppState
 import java.io.IOException
 
 
-class  FavoritesViewModel : ViewModel() {
+class FavoritesViewModel : ViewModel() {
     private val liveData: MutableLiveData<AppState<List<Weather>>> = MutableLiveData()
-    private val repositoryWeatherEdit : WeatherEditable = RepositoryRoomImpl()
-    private val repositoryWeatherList : RepositoryWeatherList = RepositoryRoomImpl()
+    private val repositoryWeatherEdit: WeatherEditable = RepositoryRoomImpl()
+    private val repositoryWeatherList: RepositoryWeatherList = RepositoryRoomImpl()
 
     fun getLiveData(): LiveData<AppState<List<Weather>>> = liveData
 

@@ -90,7 +90,7 @@ class MapsFragment : Fragment() {
                         val location = LatLng(result.first().latitude, result.first().longitude)
                         setMarker(location, it, R.drawable.ic_map_marker)
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 6f))
-                       Notifications.pushNotificationLocationFound(result[0].locality, location)
+                        Notifications.pushNotificationLocationFound(result[0].locality, location)
                     } else {
                         view.showSnackBarShort("Адрес не найден")
                     }

@@ -18,9 +18,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextAddress"
-            android:text="Сочи"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:text="Сочи" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
