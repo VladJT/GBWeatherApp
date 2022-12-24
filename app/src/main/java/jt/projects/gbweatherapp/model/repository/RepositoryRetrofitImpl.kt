@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import jt.projects.gbweatherapp.BuildConfig
 import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.dto.WeatherDTO
+import jt.projects.gbweatherapp.utils.BASE_URL
 import jt.projects.gbweatherapp.utils.convertDTOtoModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,7 +17,7 @@ import java.io.IOException
 class RepositoryRetrofitImpl : RepositoryWeather {
     override fun getWeather(city: City, callback: WeatherLoadCallback) {
         val retrofitImpl = Retrofit.Builder()
-        retrofitImpl.baseUrl("https://api.weather.yandex.ru")
+        retrofitImpl.baseUrl(BASE_URL)
         retrofitImpl.addConverterFactory(
             GsonConverterFactory.create(
                 GsonBuilder().setLenient().create()

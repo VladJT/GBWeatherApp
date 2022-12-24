@@ -20,17 +20,16 @@ fun Long.toDateTime(): String {
 fun convertDTOtoModel(weatherDTO: WeatherDTO, city: City): Weather {
     val fact = weatherDTO.fact
     return Weather(
-        city,
-        fact.temp,
-        fact.feelsLike,
-        fact.condition,
-        fact.icon,
-        fact.pressureMm,
-        fact.humidity,
-        fact.precType,
-        fact.windSpeed,
-        weatherDTO.now,
-        weatherDTO.nowDt
+        city=city,
+        temperature = fact.temp,
+        feelsLike = fact.feelsLike,
+        condition = fact.condition,
+        icon = fact.icon,
+        pressureMm = fact.pressureMm,
+        humidity = fact.humidity,
+        windSpeed = fact.windSpeed,
+        now = weatherDTO.now,
+        nowDt = weatherDTO.nowDt
     )
 }
 
@@ -43,7 +42,6 @@ fun convertModelToDto(weather: Weather): WeatherDTO {
             condition = weather.condition,
             pressureMm = weather.pressureMm,
             humidity = weather.humidity,
-            precType = weather.precType,
             windSpeed = weather.windSpeed
         ),
         now = weather.now,

@@ -1,4 +1,4 @@
-package jt.projects.gbweatherapp.memo
+package jt.projects.gbweatherapp.model.memo
 
 import android.app.*
 import android.content.Context
@@ -31,8 +31,8 @@ class Notifications {
         lateinit var callback: NotificationSettingsCallback
 
         fun init(context: Context, callback: NotificationSettingsCallback) {
-            this.context = context
-            this.callback = callback
+            Companion.context = context
+            Companion.callback = callback
             notificationManager =
                 context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             initNotificationChannels()

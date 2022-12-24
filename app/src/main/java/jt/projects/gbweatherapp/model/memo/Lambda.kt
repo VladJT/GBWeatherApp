@@ -1,6 +1,6 @@
 @file:Suppress("unused", "RedundantNullableReturnType", "UNUSED_VARIABLE")
 
-package jt.projects.gbweatherapp.memo
+package jt.projects.gbweatherapp.model.memo
 
 class Lambda {
     var name: String = ""

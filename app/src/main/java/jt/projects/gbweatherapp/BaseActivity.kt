@@ -14,7 +14,7 @@ import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import com.google.android.gms.maps.model.LatLng
 import jt.projects.gbweatherapp.databinding.ActivityMainBinding
-import jt.projects.gbweatherapp.memo.Notifications
+import jt.projects.gbweatherapp.model.memo.Notifications
 import jt.projects.gbweatherapp.model.City
 import jt.projects.gbweatherapp.model.Weather
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment

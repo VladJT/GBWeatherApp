@@ -1,4 +1,4 @@
-package jt.projects.gbweatherapp.memo
+package jt.projects.gbweatherapp.model.memo
 
 import android.R
 import android.app.NotificationManager

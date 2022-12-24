@@ -7,7 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.messaging.FirebaseMessaging
-import jt.projects.gbweatherapp.memo.Notifications
+import jt.projects.gbweatherapp.model.memo.Notifications
 import jt.projects.gbweatherapp.model.repository.RepositoryRoomImpl
 import jt.projects.gbweatherapp.ui.contacts.ContactsFragment
 import jt.projects.gbweatherapp.ui.favorites.FavoritesFragment

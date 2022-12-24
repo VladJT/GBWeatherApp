@@ -55,13 +55,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- > Сервисы д.б. в манифесте < -->
-        <service android:name="jt.projects.gbweatherapp.memo.ExIntentService" />
+        <service android:name="jt.projects.gbweatherapp.model.memo.ExIntentService" />
         <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" />
         <service android:name="jt.projects.gbweatherapp.utils.old.NetworkStatusService" /> <!-- > BroadcastReceiver для приема сообщений извне д.б. в манифесте < -->
 
         <!-- > Сервис FOR FIREBASE < -->
         <service
-            android:name="jt.projects.gbweatherapp.memo.MyFirebaseMessagingService"
+            android:name="jt.projects.gbweatherapp.model.memo.MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -71,12 +71,12 @@
 
         <!-- > Контент-провайдер д.б. в манифесте < -->
         <provider
-            android:name="jt.projects.gbweatherapp.memo.GBContentProvider"
+            android:name="jt.projects.gbweatherapp.model.memo.GBContentProvider"
             android:authorities="@string/authorities"
             android:enabled="true"
             android:exported="true" /> <!-- > Broadcast Reciever д.б. в манифесте < -->
         <receiver
-            android:name="jt.projects.gbweatherapp.memo.ExBroadcastReceiver"
+            android:name="jt.projects.gbweatherapp.model.memo.ExBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.AIRPLANE_MODE" />

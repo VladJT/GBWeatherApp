@@ -12,7 +12,6 @@ data class Weather(
     var icon: String = "ovc",
     val pressureMm: Double = 0.0,
     val humidity: Int = 0,
-    val precType: Int = 0,
     val windSpeed: Double = 0.0,
     var now: Long = 0,
     val nowDt: String = "",

@@ -1,4 +1,4 @@
-package jt.projects.gbweatherapp.memo
+package jt.projects.gbweatherapp.model.memo
 
 
 //class ExService : Service() {

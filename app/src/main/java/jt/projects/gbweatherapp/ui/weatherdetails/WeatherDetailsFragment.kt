@@ -222,7 +222,7 @@ class WeatherDetailsFragment : Fragment() {
             windSpeedValue.text = weather.windSpeed.toString()
             conditionValue.text = WeatherCondition.getRusName(weather.condition)
             textViewDateOfWeather.text = weather.now.toDateTime()
-            precTypeValue.text = getPrecType(weather.precType)
+            precTypeValue.text = "no data"
         }
     }
 }
